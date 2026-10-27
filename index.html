@@ -282,25 +282,28 @@ footer a:hover{text-decoration:underline}
 
 <!-- ============================================================
   KONFIGURATION (für Hausi) – alle Links an EINER Stelle eintragen.
-  Skool hat keine eigenen Checkout-Links pro Stufe (live geprüft 26.10.):
-  alle Käufe laufen über den Gruppenlink. Die Kundin klickt dort „Join",
-  legt ihr Konto an und wählt dann Stufe (Estándar/Premium/VIP) und
-  mensual/anual. Deshalb zeigen alle Kauf-Buttons auf skoolUrl, und die
-  Seite sagt daneben, welche Stufe zu wählen ist (die *Hint-Texte).
+  Skool hat keine eigenen Checkout-Links pro Preis, aber der Stufenwähler
+  /plans nimmt ?tier=vip|premium|standard entgegen (im Seitencode von Skool
+  geprüft 27.10.: router.query.tier → Stufe vorwählen; bei eingeloggten
+  Nutzerinnen öffnet sich direkt der Kauf-Dialog, bei ausgeloggten greift es
+  nach der Kontoerstellung). Deshalb zeigen die Kauf-Buttons auf /plans mit
+  der passenden Stufe, und die Seite sagt daneben, welche Stufe/Option zu
+  wählen ist (die *Hint-Texte). skoolUrl (Infoseite) bleibt als Fallback.
   Leere Video-/Legal-Links blenden das jeweilige Element aus.
   ============================================================ -->
 <script>
 window.CAMI_CONFIG = {
-  skoolUrl:     "https://www.skool.com/momlifecamila/about",  // Gruppenlink = einzige Kaufseite (Stufenwahl dort)
-  checkoutFull: "",   // leer = skoolUrl. Plan Trimestral – Pago completo 347 USD = Skool VIP → anual
-  checkout2x:   "",   // leer = skoolUrl. Plan Trimestral – 2 cuotas de 174 USD = Skool VIP → mensual (nach der 2. Zahlung kündigt das Team)
-  citaUrl:      "",   // leer = skoolUrl. Cita de evaluación 29 USD = Skool Estándar (Cita + 2 semanas). Alternativ whatsappUrl eintragen, wenn erst persönlich gesprochen werden soll.
+  skoolUrl:     "https://www.skool.com/momlifecamila/about",  // Gruppen-Infoseite (Fallback, falls ein Link unten leer ist)
+  checkoutFull: "https://www.skool.com/momlifecamila/plans?tier=vip",       // Plan Trimestral – Pago completo 347 USD = Skool VIP → anual
+  checkout2x:   "https://www.skool.com/momlifecamila/plans?tier=vip",       // Plan Trimestral – 2 cuotas de 174 USD = Skool VIP → mensual (nach der 2. Zahlung kündigt das Team)
+  comunidadUrl: "https://www.skool.com/momlifecamila/plans?tier=premium",   // Comunidad CORE = Skool Premium (29/mes o 119/año)
+  citaUrl:      "https://www.skool.com/momlifecamila/plans?tier=standard",  // Cita de evaluación 29 USD = Skool Estándar (Cita + 2 semanas). Alternativ whatsappUrl eintragen, wenn erst persönlich gesprochen werden soll.
   // Hinweis: 3 × 130 USD gibt es nicht mehr (Entscheidung 22.10.2026, Skool bietet die Option nicht).
-  // Hinweise, welche Stufe die Kundin in Skool wählt (werden unter dem jeweiligen Button angezeigt):
-  hintFull:   "En Skool elige el nivel VIP → anual («/year», US$ 347). Es un pago único que cubre los 3 meses completos, sin renovación.",
-  hint2x:     "En Skool elige el nivel VIP → mensual («/month», US$ 174). Son solo 2 cobros; después no se cobra nada más.",
-  hintSkool:  "En Skool elige el nivel Premium → mensual (US$ 29) o anual (US$ 119). El curso de Hipopresivos se compra aparte (US$ 25).",
-  hintCita:   "En Skool elige el nivel Estándar («Standard», US$ 29 una sola vez; Skool lo muestra como «/year», pero no se renueva). No lo confundas con Premium de US$ 29/mes: ese es la Comunidad CORE, sin cita.",
+  // Hinweise, welche Stufe/Option die Kundin in Skool wählt (werden unter dem jeweiligen Button angezeigt):
+  hintFull:   "En Skool, en la pestaña VIP elige anual («/year», US$ 347). Es un pago único que cubre los 3 meses completos, sin renovación.",
+  hint2x:     "En Skool, en la pestaña VIP elige mensual («/month», US$ 174). Son solo 2 cobros; después no se cobra nada más.",
+  hintSkool:  "En Skool, en la pestaña Premium elige mensual (US$ 29) o anual (US$ 119). El curso de Hipopresivos se compra aparte (US$ 25).",
+  hintCita:   "En Skool, en la pestaña Estándar («Standard»): US$ 29 una sola vez (Skool lo muestra como «/year», pero no se renueva). No lo confundas con Premium de US$ 29/mes: ese es la Comunidad CORE, sin cita.",
   whatsappUrl:  "https://wa.me/4917623749515?text=Hola%20Cami%2C%20vengo%20de%20tu%20p%C3%A1gina%20web%20y%20quiero%20informaci%C3%B3n%20sobre%20el%20Programa%201%3A1.",  // wa.me = offizieller WhatsApp-Link ohne Drittanbieter; Text ist vorbelegt
   instagramUrl: "https://www.instagram.com/momlifecamila/",
   videoFile: "assets/video.mp4",  // Selbst gehostetes Video (empfohlen: keine YouTube-Cookies, kein Drittanbieter). Leer lassen, wenn stattdessen videoEmbedUrl genutzt wird.
@@ -518,7 +521,7 @@ window.CAMI_CONFIG = {
         </div>
 
         <div class="buy">
-          <a class="btn btn-primary btn-lg" id="buyBtn" href="https://www.skool.com/momlifecamila/about">Empezar mi recuperación</a>
+          <a class="btn btn-primary btn-lg" id="buyBtn" href="https://www.skool.com/momlifecamila/plans?tier=vip">Empezar mi recuperación</a>
           <p class="pay-note" id="payNote">Pago completo: $347 USD, una sola vez.</p>
           <p class="pay-hint" id="payHint" hidden></p>
           <p class="pay-warn" id="payWarn" hidden></p>
@@ -531,9 +534,8 @@ window.CAMI_CONFIG = {
             <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 8l4 4 8-8"/></svg>Precios en dólares (USD), impuestos incluidos</span>
           </div>
           <ol class="steps" aria-label="Cómo funciona el pago">
-            <li>Toca el botón: te lleva a mi comunidad en Skool.</li>
-            <li>Toca <strong>JOIN</strong> y crea tu cuenta (nombre, correo y contraseña). Ese botón dice «$29/year» porque es el nivel más básico; tu nivel lo eliges en el paso siguiente.</li>
-            <li>Elige el nivel <strong>VIP</strong> («Programa 1:1») y la opción que marcaste aquí: anual («/year») para el pago completo, mensual («/month») para las 2 cuotas.</li>
+            <li>Toca el botón: te lleva directo a los planes de mi comunidad en Skool. Asegúrate de estar en la pestaña <strong>VIP</strong> («Programa 1:1»).</li>
+            <li>Toca el botón de unirte a VIP y crea tu cuenta (nombre, correo y contraseña). Elige la opción que marcaste aquí: anual («/year») para el pago completo, mensual («/month») para las 2 cuotas.</li>
             <li>Paga con tarjeta. Entras de inmediato y encuentras el enlace al formulario de inicio en el curso «Programa Trimestral 1:1».</li>
           </ol>
         </div>
@@ -546,7 +548,7 @@ window.CAMI_CONFIG = {
         <h3>Comunidad CORE</h3>
         <div class="p">$29 <small>USD / mes · cancela cuando quieras</small></div>
         <p>Rutinas guiadas por etapa, rutinas de 10 minutos, nutrición sencilla y una clase en vivo cada miércoles. Sin acompañamiento 1:1 ni respuesta a tus preguntas, pero con mi método para avanzar sola. Vive en Skool. El curso de Hipopresivos se compra aparte dentro de la comunidad (US$ 25).</p>
-        <a class="btn btn-ghost" id="skoolBtn" href="https://www.skool.com/momlifecamila/about" target="_blank" rel="noopener">Unirme a la comunidad</a>
+        <a class="btn btn-ghost" id="skoolBtn" href="https://www.skool.com/momlifecamila/plans?tier=premium" target="_blank" rel="noopener">Unirme a la comunidad</a>
         <p class="alt-hint" id="skoolHint" hidden></p>
       </article>
       <article class="alt">
@@ -554,7 +556,7 @@ window.CAMI_CONFIG = {
         <h3>Cita de evaluación</h3>
         <div class="p">$29 <small>USD · videollamada de 45 min</small></div>
         <p>Evaluamos juntas tu diástasis, tu suelo pélvico y tu postura, y te digo con honestidad cuál es el mejor camino para ti. Incluye 2 semanas de acceso a todos los cursos; después sigues un año en la comunidad (feed y chat). Pago único; tienes 3 meses para agendar la cita.</p>
-        <a class="btn btn-ghost" id="citaBtn" href="https://www.skool.com/momlifecamila/about" target="_blank" rel="noopener">Agendar mi cita</a>
+        <a class="btn btn-ghost" id="citaBtn" href="https://www.skool.com/momlifecamila/plans?tier=standard" target="_blank" rel="noopener">Agendar mi cita</a>
         <p class="alt-hint" id="citaHint" hidden></p>
       </article>
     </div>
@@ -566,7 +568,7 @@ window.CAMI_CONFIG = {
     <h2 style="text-align:center">Preguntas frecuentes</h2>
     <div class="faq">
       <details><summary>¿Por qué aquí cuesta $347 y en llamada $597?</summary><div class="a">Porque aquí empiezas tú misma: pagas, llenas el formulario y con tus respuestas hago tu diagnóstico. Si prefieres que arranquemos con una videollamada conmigo, donde hago el diagnóstico contigo en vivo, ese acompañamiento extra es el Plan Trimestral con arranque en llamada, a $597 USD. El programa de los 3 meses es el mismo.</div></details>
-      <details><summary>¿Cómo pago y qué pasa después?</summary><div class="a">El pago se hace en mi comunidad en Skool: tocas el botón, entras a la comunidad, tocas «JOIN» (ese botón dice «$29/year» porque es el nivel más básico; tu nivel lo eliges en el paso siguiente), creas tu cuenta y eliges el nivel <strong>VIP</strong>: anual («/year») para el pago completo de $347 USD, mensual («/month») para las 2 cuotas de $174 USD. Skool muestra el pago completo como «anual», pero es un pago único que cubre tus 3 meses y no se renueva. Al pagar entras de inmediato y encuentras el enlace al formulario de inicio en el curso «Programa Trimestral 1:1» dentro de la comunidad. Con tus respuestas y las tres pruebas hago tu diagnóstico, y en pocos días tienes tu rutina y tu menú personalizados. Desde ese momento me escribes por WhatsApp todos los días que lo necesites.</div></details>
+      <details><summary>¿Cómo pago y qué pasa después?</summary><div class="a">El pago se hace en mi comunidad en Skool: tocas el botón y llegas directo a los planes. En la pestaña <strong>VIP</strong> («Programa 1:1») eliges anual («/year») para el pago completo de $347 USD o mensual («/month») para las 2 cuotas de $174 USD, creas tu cuenta (nombre, correo y contraseña) y pagas con tarjeta. Skool muestra el pago completo como «anual», pero es un pago único que cubre tus 3 meses y no se renueva. Al pagar entras de inmediato y encuentras el enlace al formulario de inicio en el curso «Programa Trimestral 1:1» dentro de la comunidad. Con tus respuestas y las tres pruebas hago tu diagnóstico, y en pocos días tienes tu rutina y tu menú personalizados. Desde ese momento me escribes por WhatsApp todos los días que lo necesites.</div></details>
       <details><summary>¿Mi diástasis se puede corregir de verdad?</summary><div class="a">En la mayoría de los casos mejora mucho. Es muy común, pero no es normal, y se trabaja con ejercicios desde casa en el orden correcto. Te lo digo con honestidad: hay un punto en el que la genética marca el límite, y cada cuerpo responde distinto, pero un abdomen funcional, sin dolor y más recogido es lo que buscamos y lo que la mayoría de mis mamás consigue. Si tienes un diagnóstico médico (por ejemplo prolapso o hernia), consulta también a tu médico o fisioterapeuta de suelo pélvico.</div></details>
       <details><summary>¿Es solo respirar y hacer ejercicios suaves?</summary><div class="a">No. La respiración y la reconexión son la base de las primeras semanas. Después rehabilitamos y fortalecemos de verdad: fuerza, glúteo, hipopresivos. Muchas mamás que llegaron con escapes de orina han vuelto a correr.</div></details>
       <details><summary>Ya tengo nutricionista o fisioterapeuta. ¿Me sirve igual?</summary><div class="a">Sí. Entrenamiento y nutrición son las dos patas de la misma mesa: si una cojea, el resultado se desequilibra. Aquí miro todo junto: cómo respiras, tu pelvis, tu postura, tu cicatriz y lo que comes.</div></details>
@@ -665,13 +667,14 @@ window.CAMI_CONFIG = {
   } else { cl.hidden=true; }
 
   function setLink(id,url){var a=document.getElementById(id);if(!a)return;if(url){a.href=url;a.hidden=false;}else{a.hidden=true;}}
-  setLink('skoolBtn',C.skoolUrl); setLink('waBtn',C.whatsappUrl);
+  var comunidadUrl=C.comunidadUrl||C.skoolUrl;
+  setLink('skoolBtn',comunidadUrl); setLink('waBtn',C.whatsappUrl);
   setLink('igLink',C.instagramUrl); setLink('igAbout',C.instagramUrl);
   setLink('legalLink',C.legalUrl); setLink('privacyLink',C.privacyUrl); setLink('termsLink',C.termsUrl);
   function setHint(id,text){var el=document.getElementById(id);if(!el)return;if(text){el.textContent=text;el.hidden=false;}else{el.hidden=true;}}
-  setHint('skoolHint',C.skoolUrl?C.hintSkool:'');
+  setHint('skoolHint',comunidadUrl?C.hintSkool:'');
   var cita=document.getElementById('citaBtn'), citaUrl=C.citaUrl||C.skoolUrl;
-  if(citaUrl){cita.href=citaUrl; setHint('citaHint',(citaUrl===C.skoolUrl)?C.hintCita:'');}
+  if(citaUrl){cita.href=citaUrl; setHint('citaHint',/skool\.com/.test(citaUrl)?C.hintCita:'');}
   else if(C.whatsappUrl){cita.href=C.whatsappUrl;cita.textContent='Escribirme para agendar';}
   else{cita.hidden=true;}
 
