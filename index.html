@@ -314,7 +314,7 @@ window.CAMI_CONFIG = {
   whatsappUrl:  "https://wa.me/4917623749515?text=Hola%20Cami%2C%20vengo%20de%20tu%20p%C3%A1gina%20web%20y%20quiero%20informaci%C3%B3n%20sobre%20el%20Programa%201%3A1.",  // wa.me = offizieller WhatsApp-Link ohne Drittanbieter; Text ist vorbelegt
   instagramUrl: "https://www.instagram.com/momlifecamila/",
   videoFile: "assets/video.mp4",  // Selbst gehostetes Video (empfohlen: keine YouTube-Cookies, kein Drittanbieter). Leer lassen, wenn stattdessen videoEmbedUrl genutzt wird.
-  videoAutoplay: true,  // true = Video startet beim Seitenaufruf von selbst, stumm (Browser erlauben Autostart nur ohne Ton), mit Knopf „Toca para activar el sonido“, der den Ton einschaltet und von vorn startet. Bei Datensparmodus/„reduzierte Bewegung“ oder wenn der Browser den Autostart blockiert, bleibt das Poster mit Play-Button. false = immer Poster.
+  videoAutoplay: true,  // true = Video startet beim Seitenaufruf von selbst, stumm (Browser erlauben Autostart nur ohne Ton – technisch nicht umgehbar), mit Knopf „Toca para activar el sonido“, der den Ton einschaltet und von vorn startet; zusätzlich schaltet der erste Tipp irgendwo auf die Seite (außer auf Links/Buttons) den Ton ein, solange das Video sichtbar ist. Bei Datensparmodus/„reduzierte Bewegung“ oder wenn der Browser den Autostart blockiert, bleibt das Poster mit Play-Button. false = immer Poster.
   videoEmbedUrl: "",  // Alternative: "https://www.youtube-nocookie.com/embed/VIDEO_ID" oder "https://player.vimeo.com/video/VIDEO_ID?dnt=1"
   videoMostrarSinUrl: true,  // true = ohne Video bleibt das Vorschaubild als Platzhalter („Video en producción") sichtbar; false = Player ausblenden
   legalUrl: "aviso-legal.html", privacyUrl: "privacidad.html", termsUrl: "terminos.html",  // Impressum, Datenschutz, AGB (liegen im selben Ordner, Betreiberdaten eingetragen 26.10.)
@@ -711,6 +711,14 @@ window.CAMI_CONFIG = {
     ov.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18.5 5.5a9 9 0 010 13"/></svg><span>Toca para activar el sonido</span>';
     function unmute(){ v.muted=false; v.defaultMuted=false; v.removeAttribute('muted'); v.controls=true; v.currentTime=0; ov.remove(); v.removeEventListener('click',unmute); var p=v.play(); if(p&&p.catch){p.catch(function(){});} }
     ov.addEventListener('click',unmute); v.addEventListener('click',unmute);
+    // Ton beim ERSTEN Tipp irgendwo auf der Seite (nicht auf Links/Buttons/Formularfeldern): Browser erlauben Ton
+    // erst nach einer Nutzergeste; so startet das Video mit Ton, sobald die Besucherin irgendetwas antippt.
+    document.addEventListener('click',function onFirstTap(e){
+      if(!document.body.contains(v)||!v.muted){document.removeEventListener('click',onFirstTap);return;}
+      if(e.target.closest('a,button,input,select,textarea,label,details,summary,video'))return;
+      var r=v.getBoundingClientRect(); if(r.bottom<=0||r.top>=window.innerHeight)return;  // nur, wenn das Video gerade zu sehen ist
+      document.removeEventListener('click',onFirstTap); unmute();
+    });
     v.addEventListener('ended',function(){ if(v.muted){ v.controls=true; } });
     vbox.appendChild(v); vbox.appendChild(ov);
     var pr=v.play();
