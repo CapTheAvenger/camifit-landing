@@ -130,6 +130,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .video .poster .t{font-family:var(--display);font-size:clamp(1.05rem,2vw,1.6rem);line-height:1.1}
 .video .poster .s{opacity:.9;font-size:clamp(.72rem,1.2vw,.9rem)}
 .video .poster .tag{position:absolute;left:12px;top:12px;z-index:1;background:rgba(43,37,34,.72);color:#fff;font-size:.74rem;padding:5px 10px;border-radius:999px;letter-spacing:.02em}
+/* Autoplay (stumm) + Ton-Schalter: Browser erlauben Autostart nur ohne Ton. Der Knopf schaltet den Ton ein und startet von vorn. */
+.video video.auto{position:absolute;inset:0;width:100%;height:100%;background:#000;z-index:2}
+.video .unmute{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:9px;max-width:calc(100% - 24px);padding:11px 18px;border:0;border-radius:999px;background:rgba(43,37,34,.82);color:#fff;font-family:var(--body);font-weight:600;font-size:clamp(.86rem,1.4vw,1rem);line-height:1.2;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:pulse 1.8s ease-in-out infinite}
+.video .unmute svg{width:20px;height:20px;flex:none}
+.video .unmute:hover{background:rgba(43,37,34,.95)}
+@keyframes pulse{0%,100%{box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 0 0 rgba(212,147,106,.55)}50%{box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 0 10px rgba(212,147,106,0)}}
+@media (prefers-reduced-motion:reduce){.video .unmute{animation:none}}
 .vcol{display:grid;gap:10px;min-width:0}
 .video-note{font-size:.9rem;color:var(--ink-2);text-align:center}
 
@@ -307,6 +314,7 @@ window.CAMI_CONFIG = {
   whatsappUrl:  "https://wa.me/4917623749515?text=Hola%20Cami%2C%20vengo%20de%20tu%20p%C3%A1gina%20web%20y%20quiero%20informaci%C3%B3n%20sobre%20el%20Programa%201%3A1.",  // wa.me = offizieller WhatsApp-Link ohne Drittanbieter; Text ist vorbelegt
   instagramUrl: "https://www.instagram.com/momlifecamila/",
   videoFile: "assets/video.mp4",  // Selbst gehostetes Video (empfohlen: keine YouTube-Cookies, kein Drittanbieter). Leer lassen, wenn stattdessen videoEmbedUrl genutzt wird.
+  videoAutoplay: true,  // true = Video startet beim Seitenaufruf von selbst, stumm (Browser erlauben Autostart nur ohne Ton), mit Knopf „Toca para activar el sonido“, der den Ton einschaltet und von vorn startet. Bei Datensparmodus/„reduzierte Bewegung“ oder wenn der Browser den Autostart blockiert, bleibt das Poster mit Play-Button. false = immer Poster.
   videoEmbedUrl: "",  // Alternative: "https://www.youtube-nocookie.com/embed/VIDEO_ID" oder "https://player.vimeo.com/video/VIDEO_ID?dnt=1"
   videoMostrarSinUrl: true,  // true = ohne Video bleibt das Vorschaubild als Platzhalter („Video en producción") sichtbar; false = Player ausblenden
   legalUrl: "aviso-legal.html", privacyUrl: "privacidad.html", termsUrl: "terminos.html",  // Impressum, Datenschutz, AGB (liegen im selben Ordner, Betreiberdaten eingetragen 26.10.)
@@ -355,7 +363,6 @@ window.CAMI_CONFIG = {
       <p class="lead">Abdomen que no baja, dolor de espalda, inflamación, escapes de orina: es muy común, pero no es normal, y se puede mejorar mucho desde casa, trabajando en el orden correcto. Tres meses 1:1 conmigo, con diagnóstico, rutina y menú hechos para ti.</p>
       <div class="cta">
         <a class="btn btn-primary btn-lg" href="#precios">Quiero empezar mi recuperación</a>
-        <a class="btn btn-ghost" href="#video" id="heroVideoBtn">Ver el video</a>
       </div>
     </div>
     <div class="vcol">
@@ -678,7 +685,7 @@ window.CAMI_CONFIG = {
   else if(C.whatsappUrl){cita.href=C.whatsappUrl;cita.textContent='Escribirme para agendar';}
   else{cita.hidden=true;}
 
-  var vbox=document.getElementById('videoBox'), poster=document.getElementById('videoPoster'), hv=document.getElementById('heroVideoBtn'), vnote=document.getElementById('videoNote');
+  var vbox=document.getElementById('videoBox'), poster=document.getElementById('videoPoster'), vnote=document.getElementById('videoNote');
   function loadVideo(){
     if(vbox.dataset.loaded)return; vbox.dataset.loaded='1';
     vbox.innerHTML='';
@@ -691,15 +698,37 @@ window.CAMI_CONFIG = {
     var f=document.createElement('iframe'); var u=C.videoEmbedUrl; u+= (u.indexOf('?')>-1?'&':'?')+'autoplay=1';
     f.src=u; f.title='Video de Camila'; f.allow='autoplay; fullscreen; picture-in-picture'; f.setAttribute('allowfullscreen',''); vbox.appendChild(f);
   }
+  // Autostart stumm (nur selbst gehostetes Video). Scheitert der Autostart (Browser-Regel, Datensparmodus,
+  // „reduzierte Bewegung"), bleibt das Poster mit Play-Button, das weiterhin loadVideo() auslöst.
+  function autoplayVideo(){
+    if(!C.videoFile||!C.videoAutoplay)return false;
+    var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var sd=navigator.connection&&navigator.connection.saveData;
+    if(rm||sd)return false;
+    var v=document.createElement('video'); v.className='auto'; v.src=C.videoFile; v.muted=true; v.defaultMuted=true; v.setAttribute('muted','');
+    v.autoplay=true; v.playsInline=true; v.setAttribute('playsinline',''); v.preload='auto'; v.poster='assets/video-poster.jpg'; v.setAttribute('aria-label','Video de Camila (sin sonido hasta que lo actives)');
+    var ov=document.createElement('button'); ov.type='button'; ov.className='unmute'; ov.setAttribute('aria-label','Activar el sonido del video y verlo desde el inicio');
+    ov.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18.5 5.5a9 9 0 010 13"/></svg><span>Toca para activar el sonido</span>';
+    function unmute(){ v.muted=false; v.defaultMuted=false; v.removeAttribute('muted'); v.controls=true; v.currentTime=0; ov.remove(); v.removeEventListener('click',unmute); var p=v.play(); if(p&&p.catch){p.catch(function(){});} }
+    ov.addEventListener('click',unmute); v.addEventListener('click',unmute);
+    v.addEventListener('ended',function(){ if(v.muted){ v.controls=true; } });
+    vbox.appendChild(v); vbox.appendChild(ov);
+    var pr=v.play();
+    if(pr&&pr.then){
+      pr.then(function(){ vbox.dataset.loaded='1'; poster.hidden=true; })
+        .catch(function(){ v.remove(); ov.remove(); });
+    } else { vbox.dataset.loaded='1'; poster.hidden=true; }
+    return true;
+  }
   if(C.videoFile||C.videoEmbedUrl){
     poster.addEventListener('click',loadVideo);
-    hv.addEventListener('click',function(e){e.preventDefault();vbox.scrollIntoView({behavior:'smooth',block:'center'});loadVideo();});
+    autoplayVideo();
   } else if(C.videoMostrarSinUrl){
     // Platzhalter: Poster bleibt sichtbar, Klick tut nichts
     var tag=document.createElement('span'); tag.className='tag'; tag.textContent='Video en producción'; poster.appendChild(tag);
     document.getElementById('posterSub').textContent='Muy pronto · mientras tanto, lee lo importante abajo';
-    poster.setAttribute('aria-disabled','true'); poster.style.cursor='default'; hv.hidden=true;
-  } else { vbox.hidden=true; vnote.hidden=true; hv.hidden=true; }
+    poster.setAttribute('aria-disabled','true'); poster.style.cursor='default';
+  } else { vbox.hidden=true; vnote.hidden=true; }
   document.getElementById('year').textContent=new Date().getFullYear();
 })();
 </script>
