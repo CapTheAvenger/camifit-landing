@@ -130,6 +130,33 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .video .poster .t{font-family:var(--display);font-size:clamp(1.05rem,2vw,1.6rem);line-height:1.1}
 .video .poster .s{opacity:.9;font-size:clamp(.72rem,1.2vw,.9rem)}
 .video .poster .tag{position:absolute;left:12px;top:12px;z-index:1;background:rgba(43,37,34,.72);color:#fff;font-size:.74rem;padding:5px 10px;border-radius:999px;letter-spacing:.02em}
+/* Kauf-Wegweiser (Dialog) */
+.guide{border:0;border-radius:22px;padding:26px 24px 24px;width:min(460px,calc(100% - 24px));max-width:100%;background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.35);font-family:var(--body)}
+.guide::backdrop{background:rgba(31,38,34,.62);backdrop-filter:blur(3px)}
+.guide-close-form{position:absolute;right:10px;top:10px;margin:0}
+.guide-x{border:0;background:transparent;font-size:1.8rem;line-height:1;width:40px;height:40px;border-radius:50%;cursor:pointer;color:var(--ink-2)}
+.guide-x:hover{background:rgba(0,0,0,.06)}
+.guide-kicker{margin:0 0 4px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--clay-deep);font-weight:600}
+.guide h2{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.1;margin:0 0 16px;color:var(--cocoa)}
+.sk-mock{background:#F7F6F3;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:14px 14px 10px;margin:0 0 16px;color:#1a1a1a}
+.sk-title{font-weight:700;text-align:center;font-size:1.05rem;margin-bottom:10px;color:#111}
+.sk-tabs{display:flex;background:#E6E6E8;border-radius:999px;padding:4px;gap:2px}
+.sk-tab{flex:1;text-align:center;padding:9px 4px;border-radius:999px;font-weight:600;font-size:.98rem;color:#444;transition:background .2s}
+.sk-tab.on{background:#fff;color:#111;box-shadow:0 1px 4px rgba(0,0,0,.18);outline:2px solid var(--clay);outline-offset:-2px}
+.sk-point{display:flex;justify-content:flex-end;align-items:center;gap:6px;padding:8px 10px 0;font-weight:700;color:var(--clay-deep);font-size:.95rem;min-height:34px}
+.sk-point.mid{justify-content:center}
+.sk-point.start{justify-content:flex-start}
+.sk-finger{font-size:1.5rem;line-height:1;animation:tap 1.1s ease-in-out infinite}
+@keyframes tap{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.sk-finger{animation:none}}
+.guide-steps{margin:0 0 18px;padding-left:1.25em;font-size:.98rem;line-height:1.5}
+.guide-steps li{margin-bottom:6px}
+.guide-steps strong{color:var(--clay-deep)}
+.guide-go{width:100%;justify-content:center;display:inline-flex}
+.guide-note{margin:12px 0 0;font-size:.82rem;color:var(--ink-2);line-height:1.45}
+@media (max-width:560px){
+  .guide{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;width:100%;border-radius:22px 22px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:92vh;overflow:auto}
+}
 /* Autoplay (stumm) + Ton-Schalter: Browser erlauben Autostart nur ohne Ton. Der Knopf schaltet den Ton ein und startet von vorn. */
 .video video.auto{position:absolute;inset:0;width:100%;height:100%;background:#000;z-index:2}
 .video .unmute{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:9px;max-width:calc(100% - 24px);padding:11px 18px;border:0;border-radius:999px;background:rgba(43,37,34,.82);color:#fff;font-family:var(--body);font-weight:600;font-size:clamp(.86rem,1.4vw,1rem);line-height:1.2;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:pulse 1.8s ease-in-out infinite}
@@ -305,6 +332,7 @@ window.CAMI_CONFIG = {
   checkout2x:   "https://www.skool.com/momlifecamila/plans?tier=vip",       // Plan Trimestral – 2 cuotas de 174 USD = Skool VIP → mensual (nach der 2. Zahlung kündigt das Team)
   comunidadUrl: "https://www.skool.com/momlifecamila/plans?tier=premium",   // Comunidad CORE = Skool Premium (29/mes o 119/año)
   citaUrl:      "https://www.skool.com/momlifecamila/plans?tier=standard",  // Cita de evaluación 29 USD = Skool Estándar (Cita + 2 semanas). Alternativ whatsappUrl eintragen, wenn erst persönlich gesprochen werden soll.
+  guiaCompra: true,  // true = beim Klick auf „Empezar“/„Unirme“ erscheint erst ein kurzer Wegweiser (nachgebaute Skool-Tableiste mit markierter Stufe + 3 Schritte), dann der Absprung zu Skool. Grund: Skool wählt die Stufe ohne Konto nicht vor. false = direkt zu Skool.
   // Hinweis: 3 × 130 USD gibt es nicht mehr (Entscheidung 22.10.2026, Skool bietet die Option nicht).
   // Hinweise, welche Stufe/Option die Kundin in Skool wählt (werden unter dem jeweiligen Button angezeigt):
   hintFull:   "En Skool, en la pestaña VIP elige anual («/year», US$ 347). Es un pago único que cubre los 3 meses completos, sin renovación.",
@@ -581,7 +609,7 @@ window.CAMI_CONFIG = {
 <section class="final">
   <div class="wrap pad">
     <h2>Trabajemos juntas</h2>
-    <p>Tu cuerpo no "se quedó así". Solo necesita que lo acompañen en el orden correcto, y yo estoy ahí cada día para que nunca te sientas sola en el proceso. Empieza hoy y a los 15 días del programa me cuentas cómo te sientes.</p>
+    <p>Tu cuerpo no "se quedó así". Solo necesita que lo acompañen en el orden correcto, y yo estoy ahí cada día para que nunca te sientas sola en el proceso. Empieza hoy y en pocas semanas me cuentas cómo te sientes.</p>
     <div class="cta">
       <a class="btn btn-primary btn-lg" href="#precios">Empezar mi recuperación</a>
       <a class="btn btn-ghost" id="waBtn" href="https://wa.me/4917623749515?text=Hola%20Cami%2C%20vengo%20de%20tu%20p%C3%A1gina%20web%20y%20quiero%20informaci%C3%B3n%20sobre%20el%20Programa%201%3A1." target="_blank" rel="noopener">Escribirme por WhatsApp</a>
@@ -596,6 +624,22 @@ window.CAMI_CONFIG = {
     <span><a id="igLink" href="https://www.instagram.com/momlifecamila/" target="_blank" rel="noopener">@momlifecamila</a><a id="legalLink" href="aviso-legal.html">Aviso legal</a><a id="privacyLink" href="privacidad.html">Privacidad</a><a id="termsLink" href="terminos.html">Términos</a></span>
   </div>
 </footer>
+
+<!-- Kauf-Wegweiser: erscheint beim Klick auf einen Kauf-Button und zeigt, welche Stufe in Skool anzutippen ist
+     (Skool wählt die Stufe für Besucherinnen ohne Konto nicht vor). Ohne JS oder <dialog>-Unterstützung führt der Button direkt zu Skool. -->
+<dialog id="buyGuide" class="guide" aria-labelledby="guideTitle">
+  <form method="dialog" class="guide-close-form"><button class="guide-x" aria-label="Cerrar">×</button></form>
+  <p class="guide-kicker">Un minuto y listo</p>
+  <h2 id="guideTitle">Así compras en Skool</h2>
+  <div class="sk-mock" aria-hidden="true">
+    <div class="sk-title">Elige tu plan</div>
+    <div class="sk-tabs"><span class="sk-tab" data-tier="standard">Standard</span><span class="sk-tab" data-tier="premium">Premium</span><span class="sk-tab" data-tier="vip">VIP</span></div>
+    <div class="sk-point"><span class="sk-finger">👆</span><span class="sk-point-txt" id="guidePoint">Toca VIP</span></div>
+  </div>
+  <ol class="guide-steps" id="guideSteps"></ol>
+  <a class="btn btn-primary btn-lg guide-go" id="guideGo" href="#">Ir a Skool y comprar →</a>
+  <p class="guide-note" id="guideNote"></p>
+</dialog>
 
 <script>
 (function(){
@@ -616,6 +660,44 @@ window.CAMI_CONFIG = {
   else{legal.hidden=true;}
   document.querySelectorAll('input[name=pay]').forEach(function(r){r.addEventListener('change',function(){apply(r.value)})});
   var checked=document.querySelector('input[name=pay]:checked'); apply(checked?checked.value:'full');
+
+  // Kauf-Wegweiser: Skool wählt die Stufe für Besucherinnen ohne Konto nicht vor (geprüft 27.10.). Der Dialog zeigt
+  // vor dem Absprung, welche Stufe anzutippen ist. Schalter: guiaCompra (CAMI_CONFIG). Fallback: direkter Link.
+  var guide=document.getElementById('buyGuide');
+  var guideTexts={
+    vip:{point:'1 · Toca VIP', steps:function(key){ return [
+      'En Skool, toca la pestaña <strong>VIP</strong> (Programa 1:1).',
+      'Toca el botón para unirte a VIP y crea tu cuenta: nombre, correo y contraseña.',
+      key==='2x' ? 'Elige <strong>mensual («/month», US$ 174)</strong>: son solo 2 cobros. Paga con tarjeta y entras de inmediato.'
+                 : 'Elige <strong>anual («/year», US$ 347)</strong>: es un pago único por los 3 meses, sin renovación. Paga con tarjeta y entras de inmediato.'
+    ];}, note:'¿Ya tienes cuenta en Skool? Inicia sesión y el plan VIP se abre solo. Si ves primero la pestaña «Standard», es normal: cambia a VIP.'},
+    premium:{point:'1 · Toca Premium', steps:function(){ return [
+      'En Skool, toca la pestaña <strong>Premium</strong> (Comunidad CORE).',
+      'Toca el botón para unirte a Premium y crea tu cuenta: nombre, correo y contraseña.',
+      'Elige mensual (US$ 29) o anual (US$ 119), paga con tarjeta y entras de inmediato.'
+    ];}, note:'El curso de Hipopresivos se compra aparte dentro de la comunidad (US$ 25).'}
+  };
+  function openGuide(tier, url, key, target){
+    if(C.guiaCompra===false||!guide||typeof guide.showModal!=='function'||!url||!guideTexts[tier])return false;
+    var t=guideTexts[tier];
+    guide.querySelectorAll('.sk-tab').forEach(function(el){el.classList.toggle('on',el.getAttribute('data-tier')===tier);});
+    var pt=guide.querySelector('.sk-point'); pt.className='sk-point'+(tier==='premium'?' mid':'');
+    document.getElementById('guidePoint').textContent=t.point;
+    document.getElementById('guideSteps').innerHTML=t.steps(key).map(function(s){return '<li>'+s+'</li>';}).join('');
+    document.getElementById('guideNote').textContent=t.note;
+    var go=document.getElementById('guideGo'); go.href=url; if(target){go.target=target;go.rel='noopener';}else{go.removeAttribute('target');go.removeAttribute('rel');}
+    try{guide.showModal();}catch(e){return false;}
+    return true;
+  }
+  guide&&guide.addEventListener('click',function(e){ if(e.target===guide){guide.close();} });  // Klick auf den Hintergrund schließt
+  document.getElementById('guideGo')&&document.getElementById('guideGo').addEventListener('click',function(){ setTimeout(function(){guide.close();},150); });
+  btn.addEventListener('click',function(e){
+    if(btn.classList.contains('btn-disabled'))return;
+    var key=(document.querySelector('input[name=pay]:checked')||{}).value||'full';
+    if(openGuide('vip', btn.href, key, btn.target||''))e.preventDefault();
+  });
+  var sb=document.getElementById('skoolBtn');
+  sb&&sb.addEventListener('click',function(e){ if(openGuide('premium', sb.href, '', sb.target||''))e.preventDefault(); });
 
   // Launch-Mechanik: Preis-Datum, Cupos, Warteliste
   var cur=document.getElementById('priceCur'), cl=document.getElementById('cuposLine'), hc=document.getElementById('heroCupos');
