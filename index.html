@@ -374,6 +374,8 @@ window.CAMI_CONFIG = {
   bonoTexto: "un mes de Comunidad CORE gratis al terminar el programa (valor $29 USD)"
 };
 </script>
+<!-- Cloudflare Web Analytics: Besuchsstatistik ohne Cookies/Profile (siehe privacidad.html, Punkt 4). Token ist öffentlich (Site-Kennung), kein Geheimnis. spa:true zählt auch die virtuellen Klick-Seiten (/clic-skool-…). -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "04b9e6f97685468a8eae2727a9970fa9", "spa": true}'></script>
 </head>
 <body>
 
@@ -717,7 +719,7 @@ window.CAMI_CONFIG = {
   };
   function openGuide(tier, url, key, target){
     if(C.guiaCompra===false||!guide||typeof guide.showModal!=='function'||!url||!guideTexts[tier])return false;
-    var t=guideTexts[tier];
+    var t=guideTexts[tier]; guideTier=tier+(key==='2x'?'-2cuotas':'');
     guide.querySelectorAll('.sk-tab').forEach(function(el){el.classList.toggle('on',el.getAttribute('data-tier')===tier);});
     var pt=guide.querySelector('.sk-point'); pt.className='sk-point'+(tier==='premium'?' mid':'');
     document.getElementById('guidePoint').textContent=t.point;
@@ -728,16 +730,23 @@ window.CAMI_CONFIG = {
     return true;
   }
   guide&&guide.addEventListener('click',function(e){ if(e.target===guide){guide.close();} });  // Klick auf den Hintergrund schließt
-  document.getElementById('guideGo')&&document.getElementById('guideGo').addEventListener('click',function(){ setTimeout(function(){guide.close();},150); });
+  // Statistik: Klicks auf die Kauf-Buttons als „virtuelle Seiten" für Cloudflare Web Analytics (spa:true hört auf pushState).
+  // pushState + sofortiges replaceState zurück: der Beacon sieht den Pfad, die echte URL bleibt (Zurück-Taste funktioniert).
+  function track(path){ try{ var o=location.pathname+location.search+location.hash; history.pushState({cfv:1},'',path); history.replaceState({},'',o); }catch(e){} }
+  var guideTier='';
+  var goBtn=document.getElementById('guideGo');
+  goBtn&&goBtn.addEventListener('click',function(){ track('/clic-skool-'+guideTier); setTimeout(function(){guide.close();},150); });
   btn.addEventListener('click',function(e){
     if(btn.classList.contains('btn-disabled'))return;
     var key=(document.querySelector('input[name=pay]:checked')||{}).value||'full';
-    if(openGuide('vip', btn.href, key, btn.target||''))e.preventDefault();
+    if(openGuide('vip', btn.href, key, btn.target||''))e.preventDefault(); else track('/clic-skool-vip'+(key==='2x'?'-2cuotas':''));
   });
   var btn2=document.getElementById('buyBtn2');
   btn2&&btn2.addEventListener('click',function(e){ e.preventDefault(); btn.click(); });
   var sb=document.getElementById('skoolBtn');
-  sb&&sb.addEventListener('click',function(e){ if(openGuide('premium', sb.href, '', sb.target||''))e.preventDefault(); });
+  sb&&sb.addEventListener('click',function(e){ if(openGuide('premium', sb.href, '', sb.target||''))e.preventDefault(); else track('/clic-skool-premium'); });
+  var cb=document.getElementById('citaBtn'); cb&&cb.addEventListener('click',function(){ track('/clic-skool-standard'); });
+  var wb=document.getElementById('waBtn'); wb&&wb.addEventListener('click',function(){ track('/clic-whatsapp'); });
 
   // Launch-Mechanik: Preis-Datum, Cupos, Warteliste
   var cur=document.getElementById('priceCur'), cl=document.getElementById('cuposLine'), hc=document.getElementById('heroCupos');
