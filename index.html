@@ -154,6 +154,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .guide-steps strong{color:var(--clay-deep)}
 .guide-go{width:100%;justify-content:center;display:inline-flex}
 .guide-note{margin:12px 0 0;font-size:.82rem;color:var(--ink-2);line-height:1.45}
+.guide-legal a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 @media (max-width:560px){
   .guide{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;width:100%;border-radius:22px 22px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:92vh;overflow:auto}
 }
@@ -236,20 +237,46 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .price-sec .blob-c{width:min(42vw,480px);left:-10%;top:4%;opacity:.5}
 .price-sec .blob-d{width:min(30vw,320px);right:-8%;bottom:-6%;opacity:.5}
 .price-sec .wrap{position:relative;z-index:1}
-.price-intro{text-align:center;max-width:62ch;margin:0 auto 40px}
+.price-intro{text-align:center;max-width:62ch;margin:0 auto 30px}
 .price-intro .lead{margin:14px auto 0}
-.card{max-width:760px;margin:0 auto;background:var(--surface);border-radius:28px;box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden}
-.card .head{background:var(--moss);color:var(--moss-ink);padding:30px clamp(22px,4vw,40px) 26px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px 24px;align-items:end}
-.card .head .t{font-family:var(--display);font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1.05}
-.card .head .sub{opacity:.78;font-size:.95rem;margin-top:6px}
-.card .price{text-align:right}
-.card .price .old{opacity:.7;font-size:.95rem}
-.card .price .new{font-family:var(--display);font-size:clamp(2.4rem,5vw,3.4rem);line-height:1;color:var(--clay)}
-.card .price .cur{font-size:.85rem;opacity:.8}
-.card .body{padding:clamp(22px,4vw,40px)}
-.card .feat{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;margin:0 0 28px;padding:0;list-style:none}
-.card .feat li{display:flex;gap:10px;align-items:flex-start;font-size:.97rem}
-.card .feat li svg{flex:0 0 20px;width:20px;height:20px;margin-top:3px}
+/* Drei Kacheln: 1:1 (hervorgehoben), Comunidad CORE, Cita – kompakt, Details aufklappbar (Hausi 28.10.: Alternativen sofort sichtbar) */
+.tiers{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:18px;max-width:1080px;margin:0 auto;align-items:start}
+.tier{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px 14px;display:flex;flex-direction:column;gap:8px;scroll-margin-top:84px}
+.tier-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:560px;margin:22px auto 0}
+.tier-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border-radius:14px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);font-size:.8rem;line-height:1.2}
+.tier-nav a b{font-size:.92rem}
+.tier-nav a span{color:var(--ink-2)}
+.tier-nav a:first-child{border-color:color-mix(in srgb,var(--clay) 65%,var(--line));background:color-mix(in srgb,var(--clay) 12%,var(--surface))}
+.tier-nav a:hover{border-color:var(--clay)}
+.tier.main{border-color:color-mix(in srgb,var(--clay) 65%,var(--line));box-shadow:var(--shadow);padding-top:28px}
+.tier .badge{position:absolute;top:-13px;left:20px;background:var(--clay);color:#2B2522;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.tier .tag{font-size:.86rem;color:var(--ink-2);font-weight:600}
+.tier h3{font-family:var(--display);font-weight:400;font-size:clamp(1.5rem,2.4vw,1.8rem);line-height:1.1;color:var(--cocoa);margin:0}
+.tier .desc{color:var(--ink-2);font-size:.95rem;margin:0}
+.tier .pr{display:flex;align-items:baseline;gap:4px 10px;flex-wrap:wrap;margin-top:2px}
+.tier .pr .n{font-family:var(--display);font-size:2.2rem;line-height:1;color:var(--ink)}
+.tier.main .pr .n{color:var(--clay)}
+.tier .pr .u{font-size:.9rem;color:var(--ink-2)}
+.tier .pr .alt-pay{font-weight:600;color:var(--ink)}
+.tier .ref{font-size:.8rem;color:var(--ink-2);margin:0}
+.tier > .btn{width:100%;justify-content:center;margin-top:4px}
+.tier .pay-note{text-align:center;margin:0}
+.tier .pay-warn{margin:0}
+.tier .dts{border-top:1px solid var(--line);margin-top:6px;padding-top:4px}
+.tier summary{cursor:pointer;list-style:none;font-weight:600;font-size:.9rem;color:var(--clay-deep);display:flex;align-items:center;gap:8px;padding:6px 0;min-height:34px}
+.tier summary::-webkit-details-marker{display:none}
+.tier summary::after{content:"";width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-left:auto;margin-top:-4px;transition:transform .2s}
+.tier .dts[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+.tier summary .lbl-open{display:none}
+.tier .dts[open] summary .lbl-closed{display:none}
+.tier .dts[open] summary .lbl-open{display:inline}
+.tier .dt{padding-top:10px;display:grid;gap:14px}
+.tier .dt > .btn{width:100%;justify-content:center}
+.tier .dt p{margin:0;color:var(--ink-2);font-size:.95rem}
+.tier .feat{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.tier .feat li{display:flex;gap:10px;align-items:flex-start;font-size:.95rem}
+.tier .feat li svg{flex:0 0 20px;width:20px;height:20px;margin-top:2px}
+@media (max-width:900px){.tiers{grid-template-columns:1fr;max-width:620px}.tier.main{order:0}}
 .pay-options{display:grid;gap:10px;margin-bottom:18px}
 .pay{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:14px 18px;border:2px solid var(--line);border-radius:var(--radius-s);cursor:pointer;background:var(--surface-2);transition:border-color .15s ease}
 .pay:has(input:checked){border-color:var(--clay);background:color-mix(in srgb,var(--clay) 12%,var(--surface-2))}
@@ -258,36 +285,25 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .pay .pn{font-size:.86rem;color:var(--ink-2);display:block}
 .pay .pp{font-family:var(--display);font-size:1.5rem;color:var(--cocoa);white-space:nowrap}
 .pay .pp small{font-family:var(--body);font-size:.8rem;color:var(--ink-2)}
-.buy{display:grid;gap:12px;text-align:center}
-.buy .btn{width:100%}
 .pay-note{font-size:.9rem;color:var(--ink-2)}
-.pay-hint{font-size:.9rem;color:var(--ink);background:color-mix(in srgb,var(--clay) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--clay) 40%,transparent);border-radius:var(--radius-s);padding:9px 14px;max-width:56ch;margin:0 auto}
-.pay-legal{font-size:.8rem;color:var(--ink-2);max-width:56ch;margin:0 auto}
+.pay-hint{font-size:.9rem;color:var(--ink);background:color-mix(in srgb,var(--clay) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--clay) 40%,transparent);border-radius:var(--radius-s);padding:9px 14px;margin:0}
+.pay-legal{font-size:.8rem;color:var(--ink-2);margin:0}
 .pay-legal a{color:inherit;text-decoration:underline;text-underline-offset:2px}
-.steps{margin:10px auto 0;padding:0 0 0 1.3em;max-width:46ch;text-align:left;font-size:.88rem;color:var(--ink-2);display:grid;gap:4px}
+.steps{margin:0;padding:0 0 0 1.3em;font-size:.88rem;color:var(--ink-2);display:grid;gap:4px}
 .steps strong{color:var(--ink)}
-.cupos{font-size:.9rem;color:var(--ink-2);max-width:52ch;margin:0 auto}
-.bono{font-size:.92rem;color:var(--ink);background:color-mix(in srgb,var(--clay) 18%,var(--surface));border:1px solid color-mix(in srgb,var(--clay) 50%,transparent);border-radius:var(--radius-s);padding:10px 14px;max-width:56ch;margin:4px auto 0}
+.cupos{font-size:.9rem;color:var(--ink-2);margin:0}
+.bono{font-size:.92rem;color:var(--ink);background:color-mix(in srgb,var(--clay) 18%,var(--surface));border:1px solid color-mix(in srgb,var(--clay) 50%,transparent);border-radius:var(--radius-s);padding:10px 14px;margin:0}
 .bono strong{color:var(--clay-deep)}
 .bono.bono-off{background:transparent;border-color:var(--line);color:var(--ink-2)}
 .bono.bono-off strong{color:var(--ink-2)}
 .pay-warn{font-size:.85rem;color:var(--ink);background:color-mix(in srgb,var(--clay) 28%,var(--surface));border-radius:8px;padding:8px 12px}
-.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;font-size:.85rem;color:var(--ink-2);margin-top:6px}
+.trust{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.85rem;color:var(--ink-2);margin:0}
 .trust span{display:inline-flex;gap:6px;align-items:center}
 .trust svg{width:15px;height:15px}
-@media (max-width:620px){.card .feat{grid-template-columns:1fr}.pay{grid-template-columns:auto 1fr;}.pay .pp{grid-column:2;justify-self:start}}
+@media (max-width:620px){.pay{grid-template-columns:auto 1fr;}.pay .pp{grid-column:2;justify-self:start}}
+.pay{grid-template-columns:auto 1fr;}.pay .pp{grid-column:2;justify-self:start}
 
-/* Alternatives */
-.alt-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:40px auto 0}
-.alt{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;display:flex;flex-direction:column;gap:12px}
-.alt .tag{font-size:.9rem;color:var(--ink-2);font-weight:600}
-.alt h3{font-family:var(--display);font-weight:400;font-size:1.5rem;color:var(--cocoa)}
-.alt .p{font-family:var(--display);font-size:1.9rem;color:var(--ink);line-height:1}
-.alt .p small{font-family:var(--body);font-size:.9rem;color:var(--ink-2)}
-.alt p{color:var(--ink-2);font-size:.96rem}
-.alt .btn{margin-top:auto;align-self:flex-start}
-.alt .alt-hint{font-size:.84rem;color:var(--ink-2);margin:0}
-@media (max-width:760px){.alt-grid{grid-template-columns:1fr}}
+.alt-hint{font-size:.84rem;color:var(--ink-2);margin:0}
 
 /* FAQ */
 .faq{max-width:760px;margin:36px auto 0;border-top:1px solid var(--line)}
@@ -511,74 +527,87 @@ window.CAMI_CONFIG = {
   <svg class="blob blob-d" viewBox="0 0 300 300" aria-hidden="true"><path fill="#7D6A5C" opacity=".4" d="M150 20c45 0 90 25 115 65s25 95 5 135-70 60-120 60-95-20-120-60S5 130 25 90s80-70 125-70z"/></svg>
   <div class="wrap pad">
     <div class="price-intro">
-      <h2>Empieza hoy tu Plan Trimestral</h2>
-      <p class="lead">Elige cómo pagar. El programa es el mismo: 3 meses conmigo, de principio a fin.</p>
+      <h2>Elige cómo quieres empezar</h2>
+      <p class="lead">Tres formas de trabajar conmigo. Todas se pagan en mi comunidad de Skool.</p>
+      <nav class="tier-nav" aria-label="Las tres opciones">
+        <a href="#tier11"><b>Plan 1:1</b><span>$347 · 3 meses</span></a>
+        <a href="#tierCore"><b>Comunidad</b><span>$29 / mes</span></a>
+        <a href="#tierCita"><b>Cita</b><span>$29 · 45 min</span></a>
+      </nav>
     </div>
 
-    <div class="card">
-      <div class="head">
-        <div>
-          <div class="t">Plan Trimestral 1:1</div>
-          <div class="sub">3 meses · acompañamiento personal con Camila</div>
-        </div>
-        <div class="price">
-          <div class="old">Con arranque en llamada con Cami: $597 USD</div>
-          <div class="new">$347</div>
-          <div class="cur" id="priceCur">USD · si empiezas desde esta página</div>
-        </div>
-      </div>
-      <div class="body">
-        <ul class="feat">
-          <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>Formulario y diagnóstico inicial</li>
-          <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>Rutina personalizada por etapas</li>
-          <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>Menú personalizado</li>
-          <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>WhatsApp diario y chequeos mensuales</li>
-          <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>Comunidad CORE con clase en vivo semanal</li>
-        </ul>
-
-        <div class="pay-options" role="radiogroup" aria-label="Forma de pago">
-          <label class="pay"><input type="radio" name="pay" id="payFull" value="full" checked autocomplete="off"><span><span class="pt">Pago completo</span><span class="pn">Un solo pago. La opción más económica.</span></span><span class="pp">$347 <small>USD</small></span></label>
-          <label class="pay"><input type="radio" name="pay" id="pay2x" value="2x" autocomplete="off"><span><span class="pt">2 cuotas</span><span class="pn">Una hoy y otra en un mes. Total $348 USD. Compromiso por el programa completo.</span></span><span class="pp">$174 <small>USD × 2</small></span></label>
-        </div>
-
-        <div class="buy">
-          <a class="btn btn-primary btn-lg" id="buyBtn" href="https://www.skool.com/momlifecamila/plans?tier=vip">Empezar mi recuperación</a>
-          <p class="pay-note" id="payNote">Pago completo: $347 USD, una sola vez.</p>
-          <p class="pay-hint" id="payHint" hidden></p>
-          <p class="pay-warn" id="payWarn" hidden></p>
-          <p class="pay-legal" id="payLegal">Al pagar en Skool aceptas los <a id="payTerms" href="terminos.html">Términos y condiciones</a> (incluida la información sobre tu derecho de desistimiento) y confirmas que has leído la <a id="payPrivacy" href="privacidad.html">Política de privacidad</a>.</p>
-          <p class="cupos" id="cuposLine">Cupos limitados: es acompañamiento 1:1 y solo tomo las mamás a las que puedo responder cada día.</p>
-          <p class="bono" id="bonoLine" hidden></p>
-          <div class="trust">
-            <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg>Pago seguro con tarjeta</span>
-            <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1"/></svg>Formulario de inicio al pagar</span>
-            <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 8l4 4 8-8"/></svg>Precios en dólares (USD), impuestos incluidos</span>
+    <div class="tiers">
+      <article class="tier main" id="tier11">
+        <span class="badge">Acompañamiento personal</span>
+        <span class="tag">¿Quieres que te acompañe yo, cada día?</span>
+        <h3>Plan Trimestral 1:1</h3>
+        <p class="desc">3 meses conmigo: rutina y menú hechos para ti, y WhatsApp diario.</p>
+        <div class="pr"><span class="n">$347</span><span class="u" id="priceCur">USD · pago único</span><span class="u alt-pay">o 2 cuotas de $174</span></div>
+        <p class="ref">Con arranque en llamada con Cami: $597 USD.</p>
+        <a class="btn btn-primary btn-lg" id="buyBtn" href="https://www.skool.com/momlifecamila/plans?tier=vip">Empezar mi recuperación</a>
+        <p class="pay-note" id="payNote">Pago completo: $347 USD, una sola vez.</p>
+        <p class="pay-warn" id="payWarn" hidden></p>
+        <details class="dts">
+          <summary><span class="lbl-closed">Ver detalles y formas de pago</span><span class="lbl-open">Ocultar detalles</span></summary>
+          <div class="dt">
+            <ul class="feat">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>Formulario y diagnóstico inicial</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>Rutina personalizada por etapas</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>Menú personalizado</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>WhatsApp diario y chequeos mensuales</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>Comunidad CORE con clase en vivo semanal</li>
+            </ul>
+            <div class="pay-options" role="radiogroup" aria-label="Forma de pago">
+              <label class="pay"><input type="radio" name="pay" id="payFull" value="full" checked autocomplete="off"><span><span class="pt">Pago completo</span><span class="pn">Un solo pago. La opción más económica.</span></span><span class="pp">$347 <small>USD</small></span></label>
+              <label class="pay"><input type="radio" name="pay" id="pay2x" value="2x" autocomplete="off"><span><span class="pt">2 cuotas</span><span class="pn">Una hoy y otra en un mes. Total $348 USD. Compromiso por el programa completo.</span></span><span class="pp">$174 <small>USD × 2</small></span></label>
+            </div>
+            <p class="pay-hint" id="payHint" hidden></p>
+            <p class="pay-legal" id="payLegal">Al pagar en Skool aceptas los <a id="payTerms" href="terminos.html">Términos y condiciones</a> (incluida la información sobre tu derecho de desistimiento) y confirmas que has leído la <a id="payPrivacy" href="privacidad.html">Política de privacidad</a>.</p>
+            <p class="cupos" id="cuposLine">Cupos limitados: es acompañamiento 1:1 y solo tomo las mamás a las que puedo responder cada día.</p>
+            <p class="bono" id="bonoLine" hidden></p>
+            <div class="trust">
+              <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg>Pago seguro con tarjeta</span>
+              <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1"/></svg>Formulario de inicio al pagar</span>
+              <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 8l4 4 8-8"/></svg>Precios en dólares (USD), impuestos incluidos</span>
+            </div>
+            <ol class="steps" aria-label="Cómo funciona el pago">
+              <li>Toca el botón: te lleva directo a los planes de mi comunidad en Skool. Asegúrate de estar en la pestaña <strong>VIP</strong> («Programa 1:1»).</li>
+              <li>Toca el botón de unirte a VIP y crea tu cuenta (nombre, correo y contraseña). Elige la opción que marcaste aquí: anual («/year») para el pago completo, mensual («/month») para las 2 cuotas.</li>
+              <li>Paga con tarjeta. Entras de inmediato y encuentras el enlace al formulario de inicio en el curso «Programa Trimestral 1:1».</li>
+            </ol>
+            <a class="btn btn-primary btn-lg" id="buyBtn2" href="https://www.skool.com/momlifecamila/plans?tier=vip">Empezar mi recuperación</a>
           </div>
-          <ol class="steps" aria-label="Cómo funciona el pago">
-            <li>Toca el botón: te lleva directo a los planes de mi comunidad en Skool. Asegúrate de estar en la pestaña <strong>VIP</strong> («Programa 1:1»).</li>
-            <li>Toca el botón de unirte a VIP y crea tu cuenta (nombre, correo y contraseña). Elige la opción que marcaste aquí: anual («/year») para el pago completo, mensual («/month») para las 2 cuotas.</li>
-            <li>Paga con tarjeta. Entras de inmediato y encuentras el enlace al formulario de inicio en el curso «Programa Trimestral 1:1».</li>
-          </ol>
-        </div>
-      </div>
-    </div>
+        </details>
+      </article>
 
-    <div class="alt-grid">
-      <article class="alt">
+      <article class="tier" id="tierCore">
         <span class="tag">¿Prefieres ir a tu ritmo?</span>
         <h3>Comunidad CORE</h3>
-        <div class="p">$29 <small>USD / mes · cancela cuando quieras</small></div>
-        <p>Rutinas guiadas por etapa, rutinas de 10 minutos, nutrición sencilla y una clase en vivo cada miércoles. Sin acompañamiento 1:1 ni respuesta a tus preguntas, pero con mi método para avanzar sola. Vive en Skool. El curso de Hipopresivos se compra aparte dentro de la comunidad (US$ 25).</p>
+        <p class="desc">Rutinas guiadas, nutrición y clase en vivo semanal. Sin 1:1.</p>
+        <div class="pr"><span class="n">$29</span><span class="u">USD / mes · cancela cuando quieras</span></div>
         <a class="btn btn-ghost" id="skoolBtn" href="https://www.skool.com/momlifecamila/plans?tier=premium" target="_blank" rel="noopener">Unirme a la comunidad</a>
-        <p class="alt-hint" id="skoolHint" hidden></p>
+        <details class="dts">
+          <summary><span class="lbl-closed">Ver detalles</span><span class="lbl-open">Ocultar detalles</span></summary>
+          <div class="dt">
+            <p>Rutinas guiadas por etapa, rutinas de 10 minutos, nutrición sencilla y una clase en vivo cada miércoles. Sin acompañamiento 1:1 ni respuesta a tus preguntas, pero con mi método para avanzar sola. Vive en Skool. También puedes pagar el año completo por $119 USD. El curso de Hipopresivos se compra aparte dentro de la comunidad (US$ 25).</p>
+            <p class="alt-hint" id="skoolHint" hidden></p>
+          </div>
+        </details>
       </article>
-      <article class="alt">
+
+      <article class="tier" id="tierCita">
         <span class="tag">¿Quieres hablar primero conmigo?</span>
         <h3>Cita de evaluación</h3>
-        <div class="p">$29 <small>USD · videollamada de 45 min</small></div>
-        <p>Evaluamos juntas tu diástasis, tu suelo pélvico y tu postura, y te digo con honestidad cuál es el mejor camino para ti. Incluye 2 semanas de acceso a todos los cursos; después sigues un año en la comunidad (feed y chat). Pago único; tienes 3 meses para agendar la cita.</p>
+        <p class="desc">Videollamada de 45 min + 2 semanas de acceso a los cursos.</p>
+        <div class="pr"><span class="n">$29</span><span class="u">USD · pago único</span></div>
         <a class="btn btn-ghost" id="citaBtn" href="https://www.skool.com/momlifecamila/plans?tier=standard" target="_blank" rel="noopener">Agendar mi cita</a>
-        <p class="alt-hint" id="citaHint" hidden></p>
+        <details class="dts">
+          <summary><span class="lbl-closed">Ver detalles</span><span class="lbl-open">Ocultar detalles</span></summary>
+          <div class="dt">
+            <p>Evaluamos juntas tu diástasis, tu suelo pélvico y tu postura, y te digo con honestidad cuál es el mejor camino para ti. Incluye 2 semanas de acceso a todos los cursos; después sigues un año en la comunidad (feed y chat). Pago único; tienes 3 meses para agendar la cita.</p>
+            <p class="alt-hint" id="citaHint" hidden></p>
+          </div>
+        </details>
       </article>
     </div>
   </div>
@@ -639,6 +668,7 @@ window.CAMI_CONFIG = {
   <ol class="guide-steps" id="guideSteps"></ol>
   <a class="btn btn-primary btn-lg guide-go" id="guideGo" href="#">Ir a Skool y comprar →</a>
   <p class="guide-note" id="guideNote"></p>
+  <p class="guide-note guide-legal" id="guideLegal">Al pagar en Skool aceptas los <a id="guideTerms" href="terminos.html">Términos y condiciones</a> (incluida la información sobre tu derecho de desistimiento) y confirmas que has leído la <a id="guidePrivacy" href="privacidad.html">Política de privacidad</a>.</p>
 </dialog>
 
 <script>
@@ -652,12 +682,20 @@ window.CAMI_CONFIG = {
   function apply(key){
     var p=plans[key]||plans.full; note.textContent=p.note;
     if(p.hint){hint.textContent=p.hint;hint.hidden=false;}else{hint.hidden=true;}
+    var btn2=document.getElementById('buyBtn2'); if(btn2&&p.url)btn2.href=p.url;
     if(p.url){btn.href=p.url;btn.classList.remove('btn-disabled');btn.removeAttribute('aria-disabled');btn.removeAttribute('tabindex');warn.hidden=true;}
     else{btn.href='#precios';btn.classList.add('btn-disabled');btn.setAttribute('aria-disabled','true');btn.setAttribute('tabindex','-1');warn.hidden=false;warn.textContent='Kein Kauflink: skoolUrl in CAMI_CONFIG fehlt (nur sichtbar, solange der Link leer ist).';}
   }
   var legal=document.getElementById('payLegal');
-  if(C.termsUrl&&C.privacyUrl){document.getElementById('payTerms').href=C.termsUrl;document.getElementById('payPrivacy').href=C.privacyUrl;legal.hidden=false;}
-  else{legal.hidden=true;}
+  var glegal=document.getElementById('guideLegal');
+  if(C.termsUrl&&C.privacyUrl){document.getElementById('payTerms').href=C.termsUrl;document.getElementById('payPrivacy').href=C.privacyUrl;legal.hidden=false;
+    if(glegal){document.getElementById('guideTerms').href=C.termsUrl;document.getElementById('guidePrivacy').href=C.privacyUrl;}}
+  else{legal.hidden=true; if(glegal)glegal.hidden=true;}
+  // „o 2 cuotas de $174" in der Kachel: Klick öffnet die Details und wählt die 2 Raten
+  var altPay=document.querySelector('#tier11 .alt-pay');
+  if(altPay){altPay.setAttribute('role','button');altPay.setAttribute('tabindex','0');altPay.style.cursor='pointer';altPay.style.textDecoration='underline';altPay.style.textUnderlineOffset='3px';
+    function pick2x(){var d=document.querySelector('#tier11 .dts'); if(d)d.open=true; var r=document.getElementById('pay2x'); if(r){r.checked=true; apply('2x'); r.focus();}}
+    altPay.addEventListener('click',pick2x); altPay.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick2x();}});}
   document.querySelectorAll('input[name=pay]').forEach(function(r){r.addEventListener('change',function(){apply(r.value)})});
   var checked=document.querySelector('input[name=pay]:checked'); apply(checked?checked.value:'full');
 
@@ -696,6 +734,8 @@ window.CAMI_CONFIG = {
     var key=(document.querySelector('input[name=pay]:checked')||{}).value||'full';
     if(openGuide('vip', btn.href, key, btn.target||''))e.preventDefault();
   });
+  var btn2=document.getElementById('buyBtn2');
+  btn2&&btn2.addEventListener('click',function(e){ e.preventDefault(); btn.click(); });
   var sb=document.getElementById('skoolBtn');
   sb&&sb.addEventListener('click',function(e){ if(openGuide('premium', sb.href, '', sb.target||''))e.preventDefault(); });
 
