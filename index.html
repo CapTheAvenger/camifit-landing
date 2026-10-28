@@ -374,8 +374,48 @@ window.CAMI_CONFIG = {
   bonoTexto: "un mes de Comunidad CORE gratis al terminar el programa (valor $29 USD)"
 };
 </script>
-<!-- Cloudflare Web Analytics: Besuchsstatistik ohne Cookies/Profile (siehe privacidad.html, Punkt 4). Token ist öffentlich (Site-Kennung), kein Geheimnis. spa:true zählt auch die virtuellen Klick-Seiten (/clic-skool-…). -->
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "04b9e6f97685468a8eae2727a9970fa9", "spa": true}'></script>
+<!-- Cloudflare Web Analytics: Besuchsstatistik ohne Cookies/Profile (siehe privacidad.html, Punkt 4). Token ist öffentlich (Site-Kennung), kein Geheimnis.
+     Lader statt festem Script-Tag, damit (a) Eigenausschluss möglich ist: einmal /?nostats=1 aufrufen → dieser Browser wird nicht mehr gezählt
+     (/?nostats=0 hebt es auf), und (b) die Trichter-Events (window.__cfTrack) sauber funktionieren: spa:true lässt den Beacon jede URL-Änderung als
+     Seitenaufruf zählen; wir zählen damit „virtuelle Seiten" (/clic-…, /ver-…, /tiempo-…, /entrada-…) und stellen die echte URL danach UNGEZÄHLT
+     wieder her (unsere Listener stehen vor denen des Beacons und unterdrücken genau diese eine Rückstellung). -->
+<script>
+(function(){
+  var off=false;
+  try{
+    var q=location.search;
+    if(/[?&]nostats=1(&|$)/.test(q))localStorage.setItem('nostats','1');
+    else if(/[?&]nostats=0(&|$)/.test(q))localStorage.removeItem('nostats');
+    off=localStorage.getItem('nostats')==='1';
+  }catch(e){}
+  var H=window.history, NAV=window.navigation, hide=false, loaded=false;
+  if(NAV&&NAV.addEventListener){
+    // Chrome/Edge/Android/Safari ≥ 26: der Beacon hört auf das navigate-Event (zählt push-/replaceState). Sprunglinks (#precios) und
+    // unsere Rückstellung werden vor ihm abgefangen.
+    NAV.addEventListener('navigate',function(e){ if(hide||e.hashChange){e.stopImmediatePropagation();} });
+  }
+  // Ältere Browser ohne navigation-API: der Beacon umhüllt nur history.pushState und hört auf popstate. Dort: pushState (gezählt) +
+  // history.back() (asynchron; das popstate wird vor dem Beacon abgefangen). Bis das popstate da ist, warten weitere Events in einer Schlange.
+  var queue=[];
+  window.addEventListener('popstate',function(e){ if(hide){hide=false;e.stopImmediatePropagation(); if(queue.length)setTimeout(function(){ var p=queue.shift(); if(p)window.__cfTrack(p); },0);} });
+  window.__cfTrack=function(path){
+    if(off||!loaded)return false;
+    try{
+      if(NAV){ var o=location.pathname+location.search+location.hash; hide=false; H.replaceState({cfv:1},'',path); hide=true; H.replaceState({},'',o); hide=false; }
+      else { if(hide){queue.push(path);return true;} H.pushState({cfv:1},'',path); hide=true; H.back(); }
+      return true;
+    }catch(e){ hide=false; return false; }
+  };
+  // URL ohne Zählung ändern (z. B. ?de=… aus der Adresszeile entfernen).
+  window.__cfReplaceSilent=function(url){ if(hide&&!NAV){ setTimeout(function(){window.__cfReplaceSilent(url);},50); return; } try{ hide=true; H.replaceState({},'',url); }catch(e){} hide=false; };
+  window.__nostats=off;
+  if(off)return;
+  var s=document.createElement('script'); s.src='https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon','{"token": "04b9e6f97685468a8eae2727a9970fa9", "spa": true}');
+  s.onload=function(){ loaded=true; };
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
 
@@ -727,28 +767,60 @@ window.CAMI_CONFIG = {
     document.getElementById('guideNote').textContent=t.note;
     var go=document.getElementById('guideGo'); go.href=url; if(target){go.target=target;go.rel='noopener';}else{go.removeAttribute('target');go.removeAttribute('rel');}
     try{guide.showModal();}catch(e){return false;}
+    track('/ver-guia',true);
     return true;
   }
   guide&&guide.addEventListener('click',function(e){ if(e.target===guide){guide.close();} });  // Klick auf den Hintergrund schließt
-  // Statistik: Klicks auf die Kauf-Buttons als „virtuelle Seiten" für Cloudflare Web Analytics (spa:true hört auf pushState).
-  // pushState + sofortiges replaceState zurück: der Beacon sieht den Pfad, die echte URL bleibt (Zurück-Taste funktioniert).
-  // Beim Absprung im selben Tab reicht pushState (die Seite wird verlassen; kommt jemand per Zurück auf /clic-…, leitet 404.html auf / um).
-  // Bleibt die Seite offen (Link in neuem Tab), wird die URL sofort zurückgesetzt – das zählt dann zusätzlich einen Aufruf von „/".
-  function track(path, keepPage){ try{ var o=location.pathname+location.search+location.hash; history.pushState({cfv:1},'',path); if(keepPage){history.replaceState({},'',o);} }catch(e){} }
+  // Statistik: Klicks und Trichter-Schritte als „virtuelle Seiten" für Cloudflare Web Analytics (Mechanik: window.__cfTrack im <head>).
+  // Pfade: /clic-skool-vip, /clic-skool-vip-2cuotas, /clic-skool-premium, /clic-skool-standard, /clic-whatsapp (Klicks) ·
+  //        /ver-video, /ver-precios, /ver-detalles, /ver-guia, /ver-final, /tiempo-30s, /tiempo-2min (je einmal pro Aufruf) ·
+  //        /entrada-<quelle> für Links mit ?de=<quelle> (z. B. momlifecamila.com/?de=ig in der Instagram-Bio). Die echte URL bleibt „/".
+  var seen={};
+  function track(path, once){
+    if(once&&seen[path])return false;
+    var ok=!!(window.__cfTrack&&window.__cfTrack(path));
+    if(ok&&once)seen[path]=1;
+    return ok;
+  }
   var guideTier='';
   var goBtn=document.getElementById('guideGo');
-  goBtn&&goBtn.addEventListener('click',function(){ track('/clic-skool-'+guideTier, !!goBtn.target); setTimeout(function(){guide.close();},150); });
+  goBtn&&goBtn.addEventListener('click',function(){ track('/clic-skool-'+guideTier); setTimeout(function(){guide.close();},150); });
   btn.addEventListener('click',function(e){
     if(btn.classList.contains('btn-disabled'))return;
     var key=(document.querySelector('input[name=pay]:checked')||{}).value||'full';
-    if(openGuide('vip', btn.href, key, btn.target||''))e.preventDefault(); else track('/clic-skool-vip'+(key==='2x'?'-2cuotas':''), !!btn.target);
+    if(openGuide('vip', btn.href, key, btn.target||''))e.preventDefault(); else track('/clic-skool-vip'+(key==='2x'?'-2cuotas':''));
   });
   var btn2=document.getElementById('buyBtn2');
   btn2&&btn2.addEventListener('click',function(e){ e.preventDefault(); btn.click(); });
   var sb=document.getElementById('skoolBtn');
-  sb&&sb.addEventListener('click',function(e){ if(openGuide('premium', sb.href, '', sb.target||''))e.preventDefault(); else track('/clic-skool-premium', !!sb.target); });
-  var cb=document.getElementById('citaBtn'); cb&&cb.addEventListener('click',function(){ track('/clic-skool-standard', !!cb.target); });
-  var wb=document.getElementById('waBtn'); wb&&wb.addEventListener('click',function(){ track('/clic-whatsapp', true); });
+  sb&&sb.addEventListener('click',function(e){ if(openGuide('premium', sb.href, '', sb.target||''))e.preventDefault(); else track('/clic-skool-premium'); });
+  var cb=document.getElementById('citaBtn'); cb&&cb.addEventListener('click',function(){ track('/clic-skool-standard'); });
+  var wb=document.getElementById('waBtn'); wb&&wb.addEventListener('click',function(){ track('/clic-whatsapp'); });
+  // Trichter-Schritte: Preisbereich gesehen, Details geöffnet, Seitenende erreicht (je einmal); Video und Wegweiser siehe loadVideo()/openGuide().
+  function onSeen(sel, path, th){
+    var el=document.querySelector(sel); if(!el||!('IntersectionObserver' in window))return;
+    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting&&track(path,true))io.disconnect(); }); },{threshold:th});
+    io.observe(el);
+  }
+  onSeen('#precios .tiers','/ver-precios',0.2); onSeen('section.final','/ver-final',0.3);
+  document.querySelectorAll('details.dts').forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open)track('/ver-detalles',true); }); });
+  // Verweildauer: nur Sekunden zählen, in denen die Seite sichtbar ist (Hintergrund-Tab zählt nicht).
+  var vis=0; setInterval(function(){ if(document.hidden)return; vis++; if(vis===30)track('/tiempo-30s',true); if(vis===120)track('/tiempo-2min',true); },1000);
+  // Einstiegsquelle aus ?de=<quelle> (nur a–z, 0–9, Bindestrich, max. 20 Zeichen): nach dem Laden einmal /entrada-<quelle> zählen und
+  // den Parameter still aus der Adresszeile entfernen. Erst, wenn Seite und Beacon geladen sind (Beacon lädt asynchron).
+  var dm=/[?&]de=([a-z0-9-]{1,20})(&|$)/.exec(location.search);
+  if(dm){
+    // Ziel-URL VOR dem Zählen bestimmen (während des Zählens zeigt location kurz den virtuellen Pfad).
+    var cleanUrl=location.pathname+location.search.replace(/[?&]de=[a-z0-9-]{1,20}(?=&|$)/,'').replace(/^&/,'?')+location.hash;
+    cleanUrl=cleanUrl.replace(/\?(#|$)/,'$1');
+    var tries=0, timer=setInterval(function(){
+      tries++;
+      if(track('/entrada-'+dm[1],true)||tries>40){
+        clearInterval(timer);
+        try{ window.__cfReplaceSilent&&window.__cfReplaceSilent(cleanUrl); }catch(e){}
+      }
+    },500);
+  }
 
   // Launch-Mechanik: Preis-Datum, Cupos, Warteliste
   var cur=document.getElementById('priceCur'), cl=document.getElementById('cuposLine'), hc=document.getElementById('heroCupos');
@@ -806,6 +878,7 @@ window.CAMI_CONFIG = {
   var vbox=document.getElementById('videoBox'), poster=document.getElementById('videoPoster'), vnote=document.getElementById('videoNote');
   function loadVideo(){
     if(vbox.dataset.loaded)return; vbox.dataset.loaded='1';
+    track('/ver-video',true);
     vbox.innerHTML='';
     if(C.videoFile){
       var v=document.createElement('video'); v.src=C.videoFile; v.controls=true; v.playsInline=true; v.setAttribute('playsinline',''); v.preload='auto'; v.poster='assets/video-poster.jpg';

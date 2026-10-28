@@ -8,8 +8,23 @@
 <meta name="description" content="Aviso legal e Impressum de la página de Camila Haushalter, entrenadora postparto y coach de nutrición.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23D4936A'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='34' fill='%232B2522'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/legal.css">
-<!-- Cloudflare Web Analytics: Besuchsstatistik ohne Cookies/Profile (siehe privacidad.html, Punkt 4). Token ist öffentlich (Site-Kennung), kein Geheimnis. spa:true zählt auch die virtuellen Klick-Seiten (/clic-skool-…). -->
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "04b9e6f97685468a8eae2727a9970fa9", "spa": true}'></script>
+<!-- Cloudflare Web Analytics: Besuchsstatistik ohne Cookies/Profile (siehe privacidad.html, Punkt 4). Token ist öffentlich (Site-Kennung), kein Geheimnis.
+     Lader statt festem Script-Tag: einmal /?nostats=1 aufrufen → dieser Browser wird nicht mehr gezählt (/?nostats=0 hebt es auf). -->
+<script>
+(function(){
+  var off=false;
+  try{
+    var q=location.search;
+    if(/[?&]nostats=1(&|$)/.test(q))localStorage.setItem('nostats','1');
+    else if(/[?&]nostats=0(&|$)/.test(q))localStorage.removeItem('nostats');
+    off=localStorage.getItem('nostats')==='1';
+  }catch(e){}
+  if(off)return;
+  var s=document.createElement('script'); s.src='https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon','{"token": "04b9e6f97685468a8eae2727a9970fa9", "spa": true}');
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
 <header class="top">

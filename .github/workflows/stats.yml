@@ -1,0 +1,53 @@
+# Tägliche Besuchsstatistik der Landingpage (Cloudflare Web Analytics) + Skool-Mitgliederstand
+# → Branch „stats", Datei daily.json. Wird von der automatischen Claude-Auswertung gelesen
+# (https://raw.githubusercontent.com/CapTheAvenger/camifit-landing/stats/daily.json).
+# Braucht das Repo-Secret CF_API_TOKEN (Cloudflare-Token, nur „Account Analytics: Read").
+name: Landingpage-Statistik
+
+on:
+  schedule:
+    - cron: "50 4 * * *"   # 04:50 UTC = 05:50 Berlin (Winter) / 06:50 (Sommer); Claude wertet um 07:41 Berlin aus
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stats
+  cancel-in-progress: false
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code (main)
+        uses: actions/checkout@v4
+
+      - name: Bisherige Statistik (Branch stats, falls vorhanden)
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: stats
+          path: out
+
+      - name: Statistik holen
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: python3 scripts/fetch_stats.py --out out/daily.json
+
+      - name: Nach Branch stats schreiben
+        run: |
+          cd out
+          [ -d .git ] || git init -b stats
+          # Einheitlich mit Token pushen (die vom Checkout hinterlegte Kopfzeile ggf. entfernen, sonst doppelte Anmeldung)
+          git config --unset-all http.https://github.com/.extraheader || true
+          git remote remove origin 2>/dev/null || true
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          [ -f README.md ] || printf '# Landingpage-Statistik\n\nAutomatisch erzeugt (Workflow „Landingpage-Statistik"). Nicht von Hand bearbeiten.\n' > README.md
+          git config user.name "landingpage-statistik"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Statistik $(date -u +%Y-%m-%dT%H:%MZ)" || { echo "keine Änderung"; exit 0; }
+          git push origin HEAD:stats
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
