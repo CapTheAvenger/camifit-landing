@@ -249,7 +249,8 @@ Technik: Der Beacon zählt mit `spa:true` jede URL-Änderung (in Chrome/Android/
 gesehenen URL ändern – derselbe Pfad zweimal hintereinander, z. B. zwei WhatsApp-Klicks, zählt also einmal). Der Lader im
 `<head>` registriert seine Listener VOR dem Beacon und unterdrückt genau die Rückstellung auf die echte URL
 (`stopImmediatePropagation`) sowie Sprunglinks (`#precios`), so dass jedes Ereignis genau einmal zählt und „/“ nicht
-aufgebläht wird. Im alten Zweig (pushState + `history.back()`) zusätzlich: `scrollRestoration='manual'` während der
+aufgebläht wird. Der Beacon sammelt die Ereignisse und schickt sie erst beim Verlassen/Ausblenden der Seite (Zeitstempel =
+Besuchsende). Im alten Zweig (pushState + `history.back()`) zusätzlich: `scrollRestoration='manual'` während der
 Rückstellung (sonst Scroll-Sprung), Fallback nach 1,5 s und bei `pageshow` aus dem bfcache, Vorwärts-Geste auf einen
 virtuellen Eintrag wird still auf die echte URL zurückgesetzt. Beacon blockiert (`onerror`) → keine Events, `?de=` wird trotzdem
 aus der Adresszeile entfernt. Lokal getestet mit einem Beacon-Stub für beide
