@@ -587,7 +587,7 @@ window.CAMI_CONFIG = {
         <h3>Comunidad CORE</h3>
         <p class="desc">Rutinas guiadas, nutrición y clase en vivo semanal. Sin 1:1.</p>
         <div class="pr"><span class="n">$29</span><span class="u">USD / mes · cancela cuando quieras</span></div>
-        <a class="btn btn-ghost" id="skoolBtn" href="https://www.skool.com/momlifecamila/plans?tier=premium" target="_blank" rel="noopener">Unirme a la comunidad</a>
+        <a class="btn btn-ghost" id="skoolBtn" href="https://www.skool.com/momlifecamila/plans?tier=premium">Unirme a la comunidad</a>
         <details class="dts">
           <summary><span class="lbl-closed">Ver detalles</span><span class="lbl-open">Ocultar detalles</span></summary>
           <div class="dt">
@@ -602,7 +602,7 @@ window.CAMI_CONFIG = {
         <h3>Cita de evaluación</h3>
         <p class="desc">Videollamada de 45 min + 2 semanas de acceso a los cursos.</p>
         <div class="pr"><span class="n">$29</span><span class="u">USD · pago único</span></div>
-        <a class="btn btn-ghost" id="citaBtn" href="https://www.skool.com/momlifecamila/plans?tier=standard" target="_blank" rel="noopener">Agendar mi cita</a>
+        <a class="btn btn-ghost" id="citaBtn" href="https://www.skool.com/momlifecamila/plans?tier=standard">Agendar mi cita</a>
         <details class="dts">
           <summary><span class="lbl-closed">Ver detalles</span><span class="lbl-open">Ocultar detalles</span></summary>
           <div class="dt">
@@ -732,21 +732,23 @@ window.CAMI_CONFIG = {
   guide&&guide.addEventListener('click',function(e){ if(e.target===guide){guide.close();} });  // Klick auf den Hintergrund schließt
   // Statistik: Klicks auf die Kauf-Buttons als „virtuelle Seiten" für Cloudflare Web Analytics (spa:true hört auf pushState).
   // pushState + sofortiges replaceState zurück: der Beacon sieht den Pfad, die echte URL bleibt (Zurück-Taste funktioniert).
-  function track(path){ try{ var o=location.pathname+location.search+location.hash; history.pushState({cfv:1},'',path); history.replaceState({},'',o); }catch(e){} }
+  // Beim Absprung im selben Tab reicht pushState (die Seite wird verlassen; kommt jemand per Zurück auf /clic-…, leitet 404.html auf / um).
+  // Bleibt die Seite offen (Link in neuem Tab), wird die URL sofort zurückgesetzt – das zählt dann zusätzlich einen Aufruf von „/".
+  function track(path, keepPage){ try{ var o=location.pathname+location.search+location.hash; history.pushState({cfv:1},'',path); if(keepPage){history.replaceState({},'',o);} }catch(e){} }
   var guideTier='';
   var goBtn=document.getElementById('guideGo');
-  goBtn&&goBtn.addEventListener('click',function(){ track('/clic-skool-'+guideTier); setTimeout(function(){guide.close();},150); });
+  goBtn&&goBtn.addEventListener('click',function(){ track('/clic-skool-'+guideTier, !!goBtn.target); setTimeout(function(){guide.close();},150); });
   btn.addEventListener('click',function(e){
     if(btn.classList.contains('btn-disabled'))return;
     var key=(document.querySelector('input[name=pay]:checked')||{}).value||'full';
-    if(openGuide('vip', btn.href, key, btn.target||''))e.preventDefault(); else track('/clic-skool-vip'+(key==='2x'?'-2cuotas':''));
+    if(openGuide('vip', btn.href, key, btn.target||''))e.preventDefault(); else track('/clic-skool-vip'+(key==='2x'?'-2cuotas':''), !!btn.target);
   });
   var btn2=document.getElementById('buyBtn2');
   btn2&&btn2.addEventListener('click',function(e){ e.preventDefault(); btn.click(); });
   var sb=document.getElementById('skoolBtn');
-  sb&&sb.addEventListener('click',function(e){ if(openGuide('premium', sb.href, '', sb.target||''))e.preventDefault(); else track('/clic-skool-premium'); });
-  var cb=document.getElementById('citaBtn'); cb&&cb.addEventListener('click',function(){ track('/clic-skool-standard'); });
-  var wb=document.getElementById('waBtn'); wb&&wb.addEventListener('click',function(){ track('/clic-whatsapp'); });
+  sb&&sb.addEventListener('click',function(e){ if(openGuide('premium', sb.href, '', sb.target||''))e.preventDefault(); else track('/clic-skool-premium', !!sb.target); });
+  var cb=document.getElementById('citaBtn'); cb&&cb.addEventListener('click',function(){ track('/clic-skool-standard', !!cb.target); });
+  var wb=document.getElementById('waBtn'); wb&&wb.addEventListener('click',function(){ track('/clic-whatsapp', true); });
 
   // Launch-Mechanik: Preis-Datum, Cupos, Warteliste
   var cur=document.getElementById('priceCur'), cl=document.getElementById('cuposLine'), hc=document.getElementById('heroCupos');
