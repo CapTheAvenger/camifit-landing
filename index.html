@@ -381,14 +381,15 @@ window.CAMI_CONFIG = {
      wieder her (unsere Listener stehen vor denen des Beacons und unterdrücken genau diese eine Rückstellung). -->
 <script>
 (function(){
-  var off=false;
+  var q=location.search, off=/[?&]nostats=1(&|$)/.test(q);   // Opt-out gilt sofort, auch wenn localStorage nicht schreibbar ist
   try{
-    var q=location.search;
-    if(/[?&]nostats=1(&|$)/.test(q))localStorage.setItem('nostats','1');
+    if(off)localStorage.setItem('nostats','1');
     else if(/[?&]nostats=0(&|$)/.test(q))localStorage.removeItem('nostats');
-    off=localStorage.getItem('nostats')==='1';
+    off=off||localStorage.getItem('nostats')==='1';
   }catch(e){}
-  var H=window.history, NAV=window.navigation, hide=false, loaded=false;
+  var H=window.history, NAV=window.navigation, hide=false, loaded=false, failed=false;
+  var real=location.pathname+location.search+location.hash;   // zuletzt bekannte echte URL (ohne virtuellen Pfad)
+  function noHash(u){ return String(u).replace(/#.*$/,''); }
   if(NAV&&NAV.addEventListener){
     // Chrome/Edge/Android/Safari ≥ 26: der Beacon hört auf das navigate-Event (zählt push-/replaceState). Sprunglinks (#precios) und
     // unsere Rückstellung werden vor ihm abgefangen.
@@ -396,23 +397,44 @@ window.CAMI_CONFIG = {
   }
   // Ältere Browser ohne navigation-API: der Beacon umhüllt nur history.pushState und hört auf popstate. Dort: pushState (gezählt) +
   // history.back() (asynchron; das popstate wird vor dem Beacon abgefangen). Bis das popstate da ist, warten weitere Events in einer Schlange.
-  var queue=[];
-  window.addEventListener('popstate',function(e){ if(hide){hide=false;e.stopImmediatePropagation(); if(queue.length)setTimeout(function(){ var p=queue.shift(); if(p)window.__cfTrack(p); },0);} });
+  var queue=[], guard=null;
+  function restore(){ try{ if(H.state&&H.state.cfv){ hide=true; H.replaceState({},'',real); } }catch(e){} hide=false; }
+  function settle(){
+    // Rückstellung abgeschlossen (popstate kam an) oder blieb aus (Fallback): Zustand aufräumen, Schlange weiterführen.
+    if(guard){clearTimeout(guard);guard=null;}
+    hide=false; try{ H.scrollRestoration='auto'; }catch(e){}
+    restore();
+    if(queue.length)setTimeout(function(){ var p=queue.shift(); if(p)window.__cfTrack(p); },0);
+  }
+  window.addEventListener('popstate',function(e){
+    if(hide){ e.stopImmediatePropagation(); settle(); return; }
+    // Vorwärts-Geste auf einen virtuellen Eintrag oder Sprunglink (#precios): nicht an den Beacon durchreichen, URL geradeziehen.
+    if(H.state&&H.state.cfv){ e.stopImmediatePropagation(); restore(); return; }
+    if(noHash(location.pathname+location.search+location.hash)===noHash(real)){ e.stopImmediatePropagation(); real=location.pathname+location.search+location.hash; }
+  });
+  window.addEventListener('pageshow',function(e){ if(e.persisted&&(hide||(H.state&&H.state.cfv)))settle(); });   // Rückkehr aus dem bfcache
   window.__cfTrack=function(path){
-    if(off||!loaded)return false;
+    if(off||failed||!loaded)return false;
     try{
-      if(NAV){ var o=location.pathname+location.search+location.hash; hide=false; H.replaceState({cfv:1},'',path); hide=true; H.replaceState({},'',o); hide=false; }
-      else { if(hide){queue.push(path);return true;} H.pushState({cfv:1},'',path); hide=true; H.back(); }
+      if(NAV){ real=location.pathname+location.search+location.hash; hide=false; H.replaceState({cfv:1},'',path); hide=true; H.replaceState({},'',real); hide=false; }
+      else {
+        if(hide){queue.push(path);return true;}
+        real=location.pathname+location.search+location.hash;
+        try{ H.scrollRestoration='manual'; }catch(e){}   // sonst springt back() auf die Scrollposition vom Moment des pushState
+        H.pushState({cfv:1},'',path); hide=true; H.back();
+        guard=setTimeout(function(){ guard=null; if(hide)settle(); },1500);   // falls das popstate ausbleibt
+      }
       return true;
     }catch(e){ hide=false; return false; }
   };
   // URL ohne Zählung ändern (z. B. ?de=… aus der Adresszeile entfernen).
-  window.__cfReplaceSilent=function(url){ if(hide&&!NAV){ setTimeout(function(){window.__cfReplaceSilent(url);},50); return; } try{ hide=true; H.replaceState({},'',url); }catch(e){} hide=false; };
+  window.__cfReplaceSilent=function(url,n){ n=n||0; if(hide&&!NAV&&n<60){ setTimeout(function(){window.__cfReplaceSilent(url,n+1);},50); return; } try{ hide=true; H.replaceState({},'',url); real=url; }catch(e){} hide=false; };
   window.__nostats=off;
   if(off)return;
   var s=document.createElement('script'); s.src='https://static.cloudflareinsights.com/beacon.min.js';
   s.setAttribute('data-cf-beacon','{"token": "04b9e6f97685468a8eae2727a9970fa9", "spa": true}');
   s.onload=function(){ loaded=true; };
+  s.onerror=function(){ failed=true; window.__cfFailed=true; };   // Content-Blocker o. Ä.: Events sofort aufgeben
   document.head.appendChild(s);
 })();
 </script>
@@ -815,7 +837,8 @@ window.CAMI_CONFIG = {
     cleanUrl=cleanUrl.replace(/\?(#|$)/,'$1');
     var tries=0, timer=setInterval(function(){
       tries++;
-      if(track('/entrada-'+dm[1],true)||tries>40){
+      var ready=document.readyState==='complete';   // Erst-Seitenaufruf des Beacons (beim load-Event) nicht stören
+      if((ready&&track('/entrada-'+dm[1],true))||window.__cfFailed||window.__nostats||tries>40){
         clearInterval(timer);
         try{ window.__cfReplaceSilent&&window.__cfReplaceSilent(cleanUrl); }catch(e){}
       }

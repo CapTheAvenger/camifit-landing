@@ -225,7 +225,9 @@ aller vier Seiten von einem kleinen Lader eingehängt. Ohne Cookies, ohne Profil
 Browser, Pfade; Zeitraum oben rechts. Daten ab 28.10., ca. 9:45 Uhr.
 
 **Eigenausschluss:** einmal `momlifecamila.com/?nostats=1` öffnen → dieser Browser wird nicht mehr gezählt (Marke im
-localStorage; `?nostats=0` hebt es auf). Hausi und Camila sollten das auf Handy und Rechner einmal machen. Bis dahin gilt:
+localStorage; `?nostats=0` hebt es auf). Hausi und Camila sollten das auf Handy und Rechner einmal machen – **und zwar je
+Browser**: der Instagram-In-App-Browser hat eigenen Speicher, also den Link auch einmal aus der eigenen Instagram-Bio heraus
+mit `?nostats=1` öffnen (oder nach dem Antippen des Bio-Links `?nostats=1` an die Adresse hängen). Bis dahin gilt:
 Besuche aus Deutschland (DE) sind fast sicher eigene Tests (Zielgruppe ist spanischsprachig).
 
 **Trichter als virtuelle Seiten** (Mechanik `window.__cfTrack` im `<head>`; je einmal pro Aufruf, echte URL bleibt `/`):
@@ -243,14 +245,19 @@ Besuche aus Deutschland (DE) sind fast sicher eigene Tests (Zielgruppe ist spani
 | `/clic-whatsapp` | WhatsApp-Button |
 
 Technik: Der Beacon zählt mit `spa:true` jede URL-Änderung (in Chrome/Android/Safari ≥ 26 über das `navigate`-Event, in
-älteren Browsern über einen `pushState`-Wrapper plus `popstate`). Der Lader im `<head>` registriert seine Listener VOR dem
-Beacon und unterdrückt genau die Rückstellung auf die echte URL (`stopImmediatePropagation`) sowie Sprunglinks (`#precios`),
-so dass jedes Ereignis genau einmal zählt und „/“ nicht aufgebläht wird. Lokal getestet mit einem Beacon-Stub für beide
+älteren Browsern über einen `pushState`-Wrapper plus `popstate`; er zählt nur, wenn sich Pfad+Query gegenüber der zuletzt
+gesehenen URL ändern – derselbe Pfad zweimal hintereinander, z. B. zwei WhatsApp-Klicks, zählt also einmal). Der Lader im
+`<head>` registriert seine Listener VOR dem Beacon und unterdrückt genau die Rückstellung auf die echte URL
+(`stopImmediatePropagation`) sowie Sprunglinks (`#precios`), so dass jedes Ereignis genau einmal zählt und „/“ nicht
+aufgebläht wird. Im alten Zweig (pushState + `history.back()`) zusätzlich: `scrollRestoration='manual'` während der
+Rückstellung (sonst Scroll-Sprung), Fallback nach 1,5 s und bei `pageshow` aus dem bfcache, Vorwärts-Geste auf einen
+virtuellen Eintrag wird still auf die echte URL zurückgesetzt. Beacon blockiert (`onerror`) → keine Events, `?de=` wird trotzdem
+aus der Adresszeile entfernt. Lokal getestet mit einem Beacon-Stub für beide
 Zweige (`scratchpad/check_track.js`), live im Chrome-Dashboard gegengeprüft. Die Artefakt-Vorschau lädt den Beacon nicht
 (`build_artifact.py` ersetzt das `appendChild`).
 
 **Tägliche Datei + automatische Auswertung (seit 28.10.):** Der Workflow `.github/workflows/stats.yml` holt täglich um
-04:50 UTC per Cloudflare-GraphQL (`scripts/fetch_stats.py`, Token-Secret `CF_API_TOKEN`, nur „Account Analytics: Read“)
+03:30 UTC (04:30/05:30 Berlin) per Cloudflare-GraphQL (`scripts/fetch_stats.py`, Token-Secret `CF_API_TOKEN`, nur „Account Analytics: Read“)
 pro Berliner Tag Besuche/Seitenaufrufe nach Pfad, Land, Referrer, Gerät, Browser, Stunde und zusätzlich die
 Skool-Mitgliederzahl (öffentliche Infoseite, `totalMembers`, alle Stufen) und schreibt alles nach Branch `stats`,
 Datei `daily.json` (öffentlich lesbar, nur aggregierte Zahlen). Eine automatische Claude-Aufgabe („Landingpage-Auswertung

@@ -6,7 +6,7 @@ name: Landingpage-Statistik
 
 on:
   schedule:
-    - cron: "50 4 * * *"   # 04:50 UTC = 05:50 Berlin (Winter) / 06:50 (Sommer); Claude wertet um 07:41 Berlin aus
+    - cron: "30 3 * * *"   # 03:30 UTC = 04:30 Berlin (Winter) / 05:30 (Sommer); GitHub verzögert Zeitpläne oft um 15–60 min. Claude wertet um 07:41 Berlin aus
   workflow_dispatch:
 
 permissions:

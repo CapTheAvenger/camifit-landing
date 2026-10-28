@@ -83,6 +83,8 @@ def pv(row):
 
 def norm_path(p):
     p = (p or "/").split("?")[0]
+    if p.endswith("/index.html"):
+        p = p[: -len("index.html")]
     if len(p) > 1 and p.endswith("/"):
         p = p[:-1]
     return p or "/"
@@ -99,6 +101,8 @@ def parse_day(acc, i):
                 key = norm_path(key)
             elif alias == "referers" and not key:
                 key = "(direkt)"
+            elif not key:
+                key = "(unbekannt)"
             e = d.setdefault(key, {"pv": 0, "visits": 0})
             e["pv"] += pv(row)
             e["visits"] += int((row.get("sum") or {}).get("visits", 0) or 0)
@@ -154,7 +158,7 @@ def main():
     d = since
     while d <= today:
         key = d.isoformat()
-        if key not in data["days"] or (today - d).days < a.refresh:
+        if key not in data["days"] or (today - d).days < a.refresh or data["days"][key].get("partial"):
             wanted.append(d)
         d += dt.timedelta(days=1)
     print(f"Tage zu holen: {[x.isoformat() for x in wanted]}")
