@@ -266,6 +266,16 @@ momlifecamila“) liest diese Datei um 07:41 Uhr Berlin – täglich bis 11.11.2
 Kennzahlen, Trichter, Herkunft und bis zu drei Verbesserungsvorschläge als Benachrichtigung. Die Aufgabe liest nur;
 Änderungen an der Seite laufen weiter über den Chat.
 
+**Tagesblick (Artefakt, seit 30.10.):** <https://claude.ai/artifact/RLNiip6m1QWbz4ZfvmXzFo> – Seite `dashboard/tagesblick.html`
+(nur zur Ablage, nicht auf GitHub Pages verlinkt; veröffentlicht wird sie über das Claude-Artefakt). Sie liest das Dokument
+`reports/latest` aus der Datenbank des Artefakts (Kennzahlen gestern/7 Tage, Trichter, Trend, Herkunft, Skool, plus
+Einordnung mit Learnings und To-dos). Die tägliche Aufgabe erzeugt dieses Dokument so: `daily.json` holen →
+`scripts/report_stats.py --in daily.json --out report.json` (Zeiträume, Quoten, Reihe, Herkunft 7 Tage, Skool-Delta) →
+Einordnung (`insights`: headline, learnings[kind good/warn/info, text, evidence], todos[prio 1–3, action, why, measure,
+owner], data_notes) ergänzen → als `reports/latest` (überschreiben) und `reports/<Datum>` (Archiv) speichern. Ohne Dokument
+zeigt die Seite „Noch keine Auswertung gespeichert“. DE-Besuche sind als „eigene Tests“ markiert (bis `?nostats=1` überall
+gesetzt ist).
+
 ## Black-Friday-Kampagne (Hausi 30.10.; AKTIV, sichtbar ab 11.11.)
 
 Schalter: `CAMI_CONFIG.bf.activo` (true seit 30.10.). Die Seite rechnet die Phasen nach der Uhr der Besucherin, zeigt einen

@@ -1,0 +1,279 @@
+<title>Tagesblick momlifecamila</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: eine Spalte am Handy, zwei Spalten ab 760px; Kennzahlen oben, dann Learnings/To-dos, dann Trichter, Verlauf, Herkunft. */
+:root{
+  --bg:#F3F0EA; --panel:#FBF9F5; --panel-2:#EFE9DF; --line:rgba(52,42,36,.12);
+  --fg:#2C2520; --fg-2:#6B5E55; --accent:#C9865C; --accent-2:#2F4A3C;
+  --good:#3F7D5A; --warn:#C27C2C; --bad:#B94A3C; --info:#4B6B8A;
+  --bar:#C9865C; --bar-2:#2F4A3C; --bar-soft:#E6CDB9;
+  --body:'Poppins','Segoe UI',Helvetica,Arial,sans-serif; --num:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#1C1F1D; --panel:#262B28; --panel-2:#2F3532; --line:rgba(240,234,224,.14);
+  --fg:#EFE9DF; --fg-2:#B9AFA3; --accent:#E0A27D; --accent-2:#9CC3AE;
+  --good:#7FC29B; --warn:#E0A95A; --bad:#E08A7C; --info:#8FB3D1;
+  --bar:#E0A27D; --bar-2:#9CC3AE; --bar-soft:#4A3A30; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#1C1F1D; --panel:#262B28; --panel-2:#2F3532; --line:rgba(240,234,224,.14);
+  --fg:#EFE9DF; --fg-2:#B9AFA3; --accent:#E0A27D; --accent-2:#9CC3AE;
+  --good:#7FC29B; --warn:#E0A95A; --bad:#E08A7C; --info:#8FB3D1;
+  --bar:#E0A27D; --bar-2:#9CC3AE; --bar-soft:#4A3A30; color-scheme:dark }
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-block:22px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:1.5rem;line-height:1.15;margin:0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-2);margin:0 0 12px;font-weight:600}
+h3{font-size:1rem;margin:0 0 6px;font-weight:600}
+p{margin:0}
+.num{font-family:var(--num);font-variant-numeric:tabular-nums}
+.head{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.head .sub{color:var(--fg-2);font-size:.9rem}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:600;background:var(--panel-2);color:var(--fg-2);white-space:nowrap}
+.chip.ok{color:var(--good)} .chip.warn{color:var(--warn)} .chip.bad{color:var(--bad)}
+.chip i{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(4,1fr)}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;min-width:0}
+.tile .l{font-size:.78rem;color:var(--fg-2);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.tile .v{font-family:var(--num);font-size:2rem;font-weight:600;line-height:1.1;margin-top:4px;font-variant-numeric:tabular-nums}
+.tile .d{font-size:.8rem;color:var(--fg-2);margin-top:4px}
+.tile .d b{font-weight:600}
+.up{color:var(--good)} .down{color:var(--bad)} .flat{color:var(--fg-2)}
+section{margin-top:22px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.two{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 14px;min-width:0}
+.headline{font-size:1.08rem;font-weight:600;line-height:1.35;margin-bottom:10px;text-wrap:balance}
+.todo{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line);align-items:start}
+.todo:first-of-type{border-top:0;padding-top:0}
+.prio{font-family:var(--num);font-weight:600;font-size:.78rem;padding:3px 8px;border-radius:8px;background:var(--panel-2);color:var(--fg-2);margin-top:2px;white-space:nowrap}
+.prio.p1{background:var(--accent);color:#2C2520}
+.todo .a{font-weight:600}
+.todo .w{color:var(--fg-2);font-size:.9rem;margin-top:2px}
+.todo .m{font-size:.82rem;color:var(--fg-2);margin-top:4px}
+.todo .m b{color:var(--fg);font-weight:600}
+.learn{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.learn li{display:grid;grid-template-columns:10px 1fr;gap:10px;align-items:start}
+.learn li i{width:10px;height:10px;border-radius:50%;margin-top:7px;background:var(--info)}
+.learn li.good i{background:var(--good)} .learn li.warn i{background:var(--warn)} .learn li.bad i{background:var(--bad)}
+.learn .e{display:block;color:var(--fg-2);font-size:.86rem}
+.funnel{display:grid;gap:9px}
+.step{display:grid;grid-template-columns:150px 1fr 64px;gap:10px;align-items:center;font-size:.9rem}
+@media (max-width:480px){.step{grid-template-columns:118px 1fr 58px;font-size:.84rem}}
+.step .n{color:var(--fg-2)}
+.step .b{height:18px;border-radius:6px;background:var(--panel-2);position:relative;overflow:hidden}
+.step .b span{position:absolute;inset:0 auto 0 0;background:var(--bar);border-radius:6px;min-width:2px}
+.step.last .b span{background:var(--bar-2)}
+.step .p{font-family:var(--num);font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+.step .p small{display:block;font-weight:400;color:var(--fg-2);font-size:.74rem}
+.drop{margin-top:10px;font-size:.86rem;color:var(--fg-2)}
+.drop b{color:var(--bad);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--fg-2);margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--bar)}
+.legend span.c2::before{background:var(--bar-2)}
+.legend span.c3::before{background:var(--bar-soft)}
+svg{display:block;max-width:100%;height:auto}
+.bars{display:grid;gap:7px}
+.row{display:grid;grid-template-columns:140px 1fr 44px;gap:10px;align-items:center;font-size:.88rem}
+@media (max-width:480px){.row{grid-template-columns:112px 1fr 40px;font-size:.82rem}}
+.row .b{height:12px;border-radius:5px;background:var(--panel-2);overflow:hidden}
+.row .b span{display:block;height:100%;background:var(--bar);border-radius:5px;min-width:2px}
+.row.alt .b span{background:var(--bar-2)}
+.row .v{font-family:var(--num);font-variant-numeric:tabular-nums;text-align:right;color:var(--fg-2)}
+.note{font-size:.84rem;color:var(--fg-2)}
+.notes li{margin:4px 0}
+.empty{background:var(--panel);border:1px dashed var(--line);border-radius:var(--r);padding:28px 18px;text-align:center;color:var(--fg-2)}
+.empty b{color:var(--fg)}
+.muted{color:var(--fg-2)}
+.foot{margin-top:26px;font-size:.78rem;color:var(--fg-2);line-height:1.5}
+a{color:var(--accent-2)}
+@media (prefers-reduced-motion:no-preference){.step .b span,.row .b span{transition:width .5s ease}}
+</style>
+
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>Tagesblick momlifecamila.com</h1>
+      <p class="sub" id="sub">Lade die letzte Auswertung …</p>
+    </div>
+    <div id="chips"></div>
+  </div>
+
+  <div id="empty" class="empty" hidden>
+    <b>Noch keine Auswertung gespeichert.</b><br>Die erste erscheint nach dem nächsten Lauf der täglichen Aufgabe (07:41 Uhr).
+  </div>
+
+  <div id="main" hidden>
+    <div class="grid kpis" id="kpis"></div>
+
+    <section>
+      <h2>Was das heißt und was zu tun ist</h2>
+      <div class="two">
+        <div class="card">
+          <p class="headline" id="headline"></p>
+          <h3>To-dos für dich</h3>
+          <div id="todos"></div>
+        </div>
+        <div class="card">
+          <h3>Learnings</h3>
+          <ul class="learn" id="learnings"></ul>
+          <p class="note" id="insightDate" style="margin-top:10px"></p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Trichter der letzten 7 Tage</h2>
+      <div class="card">
+        <div class="funnel" id="funnel"></div>
+        <p class="drop" id="drop"></p>
+        <p class="note" style="margin-top:8px" id="funnelNote"></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Verlauf seit Start</h2>
+      <div class="card">
+        <div id="trend"></div>
+        <div class="legend"><span>Besuche</span><span class="c3">davon aus Deutschland (eigene Tests)</span><span class="c2">Klicks nach Skool</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Woher die Besucherinnen kommen (7 Tage)</h2>
+      <div class="two">
+        <div class="card"><h3>Länder</h3><div class="bars" id="countries"></div></div>
+        <div class="card"><h3>Kanäle</h3><div class="bars" id="referers"></div><p class="note" style="margin-top:10px" id="entradas"></p></div>
+        <div class="card"><h3>Gerät &amp; Browser</h3><div class="bars" id="devices"></div></div>
+        <div class="card"><h3>Uhrzeit der Besuche (Berlin)</h3><div id="hours"></div><p class="note" style="margin-top:6px">Lateinamerika liegt 6–9 Stunden hinter Berlin.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Datenstand &amp; Technik</h2>
+      <div class="card"><ul class="notes note" id="notes"></ul></div>
+    </section>
+  </div>
+
+  <p class="foot">Quellen: Cloudflare Web Analytics (Besuche = Ankünfte von außen, nicht Personen; Trichter-Ereignisse zählen je Besuch einmal und enthalten auch die eigenen Tests aus Deutschland), Skool-Infoseite (Mitglieder aller Stufen, Zuwachs ≈ neue Mitglieder inkl. Einladungen), Calendly. Käufe selbst passieren in Skool und sind hier nicht sichtbar. Täglich 07:41 Uhr aktualisiert, ab 12.11. montags.</p>
+</div>
+
+<script>
+(function(){
+  var COUNTRY={US:'USA',DE:'Deutschland',MX:'Mexiko',CL:'Chile',CO:'Kolumbien',ES:'Spanien',AR:'Argentinien',VE:'Venezuela',PE:'Peru',EC:'Ecuador',GB:'Großbritannien',CA:'Kanada',KR:'Südkorea',BE:'Belgien',AW:'Aruba',CR:'Costa Rica',ID:'Indonesien',NL:'Niederlande',PA:'Panama',BO:'Bolivien',UY:'Uruguay',PY:'Paraguay',GT:'Guatemala',HN:'Honduras',SV:'El Salvador',NI:'Nicaragua',DO:'Dominik. Republik',PR:'Puerto Rico',CU:'Kuba',IT:'Italien',FR:'Frankreich',PT:'Portugal',CH:'Schweiz',AT:'Österreich',BR:'Brasilien',AU:'Australien',SE:'Schweden',IE:'Irland',PL:'Polen',TR:'Türkei',AE:'VAE',IL:'Israel',JP:'Japan',IN:'Indien',PH:'Philippinen',ZA:'Südafrika'};
+  function country(c){ return c==='DE'?'Deutschland (eigene Tests)':(COUNTRY[c]||c||'unbekannt'); }
+  function de(n){ return String(n==null?'–':n).replace('.',','); }
+  function merge(items,label){ var acc={},order=[]; items.forEach(function(x){ var k=label(x[0]); if(!(k in acc)){acc[k]=0;order.push(k);} acc[k]+=x[1]; }); return order.map(function(k){return [k,acc[k]];}).sort(function(a,b){return b[1]-a[1];}); }
+  function refName(h){ h=String(h||''); if(/instagram/i.test(h))return 'Instagram'; if(/tiktok/i.test(h))return 'TikTok'; if(/facebook|fb\./i.test(h))return 'Facebook'; if(/whatsapp/i.test(h))return 'WhatsApp'; if(/google/i.test(h))return 'Google'; if(/bing/i.test(h))return 'Bing'; if(/direkt|^\(/.test(h))return 'Direkt / unbekannt'; if(/youtube|youtu\.be/i.test(h))return 'YouTube'; if(/skool/i.test(h))return 'Skool'; return h; }
+  function devName(d){ return {mobile:'Handy',desktop:'Rechner',tablet:'Tablet'}[d]||d; }
+  function browserName(b){ if(b==='Unknown')return 'Unbekannt (oft In-App-Browser)'; if(b==='Instagram')return 'Instagram-App'; if(/ChromeMobileWebview/.test(b))return 'App-Browser (Android)'; if(/ChromeMobile/.test(b))return 'Chrome (Handy)'; if(/MobileSafari/.test(b))return 'Safari (iPhone)'; return b; }
+  function fmtDate(iso){ if(!iso)return '–'; var p=iso.split('-'); return p[2]+'.'+p[1]+'.'; }
+  function fmtDT(iso){ try{ var d=new Date(iso); return d.toLocaleString('de-DE',{timeZone:'Europe/Berlin',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}); }catch(e){return iso||'–';} }
+  function pct(n,base){ return base?Math.round(100*n/base)+' %':'–'; }
+  function el(tag,cls,html){ var e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function delta(a,b){ if(a==null||b==null)return ''; var d=a-b; if(d===0)return '<span class="flat">± 0 zum Vortag</span>'; return '<span class="'+(d>0?'up':'down')+'">'+(d>0?'+':'')+d+' zum Vortag</span>'; }
+
+  function render(r){
+    var P=r.periods||{}, y=P.yesterday||{}, db=P.daybefore||{}, w=P['7d']||{}, pw=P.prev7d||{}, all=P.all||{}, sk=r.skool||{}, ins=r.insights||{};
+    document.getElementById('sub').textContent='Daten bis gestern, '+fmtDate(r.yesterday)+' · seit Start am '+fmtDate(r.launch_date)+' · Auswertung vom '+fmtDT(r.generated_at)+' Uhr';
+    var chips=document.getElementById('chips'); chips.innerHTML='';
+    var stale=(r.notes||[]).some(function(n){return /veraltet/i.test(n);});
+    chips.appendChild(el('span','chip '+(stale?'bad':'ok'),'<i></i>'+(stale?'Datenstand veraltet':'Daten aktuell')));
+    if(y.rates&&y.rates.de!=null&&y.rates.de>10)chips.appendChild(el('span','chip warn','<i></i>'+de(y.rates.de)+' % der Besuche gestern aus DE (Tests)'));
+
+    // Kennzahlen
+    var k=document.getElementById('kpis'); k.innerHTML='';
+    function tile(l,v,d){ var t=el('div','tile'); t.appendChild(el('div','l',l)); t.appendChild(el('div','v',v)); t.appendChild(el('div','d',d||'')); k.appendChild(t); }
+    tile('Besuche gestern', esc(y.visits!=null?y.visits:'–'), delta(y.visits,db.visits)+(y.visits_de?' · davon '+y.visits_de+' aus DE':''));
+    tile('Klicks nach Skool', esc(y.clicks?y.clicks.total:'–'), 'gestern · 7 Tage: <b>'+esc(w.clicks?w.clicks.total:'–')+'</b> von '+esc(w.visits||0)+' Besuchen');
+    tile('Klickrate 7 Tage', (w.rates&&w.rates.clicks!=null?de(w.rates.clicks)+' %':'–'), (pw.rates&&pw.rates.clicks!=null?'Vorwoche '+de(pw.rates.clicks)+' % · Anteil der Besuche mit Klick nach Skool':'Anteil der Besuche mit Klick nach Skool'));
+    var dlt=sk.delta_yesterday; tile('Skool-Mitglieder', esc(sk.latest!=null?sk.latest:'–'), (dlt==null?'Zuwachs gestern: nicht ermittelbar':'<span class="'+(dlt>0?'up':(dlt<0?'down':'flat'))+'">'+(dlt>0?'+':'')+dlt+' seit gestern früh</span>')+' · alle Stufen');
+
+    // Learnings / To-dos
+    document.getElementById('headline').textContent=ins.headline||'Noch keine Einordnung für diesen Tag.';
+    var td=document.getElementById('todos'); td.innerHTML='';
+    var todos=(ins.todos||[]).slice().sort(function(a,b){return (a.prio||9)-(b.prio||9);});
+    if(!todos.length)td.appendChild(el('p','note','Heute nichts Konkretes – weiter beobachten.'));
+    todos.forEach(function(t){ var row=el('div','todo'); row.appendChild(el('span','prio'+(t.prio===1?' p1':''),'Prio '+esc(t.prio||'–'))); var body=el('div'); body.appendChild(el('div','a',esc(t.action))); if(t.why)body.appendChild(el('div','w',esc(t.why))); if(t.measure)body.appendChild(el('div','m','<b>Danach messen:</b> '+esc(t.measure)+(t.owner?' · '+esc(t.owner):''))); row.appendChild(body); td.appendChild(row); });
+    var ln=document.getElementById('learnings'); ln.innerHTML='';
+    (ins.learnings||[]).forEach(function(l){ var li=el('li',l.kind||'info'); li.appendChild(el('i')); var b=el('div',null,esc(l.text)); if(l.evidence)b.appendChild(el('span','e',esc(l.evidence))); li.appendChild(b); ln.appendChild(li); });
+    if(!(ins.learnings||[]).length)ln.appendChild(el('li','info','<i></i><div>Zu wenig Daten für belastbare Aussagen – die Zahlen unten sind trotzdem aktuell.</div>'));
+    document.getElementById('insightDate').textContent=ins.date?'Einordnung vom '+fmtDate(ins.date)+' (automatische Auswertung).':'';
+
+    // Trichter 7 Tage
+    var ev=w.events||{}, steps=[
+      ['Besuche', w.visits||0],
+      ['≥ 30 s auf der Seite', ev.t30||0],
+      ['Video gestartet', ev.video||0],
+      ['Preise gesehen', ev.precios||0],
+      ['Details / Wegweiser', (ev.detalles||0)+(ev.guia||0)],
+      ['Klick nach Skool', w.clicks?w.clicks.total:0]
+    ];
+    var fn=document.getElementById('funnel'); fn.innerHTML=''; var base=steps[0][1]||1, worst=null;
+    steps.forEach(function(s,i){ var row=el('div','step'+(i===steps.length-1?' last':'')); row.appendChild(el('span','n',esc(s[0]))); var b=el('div','b'); var sp=el('span'); sp.style.width=Math.max(1,Math.round(100*s[1]/base))+'%'; b.appendChild(sp); row.appendChild(b); row.appendChild(el('span','p',esc(s[1])+'<small>'+pct(s[1],base)+'</small>')); fn.appendChild(row);
+      if(i>0){ var prev=steps[i-1][1]; var loss=prev?1-s[1]/prev:0; if(i!==2&&(worst==null||loss>worst.loss))worst={loss:loss,from:steps[i-1][0],to:s[0],n:prev-s[1]}; } });
+    document.getElementById('drop').innerHTML=(worst&&worst.n>0)?'Größter Abbruch: <b>'+esc(worst.from)+' → '+esc(worst.to)+'</b> – '+esc(worst.n)+' von '+esc(steps.find(function(s){return s[0]===worst.from;})[1])+' gehen hier verloren ('+Math.round(worst.loss*100)+' %).':'';
+    var skd=sk.delta_7d; document.getElementById('funnelNote').textContent='Skool-Mitglieder in den 7 Tagen: '+(skd==null?'Zuwachs nicht ermittelbar':(skd>0?'+':'')+skd+' (alle Stufen, inkl. Einladungen)')+'. Prozent = Anteil der Besuche; die Ereignisse enthalten auch eigene Tests aus Deutschland ('+esc(w.visits_de||0)+' Besuche).';
+
+    // Verlauf
+    document.getElementById('trend').innerHTML=trendSvg(r.series||[]);
+    // Herkunft
+    bars('countries',(r.origins7d||{}).countries||[],country,false);
+    bars('referers',merge((r.origins7d||{}).referers||[],refName),function(x){return x;},true);
+    var dv=((r.origins7d||{}).devices||[]).map(function(x){return [devName(x[0]),x[1]];}).concat(((r.origins7d||{}).browsers||[]).slice(0,4).map(function(x){return [browserName(x[0]),x[1]];}));
+    bars('devices',dv,function(x){return x;},false);
+    var en=(r.origins7d||{}).entradas||{}; var enk=Object.keys(en).filter(function(k){return !/prueba/.test(k);});
+    document.getElementById('entradas').textContent=enk.length?('Link-Quellen (?de=…): '+enk.map(function(k){return k+' '+en[k];}).join(' · ')):'Link-Quellen: noch keine Links mit ?de=ig / ?de=story / ?de=wa in Umlauf – damit ließe sich Bio, Story und WhatsApp trennen.';
+    document.getElementById('hours').innerHTML=hoursSvg(r.hours7d_utc||[]);
+    // Notizen
+    var no=document.getElementById('notes'); no.innerHTML='';
+    (r.notes||[]).concat(ins.data_notes||[]).forEach(function(n){ no.appendChild(el('li',null,esc(n))); });
+    if(!no.children.length)no.appendChild(el('li',null,'Pipeline lief planmäßig, keine Lücken.'));
+    no.appendChild(el('li',null,'Datenstand der Zählung: '+esc(fmtDT(r.data_generated_at))+' Uhr · Skool-Stand vom '+esc(fmtDate(sk.latest_date))));
+    document.getElementById('empty').hidden=true; document.getElementById('main').hidden=false;
+  }
+
+  function bars(id,items,label,alt){ var c=document.getElementById(id); c.innerHTML=''; var max=items.reduce(function(m,x){return Math.max(m,x[1]);},0)||1; if(!items.length){c.appendChild(el('p','note','Keine Daten.'));return;}
+    items.forEach(function(x){ var row=el('div','row'+(alt?' alt':'')); row.appendChild(el('span',null,esc(label(x[0])))); var b=el('div','b'); var s=el('span'); s.style.width=Math.round(100*x[1]/max)+'%'; b.appendChild(s); row.appendChild(b); row.appendChild(el('span','v',esc(x[1]))); c.appendChild(row); }); }
+
+  function trendSvg(series){
+    if(!series.length)return '<p class="note">Noch keine Tage.</p>';
+    var W=720,H=220,L=36,R=10,T=14,B=34, iw=W-L-R, ih=H-T-B, n=series.length, bw=Math.min(40, iw/n*0.62), max=Math.max.apply(null,series.map(function(s){return s.visits;}).concat([5]));
+    var ticks=[0,0.5,1].map(function(f){return Math.round(max*f);}); var out=['<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Besuche und Klicks je Tag">'];
+    ticks.forEach(function(t){ var yy=T+ih-ih*t/max; out.push('<line x1="'+L+'" x2="'+(W-R)+'" y1="'+yy+'" y2="'+yy+'" stroke="var(--line)" stroke-width="1"/><text x="'+(L-6)+'" y="'+(yy+4)+'" text-anchor="end" font-size="11" fill="var(--fg-2)" font-family="var(--num)">'+t+'</text>'); });
+    series.forEach(function(s,i){ var cx=L+iw*(i+0.5)/n, h=ih*s.visits/max, hd=ih*(s.visits_de||0)/max, hc=ih*(s.clicks||0)/max;
+      out.push('<rect x="'+(cx-bw/2)+'" y="'+(T+ih-h)+'" width="'+bw+'" height="'+h+'" rx="4" fill="var(--bar)"/>');
+      if(hd>0)out.push('<rect x="'+(cx-bw/2)+'" y="'+(T+ih-hd)+'" width="'+bw+'" height="'+hd+'" rx="4" fill="var(--bar-soft)"/>');
+      if(hc>0)out.push('<rect x="'+(cx+bw/2+3)+'" y="'+(T+ih-hc)+'" width="'+Math.max(6,bw/3)+'" height="'+hc+'" rx="3" fill="var(--bar-2)"/>');
+      out.push('<text x="'+cx+'" y="'+(T+ih-h-5)+'" text-anchor="middle" font-size="11" fill="var(--fg)" font-family="var(--num)">'+s.visits+'</text>');
+      if(n<=16||i%Math.ceil(n/12)===0)out.push('<text x="'+cx+'" y="'+(H-12)+'" text-anchor="middle" font-size="11" fill="var(--fg-2)" font-family="var(--num)">'+fmtDate(s.date)+'</text>'); });
+    out.push('</svg>'); return out.join('');
+  }
+  function hoursSvg(utc){
+    if(!utc.length)return '<p class="note">Keine Daten.</p>';
+    var off=1; try{ var now=new Date(); var b=new Intl.DateTimeFormat('en',{timeZone:'Europe/Berlin',hour:'2-digit',hour12:false}).format(now); off=((parseInt(b,10)-now.getUTCHours())+24)%24; }catch(e){}
+    var local=[]; for(var h=0;h<24;h++){ local[(h+off)%24]=utc[h]||0; }
+    var W=720,H=120,L=10,R=10,T=8,B=24,iw=W-L-R,ih=H-T-B,max=Math.max.apply(null,local.concat([1])),bw=iw/24;
+    var out=['<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Besuche nach Uhrzeit">'];
+    local.forEach(function(v,h){ var x=L+bw*h, hh=ih*v/max; out.push('<rect x="'+(x+2)+'" y="'+(T+ih-hh)+'" width="'+(bw-4)+'" height="'+hh+'" rx="3" fill="var(--bar)"/>'); if(h%3===0)out.push('<text x="'+(x+bw/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="var(--fg-2)" font-family="var(--num)">'+h+'h</text>'); });
+    out.push('</svg>'); return out.join('');
+  }
+
+  function show(data){ if(data&&data.periods){ try{ render(data); }catch(e){ document.getElementById('sub').textContent='Anzeige-Fehler: '+e.message; } } else { document.getElementById('empty').hidden=false; document.getElementById('main').hidden=true; document.getElementById('sub').textContent='Noch keine Auswertung gespeichert.'; } }
+
+  async function boot(){
+    var use=window.claude&&window.claude.use;
+    if(window.__TAGESBLICK_DEMO){ show(window.__TAGESBLICK_DEMO); return; }
+    if(!use){ show(null); document.getElementById('sub').textContent='Diese Ansicht braucht den Claude-Viewer (Datenbank nicht erreichbar).'; return; }
+    var db=await use('db');
+    if(!db){ show(null); document.getElementById('sub').textContent='Datenbank nicht verfügbar – bitte in der Claude-App öffnen.'; return; }
+    db.doc('reports/latest').onSnapshot(function(snap){ show(snap.exists?snap.data():null); }, function(err){ document.getElementById('sub').textContent='Datenbank-Fehler: '+(err&&err.code||'unbekannt'); });
+  }
+  boot();
+})();
+</script>
