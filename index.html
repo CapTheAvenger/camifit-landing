@@ -387,7 +387,7 @@ window.CAMI_CONFIG = {
   videoEmbedUrl: "",  // Alternative: "https://www.youtube-nocookie.com/embed/VIDEO_ID" oder "https://player.vimeo.com/video/VIDEO_ID?dnt=1"
   videoMostrarSinUrl: true,  // true = ohne Video bleibt das Vorschaubild als Platzhalter („Video en producción") sichtbar; false = Player ausblenden
   legalUrl: "aviso-legal.html", privacyUrl: "privacidad.html", termsUrl: "terminos.html",  // Impressum, Datenschutz, AGB (liegen im selben Ordner, Betreiberdaten eingetragen 26.10.)
-  // Launch-Mechanik (siehe Doc „Plan de lanzamiento · Noviembre"). Wöchentlich pflegen.
+  // Launch-Mechanik (siehe Doc „Plan de lanzamiento · Noviembre"). Wöchentlich pflegen. Nicht zusammen mit bf.activo nutzen (precioHasta/cuposTotal>0 würden von der Black-Friday-Logik überschrieben).
   cuposTotal: 0,             // wie viele neue 1:1-Mamás Camila im Monat annimmt. 0 = Cupos-Zeilen ausgeblendet (Entscheidung Hausi 27.10.: Knappheit erst, wenn das Projekt größer ist)
   cuposRestantes: 10,        // nach jeder Buchung um 1 verringern. Bei 0 wird der Kaufbutton zur Warteliste (WhatsApp)
   cuposMes: "noviembre",     // Monat, für den die Cupos gelten
@@ -578,7 +578,7 @@ window.CAMI_CONFIG = {
     </div>
     <div class="cta-row">
       <a class="btn btn-primary btn-lg" href="#precios">Ver precio y empezar</a>
-      <span class="muted">Pago único o en 2 cuotas · precios en USD</span>
+      <span class="muted"><span data-bf-hide>Pago único o en 2 cuotas · </span><span data-bf-show hidden>Black Friday · </span>precios en USD</span>
     </div>
   </div>
 </section>
@@ -724,8 +724,8 @@ window.CAMI_CONFIG = {
   <div class="wrap pad" style="padding-top:0">
     <h2 style="text-align:center">Preguntas frecuentes</h2>
     <div class="faq">
-      <details><summary>¿Por qué aquí cuesta $347 y en llamada $597?</summary><div class="a">Porque aquí empiezas tú misma: pagas, llenas el formulario y con tus respuestas hago tu diagnóstico. Si prefieres que arranquemos con una videollamada conmigo, donde hago el diagnóstico contigo en vivo, ese acompañamiento extra es el Plan Trimestral con arranque en llamada, a $597 USD. El programa de los 3 meses es el mismo.</div></details>
-      <details><summary>¿Cómo pago y qué pasa después?</summary><div class="a">El pago se hace en mi comunidad en Skool: tocas el botón y llegas directo a los planes. En la pestaña <strong>VIP</strong> («Programa 1:1») eliges anual («/year») para el pago completo de $347 USD o mensual («/month») para las 2 cuotas de $174 USD, creas tu cuenta (nombre, correo y contraseña) y pagas con tarjeta. Skool muestra el pago completo como «anual», pero es un pago único que cubre tus 3 meses y no se renueva. Al pagar entras de inmediato y encuentras el enlace al formulario de inicio en el curso «Programa Trimestral 1:1» dentro de la comunidad. Con tus respuestas y las tres pruebas hago tu diagnóstico, y en pocos días tienes tu rutina y tu menú personalizados. Desde ese momento me escribes por WhatsApp todos los días que lo necesites.</div></details>
+      <details><summary>¿Por qué aquí cuesta $<span data-price-full>347</span> y en llamada $597?</summary><div class="a">Porque aquí empiezas tú misma: pagas, llenas el formulario y con tus respuestas hago tu diagnóstico. Si prefieres que arranquemos con una videollamada conmigo, donde hago el diagnóstico contigo en vivo, ese acompañamiento extra es el Plan Trimestral con arranque en llamada, a $597 USD. El programa de los 3 meses es el mismo.</div></details>
+      <details><summary>¿Cómo pago y qué pasa después?</summary><div class="a">El pago se hace en mi comunidad en Skool: tocas el botón y llegas directo a los planes. En la pestaña <strong>VIP</strong> («Programa 1:1») eliges anual («/year») para el pago completo de $<span data-price-full>347</span> USD<span data-bf-hide> o mensual («/month») para las 2 cuotas de $174 USD</span>, creas tu cuenta (nombre, correo y contraseña) y pagas con tarjeta. Skool muestra el pago completo como «anual», pero es un pago único que cubre tus 3 meses y no se renueva. Al pagar entras de inmediato y encuentras el enlace al formulario de inicio en el curso «Programa Trimestral 1:1» dentro de la comunidad. Con tus respuestas y las tres pruebas hago tu diagnóstico, y en pocos días tienes tu rutina y tu menú personalizados. Desde ese momento me escribes por WhatsApp todos los días que lo necesites.</div></details>
       <details><summary>¿Mi diástasis se puede corregir de verdad?</summary><div class="a">En la mayoría de los casos mejora mucho. Es muy común, pero no es normal, y se trabaja con ejercicios desde casa en el orden correcto. Te lo digo con honestidad: hay un punto en el que la genética marca el límite, y cada cuerpo responde distinto, pero un abdomen funcional, sin dolor y más recogido es lo que buscamos y lo que la mayoría de mis mamás consigue. Si tienes un diagnóstico médico (por ejemplo prolapso o hernia), consulta también a tu médico o fisioterapeuta de suelo pélvico.</div></details>
       <details><summary>¿Es solo respirar y hacer ejercicios suaves?</summary><div class="a">No. La respiración y la reconexión son la base de las primeras semanas. Después rehabilitamos y fortalecemos de verdad: fuerza, glúteo, hipopresivos. Muchas mamás que llegaron con escapes de orina han vuelto a correr.</div></details>
       <details><summary>Ya tengo nutricionista o fisioterapeuta. ¿Me sirve igual?</summary><div class="a">Sí. Entrenamiento y nutrición son las dos patas de la misma mesa: si una cojea, el resultado se desequilibra. Aquí miro todo junto: cómo respiras, tu pelvis, tu postura, tu cicatriz y lo que comes.</div></details>
@@ -786,6 +786,7 @@ window.CAMI_CONFIG = {
     "2x":{url:C.checkout2x||C.skoolUrl, hint:C.hint2x, note:"2 cuotas de $174 USD: la primera hoy, la segunda en un mes (total $348 USD)."}
   };
   var btn=document.getElementById('buyBtn'), note=document.getElementById('payNote'), warn=document.getElementById('payWarn'), hint=document.getElementById('payHint');
+  var fullPrice=347;  // aktueller Preis „pago completo" (Black Friday setzt ihn auf 249/299; Kauf-Wegweiser liest ihn beim Klick)
   function apply(key){
     var p=plans[key]||plans.full; note.textContent=p.note;
     if(p.hint){hint.textContent=p.hint;hint.hidden=false;}else{hint.hidden=true;}
@@ -826,28 +827,31 @@ window.CAMI_CONFIG = {
       if(t<tDesde)return 'off';
       if(t<tIni)return 'countdown';
       if(t<tF2){
-        if(live.skool===p1&&!live.cerrada)return 'f1';   // Skool steht auf 249 → Stufe 1 (notfalls auch über 20:00 hinaus, bis Skool wirklich umgestellt ist)
+        if(live.skool===p1)return 'f1';   // Skool steht auf 249 → Stufe 1 (notfalls auch über 20:00 hinaus, bis Skool wirklich auf 299 steht)
         if(live.skool===p2)return 'f2';
-        if(live.skool===p1&&live.cerrada)return 'f1';      // „cerrada" ohne Skool-Umstellung: Preis bleibt sichtbar, bis Skool nachzieht
-        if(t<tIni+30*60e3&&live.skool!==p2)return 'wait';  // kurz nach 18:00, Bestätigung fehlt noch
+        if(t<tIni+30*60e3)return 'wait';  // kurz nach 18:00, Bestätigung aus bf.json fehlt noch
       }
       return 'off';
     }
     function dur(ms){ if(ms<0)ms=0; var d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);
       if(d>0)return d+' d '+h+' h '+(m<10?'0':'')+m+' min'; if(h>0)return h+' h '+(m<10?'0':'')+m+' min'; return m+' min '+(s<10?'0':'')+s+' s'; }
-    function fmt(t,zone){ try{ var o={day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}; if(zone)o.timeZone=zone; return new Date(t).toLocaleString('es',o).replace(',',' a las'); }catch(e){return '';} }
+    function part(t,zone,opts){ try{ if(zone)opts.timeZone=zone; return new Intl.DateTimeFormat('es',opts).format(new Date(t)).replace(/\.$/,''); }catch(e){return '';} }
+    function hora(t,zone){ return part(t,zone,{hour:'2-digit',minute:'2-digit',hour12:false}); }
+    function fecha(t,zone){ return part(t,zone,{day:'numeric',month:'short'}); }
+    function fmt(t,zone){ return fecha(t,zone)+' a las '+hora(t,zone); }   // „27 nov a las 18:00"
     function cuando(t){ // „27 nov a las 18:00 (hora de Alemania; 12:00 donde tú estás)"
-      var de=fmt(t,'Europe/Berlin'), lo=fmt(t,null); var h=lo.split(' a las ')[1]||''; var hd=de.split(' a las ')[1]||'';
-      return de+' (hora de Alemania'+(h&&h!==hd?'; '+h+' donde tú estás':'')+')'; }
+      var h=hora(t,null), hd=hora(t,'Europe/Berlin'), dl=fecha(t,null), dd=fecha(t,'Europe/Berlin');
+      var local=h&&h!==hd?'; '+(dl&&dl!==dd?dl+' a las ':'')+h+' donde tú estás':'';
+      return fmt(t,'Europe/Berlin')+' (hora de Alemania'+local+')'; }
     function bartxt(label,time){ txt.innerHTML='<span class="bf-lbl">'+label+'</span>'+(time?'<span class="bf-time">'+time+'</span>':''); }
     var orig={note:plans.full.note, hint:plans.full.hint, cur:curEl.textContent, ref:refEl.innerHTML, badge:badge.textContent, chip:chip?chip.textContent:''};
     var lastPhase=null, lastPrice=0;
     function setPrice(p,label){
       if(lastPrice!==p){
         pr.querySelectorAll('.n.old,.n.new').forEach(function(e){e.remove();}); nEl.hidden=true;
-        var old=document.createElement('span'); old.className='n old'; old.textContent='$'+base;
-        var nw=document.createElement('span'); nw.className='n new';
-        String('$'+p).split('').forEach(function(ch,i){ var s=document.createElement('i'); s.textContent=ch; s.style.animationDelay=(i*0.08)+'s'; nw.appendChild(s); });
+        var old=document.createElement('span'); old.className='n old'; old.textContent='$'+base; old.setAttribute('aria-label','antes $'+base);
+        var nw=document.createElement('span'); nw.className='n new'; nw.setAttribute('aria-label','$'+p);
+        String('$'+p).split('').forEach(function(ch,i){ var s=document.createElement('i'); s.textContent=ch; s.setAttribute('aria-hidden','true'); s.style.animationDelay=(i*0.08)+'s'; nw.appendChild(s); });
         pr.insertBefore(old,nEl); pr.insertBefore(nw,nEl); lastPrice=p;
       }
       curEl.textContent='USD · pago único · '+label; altEl.hidden=true;
@@ -855,13 +859,17 @@ window.CAMI_CONFIG = {
       plans.full.note='Pago completo: $'+p+' USD, una sola vez ('+label+').';
       plans.full.hint=(orig.hint||'').replace('US$ 347','US$ '+p);
       if(r2){ r2.disabled=true; r2.closest('label').hidden=true; } if(rf)rf.checked=true; if(pp)pp.innerHTML='$'+p+' <small>USD</small>';
-      apply('full'); badge.textContent='Black Friday'; if(chip)chip.textContent='$'+p+' hoy';
+      fullPrice=p; apply('full'); badge.textContent='Black Friday'; if(chip)chip.textContent='$'+p+' hoy';
+      document.querySelectorAll('[data-price-full]').forEach(function(e){e.textContent=String(p);});
+      document.querySelectorAll('[data-bf-hide]').forEach(function(e){e.hidden=true;}); document.querySelectorAll('[data-bf-show]').forEach(function(e){e.hidden=false;});
     }
     function resetPrice(){
       pr.querySelectorAll('.n.old,.n.new').forEach(function(e){e.remove();}); nEl.hidden=false; lastPrice=0;
       curEl.textContent=orig.cur; altEl.hidden=false; refEl.innerHTML=orig.ref; plans.full.note=orig.note; plans.full.hint=orig.hint;
       if(r2){ r2.disabled=false; r2.closest('label').hidden=false; } if(pp)pp.innerHTML='$'+base+' <small>USD</small>';
-      apply((document.querySelector('input[name=pay]:checked')||{}).value||'full'); badge.textContent=orig.badge; if(chip)chip.textContent=orig.chip; line.hidden=true;
+      fullPrice=base; apply((document.querySelector('input[name=pay]:checked')||{}).value||'full'); badge.textContent=orig.badge; if(chip)chip.textContent=orig.chip; line.hidden=true;
+      document.querySelectorAll('[data-price-full]').forEach(function(e){e.textContent=String(base);});
+      document.querySelectorAll('[data-bf-hide]').forEach(function(e){e.hidden=false;}); document.querySelectorAll('[data-bf-show]').forEach(function(e){e.hidden=true;});
     }
     var flown=false, flying=false;
     function showBar(){
@@ -871,12 +879,14 @@ window.CAMI_CONFIG = {
       flown=true; flying=true;  // Herz fliegt vom unteren Rand nach oben (Singles' Day), dann erscheint die Leiste
       var f=document.createElement('div'); f.className='bf-fly'; f.setAttribute('aria-hidden','true');
       f.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.1C.9 8.6 2.6 5 6.2 5c2 0 3.3 1.1 4 2.2.7-1.1 2-2.2 4-2.2 3.6 0 5.3 3.6 3.8 6.9C19.5 16.4 12 21 12 21z"/></svg>';
-      document.body.appendChild(f); setTimeout(function(){ f.remove(); flying=false; bar.hidden=false; },1500);
+      document.body.appendChild(f); setTimeout(function(){ f.remove(); flying=false; if(phase(now())!=='off'){bar.hidden=false;} syncBody(); },1500);
     }
     function syncBody(){ document.body.classList.toggle('bf-on', !bar.hidden); }
+    bar.addEventListener('click',function(){ track('/clic-bf',true); });
     function render(){
-      var t=now(), ph=phase(t), horaF1=fmt(tF1,'Europe/Berlin').split(' a las ')[1]||'';
+      var t=now(), ph=phase(t), horaF1=hora(tF1,'Europe/Berlin');
       if(ph==='off'){ if(lastPhase&&lastPhase!=='off'){ bar.hidden=true; resetPrice(); } lastPhase=ph; syncBody(); return; }
+      if(ph==='wait'&&!live.loaded&&!pv)return;   // erst die Antwort von bf.json abwarten (sonst blitzt „se abre en unos minutos" auf)
       showBar();
       if(ph==='countdown'){
         if(lastPhase!=='countdown'){ resetPrice(); line.hidden=false; }
@@ -909,7 +919,7 @@ window.CAMI_CONFIG = {
       var every=(t>=tIni-15*60e3)?30e3:600e3; if(!force&&t-lastPull<every)return; lastPull=t;
       fetch('bf.json?v='+Math.floor(Date.now()/30000),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j)return;
         if(typeof j.precioSkool==='number')live.skool=j.precioSkool; if(typeof j.fase1Cerrada==='boolean')live.cerrada=j.fase1Cerrada;
-        live.cupos=(typeof j.cupos1Restantes==='number')?j.cupos1Restantes:null; live.loaded=true; render(); }).catch(function(){}); }
+        live.cupos=(typeof j.cupos1Restantes==='number')?j.cupos1Restantes:null; live.loaded=true; render(); }).catch(function(){ live.loaded=true; }); }
     if(pv){ // Vorschau-Schalter (Artefakt): Phase per Zeitversatz simulieren
       var P={countdown:tDesde+3600e3, f1:tIni+17*60e3, f2:tF1+55*60e3, off:tF2+60e3};
       var box=document.createElement('div'); box.className='bf-pv'; box.innerHTML='<span>Vorschau Black Friday:</span>';
@@ -930,7 +940,7 @@ window.CAMI_CONFIG = {
       'En Skool, toca la pestaña <strong>VIP</strong> (Programa 1:1).',
       'Toca el botón para unirte a VIP y crea tu cuenta: nombre, correo y contraseña.',
       key==='2x' ? 'Elige <strong>mensual («/month», US$ 174)</strong>: son solo 2 cobros. Paga con tarjeta y entras de inmediato.'
-                 : 'Elige <strong>anual («/year», US$ 347)</strong>: es un pago único por los 3 meses, sin renovación. Paga con tarjeta y entras de inmediato.'
+                 : 'Elige <strong>anual («/year», US$ '+fullPrice+')</strong>: es un pago único por los 3 meses, sin renovación. Paga con tarjeta y entras de inmediato.'
     ];}, note:'¿Ya tienes cuenta en Skool? Inicia sesión y el plan VIP se abre solo. Si ves primero la pestaña «Standard», es normal: cambia a VIP.'},
     premium:{point:'1 · Toca Premium', steps:function(){ return [
       'En Skool, toca la pestaña <strong>Premium</strong> (Comunidad CORE).',

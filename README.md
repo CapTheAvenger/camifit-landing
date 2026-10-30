@@ -285,14 +285,24 @@ Pflichtzeile in Stufe 1/2 (PAngV): „Precio normal y precio más bajo de los ú
 Plätze seien verkauft, wenn es nicht stimmt (UWG Anhang Nr. 7). Kaufen mehr als 10 zu 249, weil Skool erst um 20:00 umgestellt
 wird: in Ordnung (Hausi 30.10.).
 
-**Skool-Umstellung – drei terminierte Claude-Aufgaben über Hausis Laptop (Chrome, eingeloggt), weil die Seite nur anzeigt:**
-Fr 27.11. 17:52 Skool VIP anual 347 → 249, dann `bf.json` → 249 · Fr 19:57 erst `bf.json` → 299 (Seite zeigt 299), dann
-Skool → 299 · Sa 28.11. 19:57 erst `bf.json` → 347, dann Skool → 347. Reihenfolge immer so, dass Skool nie teurer ist als die
-Seite. Weg in Skool (geprüft 30.10.): Infoseite → „Configuración“ → Reiter „Precios“ → VIP-Karte → Preis „$174/mes o
-$347/año“ antippen → Dialog „Cambiar precio“ (Felder $/mes und $/año, „Mensual y anual“ belassen) → „CAMBIAR“; Hinweis von
-Skool: Bestandskundinnen behalten ihren Preis. Monatspreis 174 bleibt (deshalb keine 2 Raten im Black Friday). Vorschau im
-Artefakt: `build_artifact.py` setzt `bfPreview: "countdown"`, unten links Schalter für die vier Phasen (simuliert auch
-`precioSkool`).
+**Skool-Umstellung – vier terminierte Claude-Aufgaben über Hausis Laptop (Chrome, eingeloggt), weil die Seite nur anzeigt:**
+
+| Aufgabe | Zeit (Berlin) | Reihenfolge |
+|---|---|---|
+| 1/3 | Fr 27.11. 17:52 | Skool VIP anual 347 → 249, **nachlesen** (Precios neu laden + /plans), erst dann `bf.json` → 249 und warten, bis es live ist. Seite zeigt 249 ab 18:00. |
+| 1b Zähler | Fr 18:02–19:55 | Jede Minute Mitgliederliste lesen (VIP, 249, heute beigetreten). Bei 10 Käufen: `bf.json` → 299, warten bis live, dann Skool → 299. Damit ist „solo para las 10 primeras“ wahr; technisch bedingte Überschreitungen (gleichzeitige Käufe, Deploy-Minuten) sind laut Hausi in Ordnung. |
+| 2/3 | Fr 19:57 | Erst `bf.json` → 299 und warten, bis es live ist, dann Skool → 299 (steht Skool schon auf 299, nur prüfen). |
+| 3/3 | Sa 28.11. 20:00 | `bf.json` → 347, dann Skool → 347 (Seite blendet um 20:00 ohnehin aus). |
+
+Grundregel: Skool ist nie teurer als die Seite. Preis runter → erst Skool, dann Seite; Preis rauf → erst Seite (live gesehen),
+dann Skool. Weg in Skool (geprüft 30.10.): Infoseite → „Configuración“ → Reiter „Precios“ → VIP-Karte → Preis „$174/mes o
+$347/año“ antippen → Dialog „Cambiar precio“ (Felder $/mes und $/año, „Mensual y anual“ belassen) → „CAMBIAR“; Skool:
+Bestandskundinnen behalten ihren Preis. Monatspreis 174 bleibt (deshalb keine 2 Raten im Black Friday; 2-Raten-Sätze auf der
+Seite sind in der Aktionszeit per `data-bf-hide` ausgeblendet, 347-Nennungen per `data-price-full` ersetzt, Kauf-Wegweiser
+nennt den aktuellen Preis). Reiter „Pagos“ in Skool sind Auszahlungen, keine Einzelkäufe – Käufe zählt man in der
+Mitgliederliste (`/momlifecamila/-/members`: Stufe, Beitrittsdatum, Preis). Vorschau im Artefakt: `build_artifact.py` setzt
+`bfPreview: "countdown"`, unten links Schalter für die vier Phasen (simuliert auch `precioSkool`). Prüfagent 30.10.: 12 Befunde,
+alle umgesetzt (u. a. Wegweiser-Preis, Reihenfolge/Deploy-Latenz, Leiste nach Herzflug, Intl-Zeitformat, `/clic-bf`-Ereignis).
 
 ## Preisbereich seit 28.10. (Hausi: Alternativen auf einen Blick)
 
