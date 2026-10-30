@@ -266,22 +266,33 @@ momlifecamila“) liest diese Datei um 07:41 Uhr Berlin – täglich bis 11.11.2
 Kennzahlen, Trichter, Herkunft und bis zu drei Verbesserungsvorschläge als Benachrichtigung. Die Aufgabe liest nur;
 Änderungen an der Seite laufen weiter über den Chat.
 
-## Black-Friday-Kampagne (Idee Hausi 30.10., gebaut, noch AUS)
+## Black-Friday-Kampagne (Hausi 30.10.; AKTIV, sichtbar ab 11.11.)
 
-Schalter: `CAMI_CONFIG.bf.activo` (false = nichts sichtbar). Ablauf, alles clientseitig nach der Uhr der Besucherin:
+Schalter: `CAMI_CONFIG.bf.activo` (true seit 30.10.). Die Seite rechnet die Phasen nach der Uhr der Besucherin, zeigt einen
+Aktionspreis aber **nur, wenn `bf.json` bestätigt, dass Skool wirklich auf diesen Preis steht** (`precioSkool`). So kann die
+Seite nie 249 versprechen, während Skool 347 verlangt. `bf.json` liegt neben index.html und wird ab 15 min vor Beginn alle
+30 s gelesen (Cache-Bust pro 30 s), sonst alle 10 min.
 
-| Phase | Zeitraum (deutsche Zeit) | Seite |
-|---|---|---|
-| Countdown | ab `desde` (11.11., Singles' Day) bis `inicio` | Herz fliegt beim Laden von unten nach oben, dann schwarze Leiste unter dem Header „Black Friday · faltan 16 d …“ (Link zu #precios); in der 1:1-Kachel ein Hinweiskasten mit Datum (Berlin + Ortszeit der Besucherin) und „solo para las 10 primeras“ – **ohne Preis** (sonst warten alle). |
-| Stufe 1 | `inicio` (27.11., 18:00) bis +`fase1Min` (120 min) **oder** bis `bf.json` Stufe 1 schließt | 347 durchgestrichen, **249** fällt Ziffer für Ziffer herein; Badge „Black Friday“; Kasten „Quedan 7 de 10 … hasta las 20:00 o hasta agotar cupos“; Chip „$249 hoy“; 2-Raten-Option ausgeblendet (Skool-Monatspreis bleibt 174); Pflichtzeile PAngV „Precio normal y más bajo de los últimos 30 días: $347“. |
-| Stufe 2 | bis `inicio` + `fase1Min` + `fase2Horas` (Sa 28.11., 20:00) | wie Stufe 1 mit **299**, Text „hasta el 28 nov a las 20:00“. |
-| vorbei | danach | Leiste weg, Kachel wieder normal (347, 2 Raten). |
+| Phase | Zeitraum (deutsche Zeit) | Bedingung | Seite |
+|---|---|---|---|
+| Countdown | 11.11. 00:00 – 27.11. 18:00 | – | Herz fliegt beim Laden hoch, Leiste „Black Friday · faltan 16 d …“ (Zeit groß), Kasten in der 1:1-Kachel mit Datum (Berlin + Ortszeit) und „solo para las 10 primeras“, **ohne Preis** (Absicht: bis dahin kauft niemand zum vollen Preis und ärgert sich). |
+| wait | 27.11. 18:00–18:30 | Skool noch nicht bestätigt | „La oferta … se abre en unos minutos“, Preis bleibt 347. Nach 18:30 ohne Bestätigung: Kampagne unsichtbar (fail-safe). |
+| Stufe 1 | ab 18:00 | `precioSkool: 249` | 347 durchgestrichen, 249 fällt Ziffer für Ziffer herein, Badge „Black Friday“, Chip „$249 hoy“, 2 Raten ausgeblendet. Wortlaut (`mostrarHoraCierre:false`): „solo para las 10 primeras · cupos limitados · la oferta puede cerrarse en cualquier momento“ – **kein** Countdown, **keine** Behauptung „ausverkauft“. Mit `mostrarHoraCierre:true` stattdessen „hasta las 20:00 o hasta agotar cupos“ + Countdown. `mostrarCupos:true` zeigt „Quedan X de 10“ nur mit echtem Stand (`cupos1Restantes`), sonst nie. |
+| Stufe 2 | bis Sa 28.11. 20:00 | `precioSkool: 299` | 299, „La oferta de $249 para las 10 primeras ya está cerrada“ (wahr: zu, egal ob Zeit oder Cupos), Countdown bis Sa 20:00. |
+| vorbei | ab Sa 20:00 oder `precioSkool: 347` | – | alles normal. |
 
-`bf.json` (neben index.html, `{"fase1Cerrada": false, "cupos1Restantes": 10}`) wird in Stufe 1 jede Minute gelesen (Cache-Bust
-per Minute, Pages-Deploy ~1–2 min): Rest-Cupos pflegen bzw. Stufe 1 vorzeitig schließen, ohne die Seite neu zu bauen.
-**Skool zeigt die Seite nur an** – den VIP-Preis (anual) muss das Team zu denselben Zeitpunkten in Skool von Hand umstellen
-(347 → 249 um 18:00, → 299 um 20:00 bzw. bei 10 Käufen, → 347 am Samstag 20:00). Vorschau im Artefakt: `build_artifact.py`
-setzt `bfPreview: "countdown"`, unten links erscheint ein Schalter für die vier Phasen (nur dort).
+Pflichtzeile in Stufe 1/2 (PAngV): „Precio normal y precio más bajo de los últimos 30 días: $347 USD“. Nie behaupten, die 10
+Plätze seien verkauft, wenn es nicht stimmt (UWG Anhang Nr. 7). Kaufen mehr als 10 zu 249, weil Skool erst um 20:00 umgestellt
+wird: in Ordnung (Hausi 30.10.).
+
+**Skool-Umstellung – drei terminierte Claude-Aufgaben über Hausis Laptop (Chrome, eingeloggt), weil die Seite nur anzeigt:**
+Fr 27.11. 17:52 Skool VIP anual 347 → 249, dann `bf.json` → 249 · Fr 19:57 erst `bf.json` → 299 (Seite zeigt 299), dann
+Skool → 299 · Sa 28.11. 19:57 erst `bf.json` → 347, dann Skool → 347. Reihenfolge immer so, dass Skool nie teurer ist als die
+Seite. Weg in Skool (geprüft 30.10.): Infoseite → „Configuración“ → Reiter „Precios“ → VIP-Karte → Preis „$174/mes o
+$347/año“ antippen → Dialog „Cambiar precio“ (Felder $/mes und $/año, „Mensual y anual“ belassen) → „CAMBIAR“; Hinweis von
+Skool: Bestandskundinnen behalten ihren Preis. Monatspreis 174 bleibt (deshalb keine 2 Raten im Black Friday). Vorschau im
+Artefakt: `build_artifact.py` setzt `bfPreview: "countdown"`, unten links Schalter für die vier Phasen (simuliert auch
+`precioSkool`).
 
 ## Preisbereich seit 28.10. (Hausi: Alternativen auf einen Blick)
 
