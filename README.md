@@ -266,6 +266,23 @@ momlifecamila“) liest diese Datei um 07:41 Uhr Berlin – täglich bis 11.11.2
 Kennzahlen, Trichter, Herkunft und bis zu drei Verbesserungsvorschläge als Benachrichtigung. Die Aufgabe liest nur;
 Änderungen an der Seite laufen weiter über den Chat.
 
+## Black-Friday-Kampagne (Idee Hausi 30.10., gebaut, noch AUS)
+
+Schalter: `CAMI_CONFIG.bf.activo` (false = nichts sichtbar). Ablauf, alles clientseitig nach der Uhr der Besucherin:
+
+| Phase | Zeitraum (deutsche Zeit) | Seite |
+|---|---|---|
+| Countdown | ab `desde` (11.11., Singles' Day) bis `inicio` | Herz fliegt beim Laden von unten nach oben, dann schwarze Leiste unter dem Header „Black Friday · faltan 16 d …“ (Link zu #precios); in der 1:1-Kachel ein Hinweiskasten mit Datum (Berlin + Ortszeit der Besucherin) und „solo para las 10 primeras“ – **ohne Preis** (sonst warten alle). |
+| Stufe 1 | `inicio` (27.11., 18:00) bis +`fase1Min` (120 min) **oder** bis `bf.json` Stufe 1 schließt | 347 durchgestrichen, **249** fällt Ziffer für Ziffer herein; Badge „Black Friday“; Kasten „Quedan 7 de 10 … hasta las 20:00 o hasta agotar cupos“; Chip „$249 hoy“; 2-Raten-Option ausgeblendet (Skool-Monatspreis bleibt 174); Pflichtzeile PAngV „Precio normal y más bajo de los últimos 30 días: $347“. |
+| Stufe 2 | bis `inicio` + `fase1Min` + `fase2Horas` (Sa 28.11., 20:00) | wie Stufe 1 mit **299**, Text „hasta el 28 nov a las 20:00“. |
+| vorbei | danach | Leiste weg, Kachel wieder normal (347, 2 Raten). |
+
+`bf.json` (neben index.html, `{"fase1Cerrada": false, "cupos1Restantes": 10}`) wird in Stufe 1 jede Minute gelesen (Cache-Bust
+per Minute, Pages-Deploy ~1–2 min): Rest-Cupos pflegen bzw. Stufe 1 vorzeitig schließen, ohne die Seite neu zu bauen.
+**Skool zeigt die Seite nur an** – den VIP-Preis (anual) muss das Team zu denselben Zeitpunkten in Skool von Hand umstellen
+(347 → 249 um 18:00, → 299 um 20:00 bzw. bei 10 Käufen, → 347 am Samstag 20:00). Vorschau im Artefakt: `build_artifact.py`
+setzt `bfPreview: "countdown"`, unten links erscheint ein Schalter für die vier Phasen (nur dort).
+
 ## Preisbereich seit 28.10. (Hausi: Alternativen auf einen Blick)
 
 Statt einer großen 1:1-Karte mit den Alternativen weit unten gibt es jetzt **drei kompakte Kacheln** (`.tiers`):
