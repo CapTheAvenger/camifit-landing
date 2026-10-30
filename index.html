@@ -260,14 +260,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .tier .pr .alt-pay{font-weight:600;color:var(--ink)}
 .tier .ref{font-size:.8rem;color:var(--ink-2);margin:0}
 /* Black-Friday-Kampagne (Hausi 30.10.): Herz-Störer, Leiste unter dem Header, Preisleiter in der 1:1-Kachel */
-.bf-bar{display:block;background:var(--ink);color:var(--bg);text-decoration:none;border-top:1px solid var(--line)}
+.bf-bar{display:block;background:var(--moss);color:var(--moss-ink);text-decoration:none;border-top:1px solid rgba(255,255,255,.08)}
 .bf-bar .in{max-width:1180px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;font-size:.9rem;line-height:1.25}
 .bf-bar #bfText{display:contents}
 .bf-bar .bf-lbl{flex:1 1 0;min-width:0}
-.bf-bar .bf-heart{width:20px;height:20px;flex-shrink:0;color:var(--clay);animation:beat 1.6s ease-in-out infinite}
-.bf-bar b{color:var(--clay);font-weight:700}
-.bf-bar .bf-time{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:1.35rem;font-weight:700;color:#fff;letter-spacing:.02em;line-height:1.1}
-.bf-bar .bf-go{margin-left:auto;font-weight:600;white-space:nowrap;color:var(--clay)}
+.bf-bar .bf-heart{width:20px;height:20px;flex-shrink:0;color:#E0A27D;animation:beat 1.6s ease-in-out infinite}
+.bf-bar b{color:#E0A27D;font-weight:700}
+.bf-bar .bf-time{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:1.35rem;font-weight:700;color:#FFF7EE;letter-spacing:.02em;line-height:1.1}
+.bf-bar .bf-go{margin-left:auto;font-weight:600;white-space:nowrap;color:#E0A27D}
 @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
 .bf-fly{position:fixed;left:50%;bottom:-90px;z-index:40;width:72px;height:72px;margin-left:-36px;color:var(--clay);pointer-events:none;filter:drop-shadow(0 10px 22px rgba(0,0,0,.28));animation:fly 1.7s cubic-bezier(.25,.8,.35,1) forwards}
 @keyframes fly{0%{transform:translateY(0) scale(.7) rotate(-8deg);opacity:0}12%{opacity:1}70%{opacity:1}100%{transform:translateY(calc(-100vh - 20px)) scale(.45) rotate(6deg);opacity:0}}
@@ -282,7 +282,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .bf-pv button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;cursor:pointer}
 .bf-pv button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 @media (prefers-reduced-motion:reduce){.bf-fly,.bf-bar .bf-heart,.tier .pr .n.new i{animation:none}}
-@media (max-width:560px){.bf-bar .in{padding:8px 14px;font-size:.82rem;gap:2px 8px}.bf-bar .bf-go{display:none}.bf-bar .bf-time{width:100%;padding-left:28px;font-size:1.5rem}}
+@media (max-width:560px){.bf-bar .in{padding:8px 14px;font-size:.82rem;gap:2px 8px}.bf-bar .bf-go{display:none}.bf-bar .bf-time{width:100%;padding-left:28px;font-size:1.5rem}.bf-bar.bf-mini .bf-time{width:auto;padding-left:0}.bf-bar.bf-mini .bf-lbl{flex:0 0 auto;font-size:.95rem}}
 body.bf-on .tier{scroll-margin-top:136px}  /* Leiste macht den Header höher */
 .tier > .btn{width:100%;justify-content:center;margin-top:4px}
 .tier .pay-note{text-align:center;margin:0}
@@ -578,7 +578,7 @@ window.CAMI_CONFIG = {
     </div>
     <div class="cta-row">
       <a class="btn btn-primary btn-lg" href="#precios">Ver precio y empezar</a>
-      <span class="muted"><span data-bf-hide>Pago único o en 2 cuotas · </span><span data-bf-show hidden>Black Friday · </span>precios en USD</span>
+      <span class="muted"><span data-bf-hide>Pago único o en 2 cuotas · </span><span data-bf-show hidden>Oferta especial · </span>precios en USD</span>
     </div>
   </div>
 </section>
@@ -843,7 +843,7 @@ window.CAMI_CONFIG = {
       var h=hora(t,null), hd=hora(t,'Europe/Berlin'), dl=fecha(t,null), dd=fecha(t,'Europe/Berlin');
       var local=h&&h!==hd?'; '+(dl&&dl!==dd?dl+' a las ':'')+h+' donde tú estás':'';
       return fmt(t,'Europe/Berlin')+' (hora de Alemania'+local+')'; }
-    function bartxt(label,time){ txt.innerHTML='<span class="bf-lbl">'+label+'</span>'+(time?'<span class="bf-time">'+time+'</span>':''); }
+    function bartxt(label,time,mini){ bar.classList.toggle('bf-mini',!!mini); txt.innerHTML='<span class="bf-lbl">'+label+'</span>'+(time?'<span class="bf-time">'+time+'</span>':''); }
     var orig={note:plans.full.note, hint:plans.full.hint, cur:curEl.textContent, ref:refEl.innerHTML, badge:badge.textContent, chip:chip?chip.textContent:''};
     var lastPhase=null, lastPrice=0;
     function setPrice(p,label){
@@ -859,7 +859,7 @@ window.CAMI_CONFIG = {
       plans.full.note='Pago completo: $'+p+' USD, una sola vez ('+label+').';
       plans.full.hint=(orig.hint||'').replace('US$ 347','US$ '+p);
       if(r2){ r2.disabled=true; r2.closest('label').hidden=true; } if(rf)rf.checked=true; if(pp)pp.innerHTML='$'+p+' <small>USD</small>';
-      fullPrice=p; apply('full'); badge.textContent='Black Friday'; if(chip)chip.textContent='$'+p+' hoy';
+      fullPrice=p; apply('full'); badge.textContent='Oferta especial'; if(chip)chip.textContent='$'+p+' hoy';
       document.querySelectorAll('[data-price-full]').forEach(function(e){e.textContent=String(p);});
       document.querySelectorAll('[data-bf-hide]').forEach(function(e){e.hidden=true;}); document.querySelectorAll('[data-bf-show]').forEach(function(e){e.hidden=false;});
     }
@@ -890,26 +890,26 @@ window.CAMI_CONFIG = {
       showBar();
       if(ph==='countdown'){
         if(lastPhase!=='countdown'){ resetPrice(); line.hidden=false; }
-        bartxt('<b>Black Friday</b> · la mejor oferta del año para el Plan 1:1 · faltan', dur(tIni-t));
-        line.innerHTML='💛 <b>Black Friday:</b> el '+cuando(tIni)+' abro una oferta especial del Plan 1:1, solo para las <b>'+c1+' primeras</b>. Faltan <b class="bf-time">'+dur(tIni-t)+'</b>.';
+        bartxt('Faltan', dur(tIni-t), true);
+        line.innerHTML='💛 El '+cuando(tIni)+' pasa algo especial con el Plan 1:1, solo para las <b>'+c1+' primeras</b>. Faltan <b class="bf-time">'+dur(tIni-t)+'</b>.';
       } else if(ph==='wait'){
         if(lastPhase!=='wait'){ resetPrice(); line.hidden=false; }
-        bartxt('<b>¡Black Friday!</b> La oferta del Plan 1:1 para las '+c1+' primeras se abre en unos minutos…', '');
-        line.innerHTML='💛 <b>Black Friday:</b> la oferta para las <b>'+c1+' primeras</b> se está abriendo. Vuelve a cargar la página en un momento.';
+        bartxt('<b>¡Es hoy!</b> La oferta del Plan 1:1 para las '+c1+' primeras se abre en unos minutos…', '');
+        line.innerHTML='💛 La oferta para las <b>'+c1+' primeras</b> se está abriendo. Vuelve a cargar la página en un momento.';
       } else if(ph==='f1'){
-        if(lastPhase!=='f1'){ setPrice(p1,'Black Friday'); line.hidden=false; }
+        if(lastPhase!=='f1'){ setPrice(p1,'oferta especial'); line.hidden=false; }
         var cup=(B.mostrarCupos&&typeof live.cupos==='number')?'Quedan <b>'+live.cupos+' de '+c1+'</b> cupos':'Solo para las <b>'+c1+' primeras</b>';
         if(B.mostrarHoraCierre){
-          bartxt('<b>¡Black Friday!</b> Plan 1:1 por <b>$'+p1+'</b> (antes $'+base+') · solo las '+c1+' primeras · termina en', dur(tF1-t));
+          bartxt('<b>¡Ya está aquí!</b> Plan 1:1 por <b>$'+p1+'</b> (antes $'+base+') · solo las '+c1+' primeras · termina en', dur(tF1-t));
           line.innerHTML=cup+' a <b>$'+p1+'</b>, hasta las '+horaF1+' (hora de Alemania) o hasta agotar cupos. Después: $'+p2+' durante '+(B.fase2Horas||24)+' h y luego vuelve a $'+base+'. Termina en <b class="bf-time">'+dur(tF1-t)+'</b>.';
         } else {
-          bartxt('<b>¡Black Friday!</b> Plan 1:1 por <b>$'+p1+'</b> (antes $'+base+') · solo para las '+c1+' primeras · cupos limitados', '');
+          bartxt('<b>¡Ya está aquí!</b> Plan 1:1 por <b>$'+p1+'</b> (antes $'+base+') · solo para las '+c1+' primeras · cupos limitados', '');
           line.innerHTML=cup+' a <b>$'+p1+'</b> (antes $'+base+'). Cupos limitados: la oferta puede cerrarse en cualquier momento; después el precio sube a $'+p2+' por tiempo limitado y luego vuelve a $'+base+'.';
         }
       } else {
-        if(lastPhase!=='f2'){ setPrice(p2,'Black Friday · 24 h'); line.hidden=false; }
-        bartxt('<b>Black Friday</b> · Plan 1:1 por <b>$'+p2+'</b> (antes $'+base+') · termina en', dur(tF2-t));
-        line.innerHTML='La oferta de $'+p1+' para las '+c1+' primeras ya está cerrada. Precio Black Friday <b>$'+p2+'</b> hasta el '+cuando(tF2)+'; después vuelve a $'+base+'. Termina en <b class="bf-time">'+dur(tF2-t)+'</b>.';
+        if(lastPhase!=='f2'){ setPrice(p2,'oferta especial · 24 h'); line.hidden=false; }
+        bartxt('<b>Oferta especial</b> · Plan 1:1 por <b>$'+p2+'</b> (antes $'+base+') · termina en', dur(tF2-t));
+        line.innerHTML='La oferta de $'+p1+' para las '+c1+' primeras ya está cerrada. Precio especial <b>$'+p2+'</b> hasta el '+cuando(tF2)+'; después vuelve a $'+base+'. Termina en <b class="bf-time">'+dur(tF2-t)+'</b>.';
       }
       lastPhase=ph; syncBody();
     }
