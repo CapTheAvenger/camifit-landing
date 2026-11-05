@@ -13,7 +13,35 @@ Dateien:
 | `artifact/` | Nur für die Vorschau als Claude-Artefakt; wird von `build_artifact.py` erzeugt. Nicht von Hand bearbeiten, nicht deployen. |
 | `calls-synthese.md` | Auswertung der fünf Verkaufscalls (Copy-Grundlage). |
 
-## Kaufweg über Skool (Stand 27.10.2026, 17 Uhr)
+## Angebot seit 05.11.2026 (neues Modell – geht allem Älteren in dieser Datei vor)
+
+Alles monatlich kündbar, Jahrespreis = 10 Monatspreise (Skool-Modell „Niveles“, Details: Projektdokument
+`claude/skool-preise-ab-2026-11-05.md`):
+
+| Kachel auf der Seite | Stufe in Skool (`/plans?tier=…`) | Preis |
+| --- | --- | --- |
+| Programa 1:1 con Cami (hervorgehoben) | VIP (`tier=vip`) | 129 $/mes o 1.290 $/año |
+| Comunidad CORE | Estándar (`tier=standard`) | 29 $/mes o 290 $/año |
+| CORE + Hipopresivos | Premium (`tier=premium`) | 44 $/mes o 440 $/año |
+
+Kein 3-Monats-Programm, keine 347 $, keine 2 Raten, keine Cita in Skool mehr (Kachel `#tierCita` bleibt versteckt, bis
+`citaUrl` – später ein Stripe-Zahlungslink – gesetzt ist). Preise stehen EINMAL in `CAMI_CONFIG.precios`; das Skript
+schreibt sie in Kacheln, Chips, Zahlungsoptionen und Kauf-Wegweiser (`renderTier`, `guideFor`). Die 1:1-Kachel hat die
+Wahl „Mes a mes / Año completo“ (Radio `payMes`/`payAnual`), der Wegweiser nennt dann mensual («/month») bzw. anual («/year»).
+Wegweiser-Tabs: Standard = CORE, Premium = CORE + Hipo, VIP = 1:1. Unter den Kacheln: „¿No sabes cuál elegir? Escríbeme por
+WhatsApp“. FAQ und `terminos.html` (Abschnitte 2, 4, 5) sind auf Abo-Logik umgeschrieben (Kündigung in Skool, Zugang bis
+Periodenende, Aktionspreis bleibt bei Verlängerungen).
+
+**Quiz beim Einstieg (Entwurf 05.11., live AUS):** `<dialog id="quiz">`, Inhalt in `quizData` im Skript. Frage 1 verzweigt
+(a → Zeit/Woche, b → Abdomen heute, c → was gefehlt hat), Frage 3 = Budget (≤ 30 $ → CORE, ≤ 50 $ → höchstens CORE+Hipo).
+Punkte je Antwort, Höchstwert gewinnt, Gleichstand → Antwort 1; die „Flucht“-Antworten in Frage 2 (3 Punkte) überstimmen Frage 1.
+Ergebnis: empfohlene Kachel → „Ver mi plan“ setzt Badge „Recomendado para ti“, sortiert die Kachel nach vorn (`.tiers.has-rec`)
+und scrollt hin; Hero-/Header-Button zeigen auf die Kachel. Schalter `CAMI_CONFIG.quiz.activo` (false), `?quiz=1` erzwingt,
+`?quiz=0` unterdrückt, je Browser-Sitzung einmal (sessionStorage). Hero-Button „¿Cuál es mi plan? · 3 preguntas“ erscheint,
+sobald das Quiz verfügbar ist. Artefakt-Vorschau: `build_artifact.py` schaltet es ein. Ereignisse: `/quiz-inicio`,
+`/quiz-vip|-premium|-standard`, `/quiz-saltar`.
+
+## Kaufweg über Skool (Stand 27.10.2026, 17 Uhr; Tabelle unten = altes Modell, seit 05.11. überholt)
 
 Skool hat **keine eigenen Checkout-Links pro Preis**, aber der Stufenwähler `/plans` nimmt den Parameter
 `?tier=vip|premium|standard` entgegen (Hausi hat die Seite `skool.com/momlifecamila/plans` am Handy
@@ -241,8 +269,10 @@ Besuche aus Deutschland (DE) sind fast sicher eigene Tests (Zielgruppe ist spani
 | `/ver-guia` | Kauf-Wegweiser geöffnet |
 | `/ver-final` | Schlussblock (Abschieds-Text/WhatsApp) gesehen |
 | `/tiempo-30s`, `/tiempo-2min` | 30 s bzw. 2 min sichtbar auf der Seite (Hintergrund-Tab zählt nicht) |
-| `/clic-skool-vip`, `/clic-skool-vip-2cuotas`, `/clic-skool-premium`, `/clic-skool-standard` | Absprung nach Skool (aus Wegweiser oder direkt) |
-| `/clic-whatsapp` | WhatsApp-Button |
+| `/clic-skool-vip`, `/clic-skool-vip-anual`, `/clic-skool-premium`, `/clic-skool-standard`, `/clic-skool-cita` | Absprung nach Skool (aus Wegweiser oder direkt); bis 05.11. hieß die zweite Variante `/clic-skool-vip-2cuotas` |
+| `/clic-whatsapp` | WhatsApp-Buttons (Schluss + unter den Kacheln) |
+| `/clic-bf` | Klick auf die Aktionsleiste |
+| `/quiz-inicio`, `/quiz-vip`, `/quiz-premium`, `/quiz-standard`, `/quiz-saltar` | Quiz geöffnet / Ergebnis / übersprungen |
 
 Technik: Der Beacon zählt mit `spa:true` jede URL-Änderung (in Chrome/Android/Safari ≥ 26 über das `navigate`-Event, in
 älteren Browsern über einen `pushState`-Wrapper plus `popstate`; er zählt nur, wenn sich Pfad+Query gegenüber der zuletzt
@@ -276,45 +306,34 @@ owner], data_notes) ergänzen → als `reports/latest` (überschreiben) und `rep
 zeigt die Seite „Noch keine Auswertung gespeichert“. DE-Besuche sind als „eigene Tests“ markiert (bis `?nostats=1` überall
 gesetzt ist).
 
-## Black-Friday-Kampagne (Hausi 30.10.; AKTIV, sichtbar ab 11.11.)
+## Black-Friday-Aktion (Hausi 30.10., umgeplant 05.11. auf das neue Modell; AKTIV, sichtbar ab 11.11.)
 
-Schalter: `CAMI_CONFIG.bf.activo` (true seit 30.10.). Die Seite rechnet die Phasen nach der Uhr der Besucherin, zeigt einen
-Aktionspreis aber **nur, wenn `bf.json` bestätigt, dass Skool wirklich auf diesen Preis steht** (`precioSkool`). So kann die
-Seite nie 249 versprechen, während Skool 347 verlangt. `bf.json` liegt neben index.html und wird ab 15 min vor Beginn alle
-30 s gelesen (Cache-Bust pro 30 s), sonst alle 10 min.
+Schalter: `CAMI_CONFIG.bf.activo`. Die Seite rechnet die Phasen nach der Uhr der Besucherin, zeigt Aktionspreise aber
+**nur, wenn `bf.json` bestätigt, dass Skool wirklich auf den Aktionspreisen steht** (`{"activo": true, "precios":
+{"standard": 19, "premium": 34, "vip": 99}}` – alle drei müssen mit `CAMI_CONFIG.bf.precios` übereinstimmen). `bf.json` liegt
+neben index.html und wird ab 15 min vor Beginn bis eine Stunde nach dem Ende alle 30 s gelesen (Cache-Bust pro 30 s), sonst alle 10 min.
 
 | Phase | Zeitraum (deutsche Zeit) | Bedingung | Seite |
 |---|---|---|---|
-| Countdown | 11.11. 00:00 – 27.11. 18:00 | – | Herz fliegt beim Laden hoch, Leiste nur „♥ Faltan 16 d 16 h 59 min“ (Zeit groß, bewusst mysteriös – Hausi 30.10.: kein „Black Friday“, kein „Angebot“ im Text), Kasten in der 1:1-Kachel „El 27 nov a las 18:00 (hora de Alemania) pasa algo especial con el Plan 1:1, solo para las 10 primeras“, **ohne Preis** (Absicht: bis dahin kauft niemand zum vollen Preis und ärgert sich). Leiste in beiden Farbschemata dunkelgrün (`--moss`) mit heller Zeit. |
-| wait | 27.11. 18:00–18:30 | Skool noch nicht bestätigt | „La oferta … se abre en unos minutos“, Preis bleibt 347. Nach 18:30 ohne Bestätigung: Kampagne unsichtbar (fail-safe). |
-| Stufe 1 | ab 18:00 | `precioSkool: 249` | 347 durchgestrichen, 249 fällt Ziffer für Ziffer herein, Badge „Oferta especial“ (das Wort „Black Friday“ erscheint nirgends auf der Seite), Chip „$249 hoy“, 2 Raten ausgeblendet. Wortlaut (`mostrarHoraCierre:false`): „solo para las 10 primeras · cupos limitados · la oferta puede cerrarse en cualquier momento“ – **kein** Countdown, **keine** Behauptung „ausverkauft“. Mit `mostrarHoraCierre:true` stattdessen „hasta las 20:00 o hasta agotar cupos“ + Countdown. `mostrarCupos:true` zeigt „Quedan X de 10“ nur mit echtem Stand (`cupos1Restantes`), sonst nie. |
-| Stufe 2 | bis Sa 28.11. 20:00 | `precioSkool: 299` | 299, „La oferta de $249 para las 10 primeras ya está cerrada“ (wahr: zu, egal ob Zeit oder Cupos), Countdown bis Sa 20:00. |
-| vorbei | ab Sa 20:00 oder `precioSkool: 347` | – | alles normal. |
+| Countdown | 11.11. 00:00 – 27.11. 18:00 | – | Herz fliegt beim Laden hoch, Leiste nur „♥ Faltan 16 d 16 h 59 min“ (Zeit groß, bewusst mysteriös – kein „Black Friday“, kein Preis im Text), Kasten über den Kacheln „El 27 nov a las 18:00 (hora de Alemania) pasa algo especial con los tres planes, solo durante 24 horas“. |
+| wait | 27.11. 18:00–18:30 | Skool noch nicht bestätigt | „La oferta de 24 horas se abre en unos minutos“, Preise bleiben normal. Nach 18:30 ohne Bestätigung: Kampagne unsichtbar (fail-safe). |
+| Aktion | 27.11. 18:00 – 28.11. 18:00 | `bf.json` activo + Preise passen | Alle drei Kacheln: Normalpreis durchgestrichen, Aktionspreis fällt Ziffer für Ziffer herein (CORE 19, CORE+Hipo 34, 1:1 99 $/mes; Jahr = 10×: 190/340/990), Chips „$19 / mes hoy“, Badge „Oferta especial · 24 h“, Leiste „Solo 24 h · … · termina en <Countdown>“, Kasten mit allen drei Preisen und **„Si empiezas hoy, te quedas con ese precio mientras no canceles“** (Skool-Regel: Aktionspreis bleibt bei Verlängerungen). Keine Stückzahl, keine Knappheitsbehauptung. Pflichtzeile je Kachel (PAngV): „Precio normal y precio más bajo de los últimos 30 días: $29 USD al mes“ usw. |
+| vorbei | ab 28.11. 18:00 oder `activo:false` | – | alles normal. |
 
-Pflichtzeile in Stufe 1/2 (PAngV): „Precio normal y precio más bajo de los últimos 30 días: $347 USD“. Nie behaupten, die 10
-Plätze seien verkauft, wenn es nicht stimmt (UWG Anhang Nr. 7). Kaufen mehr als 10 zu 249, weil Skool erst um 20:00 umgestellt
-wird: in Ordnung (Hausi 30.10.).
-
-**Skool-Umstellung – vier terminierte Claude-Aufgaben über Hausis Laptop (Chrome, eingeloggt), weil die Seite nur anzeigt:**
+**Skool-Umstellung – zwei terminierte Claude-Aufgaben über Hausis Laptop (Chrome, eingeloggt), weil die Seite nur anzeigt:**
 
 | Aufgabe | Zeit (Berlin) | Reihenfolge |
 |---|---|---|
-| 1/3 | Fr 27.11. 17:52 | Skool VIP anual 347 → 249, **nachlesen** (Precios neu laden + /plans), erst dann `bf.json` → 249 und warten, bis es live ist. Seite zeigt 249 ab 18:00. |
-| 1b Zähler | Fr 18:02–19:55 | Jede Minute Mitgliederliste lesen (VIP, 249, heute beigetreten). Bei 10 Käufen: `bf.json` → 299, warten bis live, dann Skool → 299. Damit ist „solo para las 10 primeras“ wahr; technisch bedingte Überschreitungen (gleichzeitige Käufe, Deploy-Minuten) sind laut Hausi in Ordnung. |
-| 2/3 | Fr 19:57 | Erst `bf.json` → 299 und warten, bis es live ist, dann Skool → 299 (steht Skool schon auf 299, nur prüfen). |
-| 3/3 | Sa 28.11. 20:00 | `bf.json` → 347, dann Skool → 347 (Seite blendet um 20:00 ohnehin aus). |
+| 1/2 Start | Fr 27.11. 17:52 | Skool: alle drei Stufen (Monat UND Jahr) auf 19/190, 34/340, 99/990, **nachlesen** (Precios neu laden + /plans), erst dann `bf.json` → activo:true und warten, bis es live ist. Klappt eine Stufe nicht: die anderen zurückstellen, bf.json nicht anfassen (alles oder nichts). Seite zeigt die Aktion ab 18:00. |
+| 2/2 Ende | Sa 28.11. 18:00 | Erst `bf.json` → activo:false (Seite blendet um 18:00 ohnehin aus), dann Skool zurück auf 29/290, 44/440, 129/1290. Mitglieder nicht anfassen (Aktionspreis bleibt ihnen). |
 
-Grundregel: Skool ist nie teurer als die Seite. Preis runter → erst Skool, dann Seite; Preis rauf → erst Seite (live gesehen),
-dann Skool. Weg in Skool (geprüft 30.10.): Infoseite → „Configuración“ → Reiter „Precios“ → VIP-Karte → Preis „$174/mes o
-$347/año“ antippen → Dialog „Cambiar precio“ (Felder $/mes und $/año, „Mensual y anual“ belassen) → „CAMBIAR“; Skool:
-Bestandskundinnen behalten ihren Preis. Monatspreis 174 bleibt (deshalb keine 2 Raten im Black Friday; 2-Raten-Sätze auf der
-Seite sind in der Aktionszeit per `data-bf-hide` ausgeblendet, 347-Nennungen per `data-price-full` ersetzt, Kauf-Wegweiser
-nennt den aktuellen Preis). Reiter „Pagos“ in Skool sind Auszahlungen, keine Einzelkäufe – Käufe zählt man in der
-Mitgliederliste (`/momlifecamila/-/members`: Stufe, Beitrittsdatum, Preis). Vorschau im Artefakt: `build_artifact.py` setzt
-`bfPreview: "countdown"`, unten links Schalter für die vier Phasen (simuliert auch `precioSkool`). Prüfagent 30.10.: 12 Befunde,
-alle umgesetzt (u. a. Wegweiser-Preis, Reihenfolge/Deploy-Latenz, Leiste nach Herzflug, Intl-Zeitformat, `/clic-bf`-Ereignis).
+Grundregel: Skool ist nie teurer als die Seite. Preis runter → erst Skool, dann Seite; Preis rauf → erst Seite, dann Skool.
+Weg in Skool (geprüft 30.10./05.11.): Infoseite → `translate=no` setzen → „Configuración“ → Reiter „Precios“ → Preistext
+der Karte antippen → Dialog „Cambiar precio“ (Felder $/mes und $/año, „Mensual y anual“ belassen) → „CAMBIAR“. **Nie in die
+Kopfzeile von Precios klicken** („Cerrar puertas“, Vorfall 05.11.). Vorschau im Artefakt: `build_artifact.py` setzt
+`bfPreview: "countdown"`, unten links Schalter Countdown / Aktion / vorbei (simuliert auch die bf.json-Bestätigung).
 
-## Preisbereich seit 28.10. (Hausi: Alternativen auf einen Blick)
+## Preisbereich seit 28.10. (Hausi: Alternativen auf einen Blick; Inhalte seit 05.11. siehe oben)
 
 Statt einer großen 1:1-Karte mit den Alternativen weit unten gibt es jetzt **drei kompakte Kacheln** (`.tiers`):
 Plan 1:1 (hervorgehoben, Badge „Acompañamiento personal“), Comunidad CORE, Cita de evaluación – am Handy untereinander,
@@ -329,6 +348,6 @@ Die IDs (`buyBtn`, `payFull`/`pay2x`, `payNote`, `payHint`, `payLegal`, `bonoLin
 ## Änderungen an der Seite
 
 Die Seite ist bewusst eine Datei. Texte stehen direkt im HTML, Farben und Schriften oben im `:root`-Block.
-Der Preisblock liest die Zahlungslinks aus `CAMI_CONFIG`; die Beträge (347 / 174) stehen im HTML und im
-Skript (`plans`) und müssen bei einer Preisänderung an beiden Stellen geändert werden.
+Der Preisblock liest Zahlungslinks und Monatspreise aus `CAMI_CONFIG` (`precios`); die Beträge im HTML sind nur
+Startwerte und werden vom Skript überschrieben. Preisänderung = `CAMI_CONFIG.precios` + Skool + `terminos.html` + FAQ-Texte.
 Nach jeder Änderung `python3 build_artifact.py` ausführen, wenn die Claude-Artefakt-Vorschau aktuell bleiben soll.

@@ -12,9 +12,14 @@ Definitionen: siehe Projektdokument claude/landingpage-auswertung.md.
 """
 import argparse, datetime as dt, json, sys
 
-CLICK_PATHS = {"vip": "/clic-skool-vip", "vip2": "/clic-skool-vip-2cuotas", "premium": "/clic-skool-premium", "standard": "/clic-skool-standard"}
+# Klicks nach Skool. Bis 05.11.: vip = Plan 1:1 pago único, vip2 = 2 cuotas, premium = Comunidad CORE, standard = Cita.
+# Seit 05.11. (neues Modell): vip = Programa 1:1 mensual, vip_anual = Programa 1:1 anual, premium = CORE + Hipopresivos,
+# standard = Comunidad CORE, cita = Cita (nur mit eigenem Link). Alte Pfade bleiben für die Historie gezählt.
+CLICK_PATHS = {"vip": "/clic-skool-vip", "vip_anual": "/clic-skool-vip-anual", "vip2": "/clic-skool-vip-2cuotas",
+               "premium": "/clic-skool-premium", "standard": "/clic-skool-standard", "cita": "/clic-skool-cita"}
 EVENT_PATHS = {"t30": "/tiempo-30s", "t2min": "/tiempo-2min", "video": "/ver-video", "precios": "/ver-precios",
-               "detalles": "/ver-detalles", "guia": "/ver-guia", "final": "/ver-final", "wa": "/clic-whatsapp", "bf": "/clic-bf"}
+               "detalles": "/ver-detalles", "guia": "/ver-guia", "final": "/ver-final", "wa": "/clic-whatsapp", "bf": "/clic-bf",
+               "quiz_inicio": "/quiz-inicio", "quiz_vip": "/quiz-vip", "quiz_premium": "/quiz-premium", "quiz_standard": "/quiz-standard", "quiz_saltar": "/quiz-saltar"}
 
 
 def pv(day, path):
