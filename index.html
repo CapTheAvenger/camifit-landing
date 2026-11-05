@@ -162,6 +162,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .quiz{border:0;border-radius:22px;padding:0;width:min(520px,calc(100% - 24px));max-width:100%;background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.35);font-family:var(--body);overflow:hidden}
 .quiz::backdrop{background:rgba(31,38,34,.7);backdrop-filter:blur(4px)}
 .quiz .qin{padding:24px 24px 22px}
+.quiz .qbf{display:flex;align-items:flex-start;gap:10px;padding:12px 18px;background:var(--moss);color:var(--moss-ink);text-decoration:none;font-size:.88rem;line-height:1.3}
+.quiz .qbf .qtxt{display:grid;gap:2px;min-width:0;flex:1 1 auto}
+.quiz .qbf .qrow{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.quiz h2:focus{outline:none}
+.quiz .qbf .bf-heart{width:20px;height:20px;flex-shrink:0;color:#E0A27D;animation:beat 1.6s ease-in-out infinite}
+.quiz .qbf b{color:#E0A27D;font-weight:700}
+.quiz .qbf .bf-time{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:1.3rem;font-weight:700;color:#FFF7EE;letter-spacing:.02em;line-height:1.1}
+@media (prefers-reduced-motion:reduce){.quiz .qbf .bf-heart{animation:none}}
 .quiz .qtop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
 .quiz .qdots{display:flex;gap:6px}
 .quiz .qdots i{width:22px;height:5px;border-radius:999px;background:var(--line)}
@@ -443,8 +451,8 @@ window.CAMI_CONFIG = {
   bonoActivo: false,         // Launch-Bonus (ein Monat CORE gratis nach dem Programm) – seit 05.11. ohne Sinn, weil CORE im 1:1 enthalten ist und alles monatlich läuft
   bonoHasta: "", bonoHoras: 0, bonoTexto: "",
   // Quiz beim Einstieg (Hausi 05.11.): 3 Fragen (Frage 2 hängt von Frage 1 ab), Ergebnis = empfohlene Kachel, die dann oben steht.
-  // activo:false = nie von selbst; zum Testen ?quiz=1 an die Adresse hängen (?quiz=0 unterdrückt es). Erscheint je Browser-Sitzung/Tab nur einmal (sessionStorage).
-  quiz: { activo: false, retrasoMs: 600 },
+  // activo:false = nie von selbst (?quiz=1 erzwingt es trotzdem); ?quiz=0 unterdrückt es. Erscheint je Browser-Sitzung/Tab nur einmal (sessionStorage).
+  quiz: { activo: true, retrasoMs: 600 },   // live seit 05.11., 16:00 (Freigabe Hausi)
   // Black-Friday-Kampagne (Hausi 30.10., umgeplant 05.11. auf das neue Modell; Mechanik siehe README „Black Friday"). activo:false = nichts davon sichtbar.
   // Ab „desde" (Singles' Day) erscheint ein Herz-Störer mit Countdown bis „inicio" (Black Friday, 18:00 deutsche Zeit), ohne Preis.
   // Dann 24 Stunden lang drei Aktionspreise (Monat; Jahr = 10 × Monat), ohne Stückzahl-Grenze. Skool-Bestandsregel: wer in der Zeit
@@ -859,6 +867,8 @@ window.CAMI_CONFIG = {
 <!-- Quiz beim Einstieg (Entwurf Hausi 05.11.): 3 Fragen, Frage 2 hängt von Frage 1 ab, Ergebnis = empfohlene Kachel.
      Inhalt steht im Skript (quizData). Schalter: CAMI_CONFIG.quiz.activo; ?quiz=1 erzwingt, ?quiz=0 unterdrückt. -->
 <dialog id="quiz" class="quiz" aria-labelledby="quizTitle">
+  <!-- Black-Friday-Streifen im Quiz (Hausi 05.11.): Countdown ab 11.11. bzw. die Aktion, damit es schon über den Fragen sichtbar ist -->
+  <a class="qbf" id="quizBf" href="#precios" hidden><svg class="bf-heart" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.1C.9 8.6 2.6 5 6.2 5c2 0 3.3 1.1 4 2.2.7-1.1 2-2.2 4-2.2 3.6 0 5.3 3.6 3.8 6.9C19.5 16.4 12 21 12 21z"/></svg><span id="quizBfText"></span></a>
   <div class="qin">
     <div class="qtop"><span class="qdots" id="quizDots" aria-hidden="true"><i class="on"></i><i></i><i></i></span><button class="qskip" type="button" id="quizSkip">Saltar e ir a la página</button></div>
     <p class="qk" id="quizKicker">Pregunta 1 de 3</p>
@@ -962,7 +972,10 @@ window.CAMI_CONFIG = {
       var h=hora(t,null), hd=hora(t,'Europe/Berlin'), dl=fecha(t,null), dd=fecha(t,'Europe/Berlin');
       var local=h&&h!==hd?'; '+(dl&&dl!==dd?dl+' a las ':'')+h+' donde tú estás':'';
       return fmt(t,'Europe/Berlin')+' (hora de Alemania'+local+')'; }
+    var qbf=document.getElementById('quizBf'), qbfTxt=document.getElementById('quizBfText');
     function bartxt(label,time,mini){ bar.classList.toggle('bf-mini',!!mini); txt.innerHTML='<span class="bf-lbl">'+label+'</span>'+(time?'<span class="bf-time">'+time+'</span>':''); }
+    function quizbar(label,rowLabel,time){ if(!qbf)return; qbf.hidden=false; qbfTxt.className='qtxt'; qbfTxt.innerHTML='<span class="bf-lbl">'+label+'</span>'+(time?'<span class="qrow"><span>'+rowLabel+'</span><span class="bf-time">'+time+'</span></span>':''); }
+    window.__bfQuizPrice=function(k){ return null; };
     var origBadge=badge?badge.textContent:'';
     var lastPhase=null;
     function setPrices(){
@@ -990,20 +1003,23 @@ window.CAMI_CONFIG = {
     function lista(){ return 'Comunidad CORE <b>'+fmtUsd(BP.standard)+'</b> (antes '+fmtUsd(base.standard)+'), CORE + Hipopresivos <b>'+fmtUsd(BP.premium)+'</b> (antes '+fmtUsd(base.premium)+') y Programa 1:1 <b>'+fmtUsd(BP.vip)+'</b> (antes '+fmtUsd(base.vip)+'), al mes'; }
     function render(){
       var t=now(), ph=phase(t);
-      if(ph==='off'){ if(lastPhase&&lastPhase!=='off'){ bar.hidden=true; resetPrices(); } lastPhase=ph; syncBody(); return; }
+      if(ph==='off'){ if(lastPhase&&lastPhase!=='off'){ bar.hidden=true; resetPrices(); } if(qbf)qbf.hidden=true; window.__bfQuizPrice=function(){return null;}; lastPhase=ph; syncBody(); return; }
       if(ph==='wait'&&!live.loaded&&!pv)return;   // erst die Antwort von bf.json abwarten (sonst blitzt „se abre en unos minutos" auf)
       showBar();
       if(ph==='countdown'){
         if(lastPhase!=='countdown'){ resetPrices(); line.hidden=false; }
         bartxt('Faltan', dur(tIni-t), true);
         line.innerHTML='💛 El '+cuando(tIni)+' pasa algo especial con los tres planes, solo durante <b>24 horas</b>. Faltan <b class="bf-time">'+dur(tIni-t)+'</b>.';
+        quizbar('💛 El '+fmt(tIni,'Europe/Berlin')+' (hora de Alemania) pasa algo especial con los tres planes.', 'Faltan', dur(tIni-t)); window.__bfQuizPrice=function(){return null;};
       } else if(ph==='wait'){
         if(lastPhase!=='wait'){ resetPrices(); line.hidden=false; }
-        bartxt('<b>¡Es hoy!</b> La oferta de 24 horas se abre en unos minutos…', '');
+        bartxt('<b>¡Es hoy!</b> La oferta de 24 horas se abre en unos minutos…', ''); quizbar('<b>¡Es hoy!</b> La oferta de 24 horas se abre en unos minutos…','','');
         line.innerHTML='💛 La oferta de 24 horas se está abriendo. Vuelve a cargar la página en un momento.';
       } else {
         if(lastPhase!=='on'){ setPrices(); line.hidden=false; }
         bartxt('<b>Solo 24 h</b> · CORE <b>'+fmtUsd(BP.standard)+'</b> · CORE + Hipopresivos <b>'+fmtUsd(BP.premium)+'</b> · 1:1 <b>'+fmtUsd(BP.vip)+'</b> al mes · termina en', dur(tFin-t));
+        quizbar('<b>Solo 24 h</b> · CORE <b>'+fmtUsd(BP.standard)+'</b> · CORE + Hipopresivos <b>'+fmtUsd(BP.premium)+'</b> · 1:1 <b>'+fmtUsd(BP.vip)+'</b> al mes', 'Termina en', dur(tFin-t));
+        window.__bfQuizPrice=function(k){ return {antes:base[k], hasta:cuando(tFin)}; };
         line.innerHTML='Solo hasta el '+cuando(tFin)+': '+lista()+'. Si empiezas hoy, <b>te quedas con ese precio mientras no canceles</b>. Termina en <b class="bf-time">'+dur(tFin-t)+'</b>.';
       }
       lastPhase=ph; syncBody();
@@ -1185,7 +1201,9 @@ window.CAMI_CONFIG = {
       qKick.textContent='Tu plan recomendado'; qTitle.textContent=t.name;
       qDots.querySelectorAll('i').forEach(function(d){d.classList.add('on');});
       var chk='<svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>';
-      qBody.innerHTML='<div class="qres"><p class="qprice">'+fmtUsd(p)+' USD / mes · cancela cuando quieras</p>'+
+      var bfq=(window.__bfQuizPrice&&window.__bfQuizPrice(r.tier))||null;
+      var priceLine=bfq?'<b>'+fmtUsd(p)+' USD / mes</b> <s>'+fmtUsd(bfq.antes)+'</s> · solo hasta el '+bfq.hasta+' · te quedas con ese precio mientras no canceles':fmtUsd(p)+' USD / mes · cancela cuando quieras';
+      qBody.innerHTML='<div class="qres"><p class="qprice">'+priceLine+'</p>'+
         '<ul class="qfacts">'+quizFacts[r.tier].map(function(f){return '<li>'+chk+'<span>'+f+'</span></li>';}).join('')+'</ul>'+
         (r.capped?'<p class="qwhy">'+quizCap[r.tier]+'</p>':'')+
         '<button class="btn btn-primary btn-lg" type="button" id="quizBuy">'+(r.tier==='vip'?'Empezar ahora en Skool':'Unirme ahora en Skool')+'</button>'+
@@ -1250,6 +1268,7 @@ window.CAMI_CONFIG = {
   if(quizAvailable){
     var qb=document.getElementById('quizBtn'); if(qb){ qb.hidden=false; qb.addEventListener('click',function(){ openQuiz(false); }); }
     document.getElementById('quizSkip').addEventListener('click',function(){ track('/quiz-saltar',true); quiz.close(); });
+    var qbfA=document.getElementById('quizBf'); qbfA&&qbfA.addEventListener('click',function(){ track('/clic-bf',true); quiz.close(); });
     quiz.addEventListener('click',function(e){ if(e.target===quiz)quiz.close(); });
     var seenQuiz=false; try{ seenQuiz=sessionStorage.getItem('cami_quiz')==='1'; }catch(e){}
     var force=qm&&qm[1]==='1';

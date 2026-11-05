@@ -32,7 +32,7 @@ Wegweiser-Tabs: Standard = CORE, Premium = CORE + Hipo, VIP = 1:1. Unter den Kac
 WhatsApp“. FAQ und `terminos.html` (Abschnitte 2, 4, 5) sind auf Abo-Logik umgeschrieben (Kündigung in Skool, Zugang bis
 Periodenende, Aktionspreis bleibt bei Verlängerungen).
 
-**Quiz beim Einstieg (Entwurf 05.11., live AUS):** `<dialog id="quiz">`, Inhalt in `quizData` im Skript. Frage 1 verzweigt
+**Quiz beim Einstieg (seit 05.11., 16:00 LIVE für alle – Freigabe Hausi):** `<dialog id="quiz">`, Inhalt in `quizData` im Skript. Frage 1 verzweigt
 (a → Zeit/Woche, b → Abdomen heute, c → was gefehlt hat), Frage 3 = Budget (≤ 30 $ → CORE, ≤ 50 $ → höchstens CORE+Hipo).
 Punkte je Antwort, Höchstwert gewinnt, Gleichstand → Antwort 1; die „Flucht“-Antworten in Frage 2 (3 Punkte) überstimmen Frage 1.
 Ergebnis (Hausi 05.11., 15:32): Planname, Preis, die **5 wichtigsten Punkte** (`quizFacts`), Button „Unirme/Empezar ahora en
@@ -44,10 +44,13 @@ Kurzkarten-Satz, der Block „Qué incluye …“ (zwei Sektionen), der Schlussa
 „Recomendado para ti“ und steht vorn (`.tiers.has-rec`); Hero-/Header-Button zeigen auf sie. Direktlink ohne Quiz, z. B.
 für ManyChat: `momlifecamila.com/?plan=core` (oder `premium`, `vip`); `?plan=…&quiz=1` zeigt das Quiz trotzdem.
 Ereignisse `/vista-core`, `/vista-vip` zählen, wie oft eine Variante per Quiz oder Link gezeigt wurde.
+**Black Friday im Quiz:** Oben im Quiz-Dialog liegt ein Streifen (`#quizBf`, von der BF-Logik geschrieben): ab 11.11. „El 27 nov a las
+18:00 pasa algo especial con los tres planes · Faltan …“, in der Aktion „Solo 24 h · CORE $19 · … · Termina en …“; die Ergebnisseite zeigt
+dann den Aktionspreis mit durchgestrichenem Normalpreis und „te quedas con ese precio mientras no canceles“.
 
 **Video offline seit 05.11.** (nennt 347 $ und 3 Monate): `videoFile: ""`, Hero-Videoblock aus dem HTML entfernt; stattdessen
 Foto (assets/video-poster.jpg) + Kurzkarte „Así funciona, en corto“ (3 Phasen + Preiszeile je Variante). Der Video-Code im
-Skript bleibt und läuft nur, wenn `#videoBox` existiert (Markup aus der Git-Historie vor dem 05.11. zurückholen). Schalter `CAMI_CONFIG.quiz.activo` (false), `?quiz=1` erzwingt,
+Skript bleibt und läuft nur, wenn `#videoBox` existiert (Markup aus der Git-Historie vor dem 05.11. zurückholen). Schalter `CAMI_CONFIG.quiz.activo` (true), `?quiz=1` erzwingt,
 `?quiz=0` unterdrückt, je Browser-Sitzung einmal (sessionStorage). Hero-Button „¿Cuál es mi plan? · 3 preguntas“ erscheint,
 sobald das Quiz verfügbar ist. Artefakt-Vorschau: `build_artifact.py` schaltet es ein. Ereignisse: `/quiz-inicio`,
 `/quiz-vip|-premium|-standard`, `/quiz-saltar`.
