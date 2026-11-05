@@ -1629,13 +1629,13 @@
      "pv": 18,
      "visits": 6
     },
-    "2026-11-03T14:00:00Z": {
-     "pv": 10,
-     "visits": 1
-    },
     "2026-11-03T15:00:00Z": {
      "pv": 4,
      "visits": 3
+    },
+    "2026-11-03T14:00:00Z": {
+     "pv": 10,
+     "visits": 1
     },
     "2026-11-03T07:00:00Z": {
      "pv": 1,
@@ -1682,92 +1682,152 @@
      "visits": 3
     }
    },
-   "fetched_at": "2026-11-04T03:33:59Z",
+   "fetched_at": "2026-11-05T03:33:39Z",
    "partial": false
   },
   "2026-11-04": {
-   "visits": 12,
-   "pageviews": 25,
+   "visits": 38,
+   "pageviews": 82,
    "paths": {
     "/": {
-     "pv": 12,
-     "visits": 12
+     "pv": 38,
+     "visits": 38
+    },
+    "/tiempo-2min": {
+     "pv": 4,
+     "visits": 0
     },
     "/tiempo-30s": {
-     "pv": 5,
+     "pv": 14,
      "visits": 0
     },
     "/ver-precios": {
-     "pv": 5,
+     "pv": 15,
      "visits": 0
     },
     "/ver-final": {
-     "pv": 2,
+     "pv": 7,
      "visits": 0
     },
     "/ver-detalles": {
-     "pv": 1,
+     "pv": 4,
      "visits": 0
     }
    },
    "countries": {
     "MX": {
-     "pv": 12,
-     "visits": 6
+     "pv": 16,
+     "visits": 10
     },
     "US": {
-     "pv": 4,
+     "pv": 24,
+     "visits": 10
+    },
+    "CO": {
+     "pv": 8,
+     "visits": 4
+    },
+    "AR": {
+     "pv": 10,
+     "visits": 3
+    },
+    "CA": {
+     "pv": 2,
+     "visits": 2
+    },
+    "EG": {
+     "pv": 6,
      "visits": 2
     },
     "EC": {
+     "pv": 5,
+     "visits": 2
+    },
+    "PY": {
+     "pv": 3,
+     "visits": 1
+    },
+    "DE": {
      "pv": 1,
+     "visits": 1
+    },
+    "PE": {
+     "pv": 1,
+     "visits": 1
+    },
+    "PA": {
+     "pv": 2,
      "visits": 1
     },
     "PR": {
      "pv": 4,
      "visits": 1
-    },
-    "CO": {
-     "pv": 3,
-     "visits": 1
-    },
-    "AR": {
-     "pv": 1,
-     "visits": 1
     }
    },
    "referers": {
     "l.instagram.com": {
-     "pv": 11,
-     "visits": 11
+     "pv": 34,
+     "visits": 34
+    },
+    "(direkt)": {
+     "pv": 3,
+     "visits": 3
     },
     "www.tiktok.com": {
      "pv": 1,
      "visits": 1
     },
     "momlifecamila.com": {
-     "pv": 13,
+     "pv": 44,
      "visits": 0
     }
    },
    "devices": {
     "mobile": {
-     "pv": 25,
-     "visits": 12
+     "pv": 79,
+     "visits": 35
+    },
+    "desktop": {
+     "pv": 3,
+     "visits": 3
     }
    },
    "browsers": {
     "Unknown": {
-     "pv": 21,
-     "visits": 8
+     "pv": 59,
+     "visits": 23
     },
     "Instagram": {
-     "pv": 4,
-     "visits": 4
+     "pv": 20,
+     "visits": 12
+    },
+    "Firefox": {
+     "pv": 1,
+     "visits": 1
+    },
+    "Edge": {
+     "pv": 1,
+     "visits": 1
+    },
+    "Chrome": {
+     "pv": 1,
+     "visits": 1
     }
    },
    "hours": {
+    "2026-11-04T21:00:00Z": {
+     "pv": 8,
+     "visits": 4
+    },
+    "2026-11-04T05:00:00Z": {
+     "pv": 15,
+     "visits": 5
+    },
     "2026-11-04T00:00:00Z": {
+     "pv": 1,
+     "visits": 1
+    },
+    "2026-11-04T10:00:00Z": {
      "pv": 1,
      "visits": 1
     },
@@ -1779,12 +1839,182 @@
      "pv": 10,
      "visits": 5
     },
+    "2026-11-04T22:00:00Z": {
+     "pv": 12,
+     "visits": 4
+    },
     "2026-11-03T23:00:00Z": {
      "pv": 5,
      "visits": 2
+    },
+    "2026-11-04T20:00:00Z": {
+     "pv": 4,
+     "visits": 2
+    },
+    "2026-11-04T19:00:00Z": {
+     "pv": 5,
+     "visits": 2
+    },
+    "2026-11-04T13:00:00Z": {
+     "pv": 1,
+     "visits": 1
+    },
+    "2026-11-04T12:00:00Z": {
+     "pv": 1,
+     "visits": 1
+    },
+    "2026-11-04T16:00:00Z": {
+     "pv": 1,
+     "visits": 1
+    },
+    "2026-11-04T03:00:00Z": {
+     "pv": 6,
+     "visits": 2
+    },
+    "2026-11-04T06:00:00Z": {
+     "pv": 1,
+     "visits": 1
+    },
+    "2026-11-04T07:00:00Z": {
+     "pv": 2,
+     "visits": 2
     }
    },
-   "fetched_at": "2026-11-04T03:33:59Z",
+   "fetched_at": "2026-11-05T03:33:39Z",
+   "partial": false
+  },
+  "2026-11-05": {
+   "visits": 11,
+   "pageviews": 39,
+   "paths": {
+    "/": {
+     "pv": 11,
+     "visits": 11
+    },
+    "/ver-guia": {
+     "pv": 1,
+     "visits": 0
+    },
+    "/tiempo-2min": {
+     "pv": 3,
+     "visits": 0
+    },
+    "/clic-skool-premium": {
+     "pv": 1,
+     "visits": 0
+    },
+    "/tiempo-30s": {
+     "pv": 8,
+     "visits": 0
+    },
+    "/ver-precios": {
+     "pv": 8,
+     "visits": 0
+    },
+    "/ver-video": {
+     "pv": 2,
+     "visits": 0
+    },
+    "/ver-final": {
+     "pv": 2,
+     "visits": 0
+    },
+    "/ver-detalles": {
+     "pv": 3,
+     "visits": 0
+    }
+   },
+   "countries": {
+    "CO": {
+     "pv": 20,
+     "visits": 4
+    },
+    "CL": {
+     "pv": 8,
+     "visits": 2
+    },
+    "VE": {
+     "pv": 5,
+     "visits": 1
+    },
+    "KR": {
+     "pv": 1,
+     "visits": 1
+    },
+    "MX": {
+     "pv": 1,
+     "visits": 1
+    },
+    "US": {
+     "pv": 1,
+     "visits": 1
+    },
+    "AR": {
+     "pv": 3,
+     "visits": 1
+    }
+   },
+   "referers": {
+    "l.instagram.com": {
+     "pv": 5,
+     "visits": 5
+    },
+    "www.tiktok.com": {
+     "pv": 5,
+     "visits": 5
+    },
+    "(direkt)": {
+     "pv": 1,
+     "visits": 1
+    },
+    "momlifecamila.com": {
+     "pv": 28,
+     "visits": 0
+    }
+   },
+   "devices": {
+    "mobile": {
+     "pv": 39,
+     "visits": 11
+    }
+   },
+   "browsers": {
+    "Unknown": {
+     "pv": 26,
+     "visits": 6
+    },
+    "ChromeMobileWebview": {
+     "pv": 8,
+     "visits": 2
+    },
+    "Instagram": {
+     "pv": 4,
+     "visits": 2
+    },
+    "ChromeMobile": {
+     "pv": 1,
+     "visits": 1
+    }
+   },
+   "hours": {
+    "2026-11-05T03:00:00Z": {
+     "pv": 5,
+     "visits": 1
+    },
+    "2026-11-05T01:00:00Z": {
+     "pv": 9,
+     "visits": 3
+    },
+    "2026-11-05T02:00:00Z": {
+     "pv": 20,
+     "visits": 4
+    },
+    "2026-11-04T23:00:00Z": {
+     "pv": 5,
+     "visits": 3
+    }
+   },
+   "fetched_at": "2026-11-05T03:33:39Z",
    "partial": true
   }
  },
@@ -1795,7 +2025,8 @@
   "2026-11-01": 93,
   "2026-11-02": 93,
   "2026-11-03": 93,
-  "2026-11-04": 93
+  "2026-11-04": 93,
+  "2026-11-05": 95
  },
- "generated_at": "2026-11-04T03:33:59Z"
+ "generated_at": "2026-11-05T03:33:39Z"
 }
