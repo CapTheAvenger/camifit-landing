@@ -186,7 +186,23 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   .quiz{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;width:100%;border-radius:22px 22px 0 0;max-height:94vh;overflow:auto}
   .quiz .qin{padding:20px 18px calc(18px + env(safe-area-inset-bottom,0px))}
 }
-.tier.rec{border-color:var(--clay);box-shadow:var(--shadow)}
+/* Seitenvarianten (Hausi 05.11.): data-variant="vip" (Standard, 1:1 im Fokus) oder "core" (Comunidad im Fokus); Elemente mit data-only gelten nur für eine Variante */
+body[data-variant="vip"] [data-only="core"],body[data-variant="core"] [data-only="vip"]{display:none!important}
+/* Hero ohne Video (Video offline seit 05.11., nennt noch 347 $/3 Monate): Foto + Kurzkarte „Así funciona" */
+.hero-img{aspect-ratio:16/10}
+.hero-img img{object-position:left center}
+.hero-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-s);padding:16px 18px 14px;box-shadow:0 8px 24px rgba(75,55,40,.08)}
+.hero-card .hc-t{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--clay-deep);font-weight:600;margin:0 0 8px}
+.hero-card .hc-steps{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.92rem;line-height:1.4;color:var(--ink-2)}
+.hero-card .hc-steps li{display:flex;gap:10px;align-items:flex-start}
+.hero-card .hc-steps .n{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:var(--clay);color:#2B2522;font-weight:700;font-size:.8rem;display:grid;place-items:center;margin-top:1px}
+.hero-card .hc-steps b{color:var(--ink);font-weight:600}
+.hero-card .hc-note{margin:10px 0 0;font-size:.9rem;color:var(--ink);border-top:1px solid var(--line);padding-top:10px}
+.quiz .qfacts{margin:0 0 16px;padding:0;list-style:none;display:grid;gap:8px}
+.quiz .qfacts li{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;line-height:1.4}
+.quiz .qfacts li svg{flex:0 0 20px;width:20px;height:20px;margin-top:2px}
+.quiz .qres .btn+.btn{margin-top:10px}
+.tier.rec{border-color:var(--clay);box-shadow:var(--shadow);padding-top:28px}
 .tier.rec .badge.rec-badge{background:var(--moss);color:var(--moss-ink)}
 .tiers.has-rec .tier{order:2}.tiers.has-rec .tier.rec{order:1}
 /* Autoplay (stumm) + Ton-Schalter: Browser erlauben Autostart nur ohne Ton. Der Knopf schaltet den Ton ein und startet von vorn. */
@@ -414,10 +430,10 @@ window.CAMI_CONFIG = {
   precios: { standard: 29, premium: 44, vip: 129 },   // Monatspreise (USD) – müssen mit Skool übereinstimmen. Jahrespreis = 10 × Monat (wird gerechnet).
   whatsappUrl:  "https://wa.me/4917623749515?text=Hola%20Cami%2C%20vengo%20de%20tu%20p%C3%A1gina%20web%20y%20quiero%20informaci%C3%B3n%20sobre%20el%20Programa%201%3A1.",  // wa.me = offizieller WhatsApp-Link ohne Drittanbieter; Text ist vorbelegt
   instagramUrl: "https://www.instagram.com/momlifecamila/",
-  videoFile: "assets/video.mp4",  // Selbst gehostetes Video (empfohlen: keine YouTube-Cookies, kein Drittanbieter). Leer lassen, wenn stattdessen videoEmbedUrl genutzt wird.
+  videoFile: "",  // Video OFFLINE seit 05.11. (nennt noch 347 $ und 3 Monate). Hero zeigt Foto + Kurzkarte. Neues Video: Datei nach assets/, hier eintragen und den Hero-Videoblock wieder einbauen (siehe Git-Historie vor dem 05.11.).
   videoAutoplay: false,  // Entscheidung Hausi 27.10., 18:34: kein Autostart, Start per Play-Button (dann mit Ton). true = Video startet beim Seitenaufruf von selbst, stumm (Browser erlauben Autostart nur ohne Ton – technisch nicht umgehbar), mit Knopf „Toca para activar el sonido“, der den Ton einschaltet und von vorn startet; zusätzlich schaltet der erste Tipp irgendwo auf die Seite (außer auf Links/Buttons) den Ton ein, solange das Video sichtbar ist. Bei Datensparmodus/„reduzierte Bewegung“ oder wenn der Browser den Autostart blockiert, bleibt das Poster mit Play-Button. false = immer Poster.
   videoEmbedUrl: "",  // Alternative: "https://www.youtube-nocookie.com/embed/VIDEO_ID" oder "https://player.vimeo.com/video/VIDEO_ID?dnt=1"
-  videoMostrarSinUrl: true,  // true = ohne Video bleibt das Vorschaubild als Platzhalter („Video en producción") sichtbar; false = Player ausblenden
+  videoMostrarSinUrl: false,  // ohne Video: nichts anzeigen (der Hero hat jetzt Foto + Kurzkarte statt Player)
   legalUrl: "aviso-legal.html", privacyUrl: "privacidad.html", termsUrl: "terminos.html",  // Impressum, Datenschutz, AGB (liegen im selben Ordner, Betreiberdaten eingetragen 26.10.)
   // Cupos (1:1-Plätze): 0 = Zeilen ausgeblendet (Entscheidung Hausi 27.10.: Knappheit erst, wenn das Projekt größer ist). Nicht zusammen mit bf.activo nutzen.
   cuposTotal: 0,             // wie viele neue 1:1-Mamás Camila im Monat annimmt
@@ -509,7 +525,7 @@ window.CAMI_CONFIG = {
 })();
 </script>
 </head>
-<body>
+<body data-variant="vip">
 
 <header class="top">
   <div class="wrap">
@@ -539,24 +555,24 @@ window.CAMI_CONFIG = {
         <span><strong>7 años</strong> de experiencia</span>
         <span id="heroCupos" hidden></span>
       </div>
-      <p class="lead">Abdomen que no baja, dolor de espalda, inflamación, escapes de orina: es muy común, pero no es normal, y se puede mejorar mucho desde casa, trabajando en el orden correcto. Elige cómo hacerlo: a tu ritmo en mi comunidad, o 1:1 conmigo, mes a mes y sin permanencia.</p>
+      <p class="lead">Abdomen que no baja, dolor de espalda, inflamación, escapes de orina: es muy común, pero no es normal, y se puede mejorar mucho desde casa, trabajando en el orden correcto. <span data-only="vip">Elige cómo hacerlo: a tu ritmo en mi comunidad, o 1:1 conmigo, mes a mes y sin permanencia.</span><span data-only="core">En mi comunidad lo haces guiada paso a paso, con rutinas cortas, nutrición sencilla y una clase en vivo cada semana. Desde $29 al mes, sin permanencia.</span></p>
       <div class="cta">
-        <a class="btn btn-primary btn-lg" href="#precios" id="heroCta">Quiero empezar mi recuperación</a>
+        <a class="btn btn-primary btn-lg" href="#precios" id="heroCta"><span data-only="vip">Quiero empezar mi recuperación</span><span data-only="core">Unirme a la comunidad</span></a>
         <button class="btn btn-ghost" type="button" id="quizBtn" hidden>¿Cuál es mi plan? · 3 preguntas</button>
       </div>
     </div>
     <div class="vcol">
-      <div class="video" id="videoBox">
-        <button class="poster" type="button" id="videoPoster" aria-label="Reproducir el video de Camila">
-          <img src="assets/video-poster.jpg" alt="" class="pimg" onerror="this.remove()">
-          <span class="pc">
-            <span class="play"><svg viewBox="0 0 24 24" fill="#2B2522" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></span>
-            <span class="t">Camila te explica el programa</span>
-            <span class="s" id="posterSub">Toca para ver el video · activa el sonido</span>
-          </span>
-        </button>
+      <div class="frame hero-img"><img src="assets/video-poster.jpg" alt="Camila Haushalter, entrenadora postparto" onerror="this.parentElement.classList.add('ph')"></div>
+      <div class="hero-card">
+        <p class="hc-t">Así funciona, en corto</p>
+        <ol class="hc-steps">
+          <li><span class="n">1</span><span><b>Reconectar:</b> respiración y core profundo para que tu abdomen vuelva a contener la presión.</span></li>
+          <li><span class="n">2</span><span><b>Rehabilitar:</b> rutinas cortas en casa que ayudan a cerrar la diástasis y alivian la espalda.</span></li>
+          <li><span class="n">3</span><span><b>Fortalecer:</b> fuerza, glúteo, hipopresivos y comida real, sin dietas extremas.</span></li>
+        </ol>
+        <p class="hc-note" data-only="vip">A tu ritmo en la comunidad desde <b>$29 al mes</b>, o 1:1 conmigo por <b>$129 al mes</b>. Sin permanencia: cancelas cuando quieras.</p>
+        <p class="hc-note" data-only="core">Todo guiado en la comunidad por <b>$29 al mes</b> (con Hipopresivos, $44). Sin permanencia: cancelas cuando quieras.</p>
       </div>
-      <p class="video-note" id="videoNote">¿Prefieres leer? Todo lo importante está más abajo.</p>
     </div>
   </div>
 </section>
@@ -595,7 +611,7 @@ window.CAMI_CONFIG = {
   </div>
 </section>
 
-<section class="inc-sec">
+<section class="inc-sec" data-only="vip">
   <div class="wrap pad">
     <h2>Qué incluye el Programa 1:1 con Cami</h2>
     <p class="lead" style="margin-top:14px">Mes a mes conmigo, con un plan hecho para tu cuerpo, tu parto y tu rutina real de mamá. Es como si estuviera en tu casa entrenándote. Sigues el tiempo que te sirva y cancelas cuando quieras.</p>
@@ -610,6 +626,25 @@ window.CAMI_CONFIG = {
     <div class="cta-row">
       <a class="btn btn-primary btn-lg" href="#precios">Ver precios y empezar</a>
       <span class="muted"><span data-bf-hide>Desde $29 al mes · </span><span data-bf-show hidden>Oferta especial · </span>cancela cuando quieras · precios en USD</span>
+    </div>
+  </div>
+</section>
+
+<section class="inc-sec" data-only="core">
+  <div class="wrap pad">
+    <h2>Qué incluye la Comunidad CORE</h2>
+    <p class="lead" style="margin-top:14px">Mi método completo para avanzar a tu ritmo, con rutinas guiadas, nutrición sencilla y cien mamás en tu mismo camino. Mes a mes y sin permanencia.</p>
+    <div class="inc-grid">
+      <article class="inc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2B2522" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12h3l2-5 3 10 2-5h2"/></svg></div><h3>Rutinas guiadas por etapa</h3><p>Reconectar, rehabilitar, fortalecer: cada etapa con sus rutinas en video, en casa y con lo que tienes. Tú eliges dónde empezar según cómo está tu cuerpo.</p></article>
+      <article class="inc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2B2522" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div><h3>Rutinas de 10 minutos</h3><p>Para los días en que el bebé no da tregua: rutinas cortas que mantienen el progreso sin culpa.</p></article>
+      <article class="inc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2B2522" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19c4-9 12-9 16 0"/><path d="M12 5c3 0 5 2 5 5-3 0-5-2-5-5z"/></svg></div><h3>Nutrición sencilla</h3><p>Comida real, compatible con la lactancia, para desinflamarte y tener energía. Sin dietas extremas ni pasar hambre.</p></article>
+      <article class="inc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2B2522" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg></div><h3>Clase en vivo cada miércoles</h3><p>Entrenamos juntas en directo; si no puedes, queda grabada. Aquí resuelvo las dudas más comunes de la comunidad.</p></article>
+      <article class="inc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2B2522" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c1-4 4-6 6-6s5 2 6 6M12 20c1-4 4-6 6-6"/></svg></div><h3>Comunidad de mamás</h3><p>Feed y chat con mamás de distintos países que hacen el mismo camino. Compartes avances, preguntas y motivación.</p></article>
+      <article class="inc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2B2522" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M5 10c2-3 5-3 7 0 2-3 5-3 7 0"/></svg></div><h3>Hipopresivos, si los necesitas</h3><p>Con el plan CORE + Hipopresivos ($44 al mes) sumas el curso completo: respiración y postura que quitan presión al suelo pélvico y recogen el abdomen desde dentro.</p></article>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary btn-lg" href="#tierCore">Unirme por $29 al mes</a>
+      <span class="muted"><span data-bf-hide>o CORE + Hipopresivos por $44 · </span><span data-bf-show hidden>Oferta especial · </span>cancela cuando quieras · precios en USD</span>
     </div>
   </div>
 </section>
@@ -787,7 +822,8 @@ window.CAMI_CONFIG = {
 <section class="final">
   <div class="wrap pad">
     <h2>Trabajemos juntas</h2>
-    <p>Tu cuerpo no "se quedó así". Solo necesita que lo acompañen en el orden correcto, y yo estoy ahí cada día para que nunca te sientas sola en el proceso. Empieza hoy y en pocas semanas me cuentas cómo te sientes.</p>
+    <p data-only="vip">Tu cuerpo no "se quedó así". Solo necesita que lo acompañen en el orden correcto, y yo estoy ahí cada día para que nunca te sientas sola en el proceso. Empieza hoy y en pocas semanas me cuentas cómo te sientes.</p>
+    <p data-only="core">Tu cuerpo no "se quedó así". Solo necesita el orden correcto y constancia, y en la comunidad lo tienes guiado paso a paso, con cien mamás en tu mismo camino. Empieza hoy por $29 al mes y cancela cuando quieras.</p>
     <div class="cta">
       <a class="btn btn-primary btn-lg" href="#precios">Empezar mi recuperación</a>
       <a class="btn btn-ghost" id="waBtn" href="https://wa.me/4917623749515?text=Hola%20Cami%2C%20vengo%20de%20tu%20p%C3%A1gina%20web%20y%20quiero%20informaci%C3%B3n%20sobre%20el%20Programa%201%3A1." target="_blank" rel="noopener">Escribirme por WhatsApp</a>
@@ -834,6 +870,7 @@ window.CAMI_CONFIG = {
 <script>
 (function(){
   var C = window.CAMI_CONFIG || {};
+  if(!document.body.getAttribute('data-variant'))document.body.setAttribute('data-variant','vip');   // Standardvariante (falls das body-Attribut fehlt, z. B. in der Artefakt-Vorschau)
   var P = C.precios || {standard:29, premium:44, vip:129};
   function fmtUsd(n){ return '$'+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }   // 1290 → $1.290 (formato es)
   // Die drei Stufen: Kachel, Skool-Link, Chip in der Mini-Navigation, Name der Skool-Pestaña
@@ -1103,6 +1140,18 @@ window.CAMI_CONFIG = {
       {icon:'🌿', text:'Hasta $50 USD', next:'res', cap:'premium'},
       {icon:'🌳', text:'Lo que haga falta, si es lo correcto para mí', next:'res', cap:null} ]}
   };
+  // Die 5 wichtigsten Punkte je Stufe (Ergebnisseite des Quiz)
+  var quizFacts={
+    standard:['Rutinas guiadas por etapa: reconectar, rehabilitar, fortalecer','Rutinas de 10 minutos para los días con bebé','Nutrición sencilla, sin dietas extremas','Clase en vivo cada miércoles (queda grabada)','Comunidad de mamás · cancelas cuando quieras'],
+    premium:['Todo lo de la Comunidad CORE: rutinas, nutrición y clase en vivo','Curso completo de Hipopresivos incluido','Pensado para diástasis, escapes de orina y pesadez pélvica','Progresión propia, a tu ritmo, en casa','Mes a mes · cancelas cuando quieras'],
+    vip:['Diagnóstico de tu diástasis, suelo pélvico y postura','Rutina y menú hechos para tu cuerpo y tu rutina real','WhatsApp diario con Cami: dudas, técnica y ajustes','Chequeos mensuales con fotos, medidas y plan nuevo','Comunidad e Hipopresivos incluidos · cancelas cuando quieras']
+  };
+  // Seitenvariante: 'vip' (Standard) oder 'core' (Comunidad im Fokus; auch für CORE + Hipopresivos)
+  function variantFor(tier){ return tier==='vip'?'vip':'core'; }
+  function applyVariant(v){
+    if(document.body.getAttribute('data-variant')===v)return;
+    document.body.setAttribute('data-variant',v); track('/vista-'+v,true);
+  }
   var quizWhy={
     standard:'Rutinas guiadas por etapa, nutrición sencilla y una clase en vivo cada miércoles, a tu ritmo y sin permanencia. Cuando quieras ir más a fondo, cambias de plan dentro de Skool.',
     premium:'La comunidad completa más el curso de Hipopresivos: la técnica que quita presión al suelo pélvico y ayuda a cerrar la diástasis desde dentro. A tu ritmo, sin permanencia.',
@@ -1133,16 +1182,27 @@ window.CAMI_CONFIG = {
     if(step==='res'){
       var r=qResult(), t=TIERS[r.tier], p=price[r.tier];
       track('/quiz-'+r.tier,true);
-      qKick.textContent='Tu plan recomendado'; qTitle.textContent='Esto es lo que te conviene ahora';
+      qKick.textContent='Tu plan recomendado'; qTitle.textContent=t.name;
       qDots.querySelectorAll('i').forEach(function(d){d.classList.add('on');});
-      qBody.innerHTML='<div class="qres"><p class="qplan">'+t.name+'</p><p class="qprice">'+fmtUsd(p)+' USD / mes · cancela cuando quieras</p>'+
-        '<p class="qwhy">'+(r.capped?quizCap[r.tier]:quizWhy[r.tier])+'</p>'+
-        '<button class="btn btn-primary btn-lg" type="button" id="quizGo">Ver mi plan</button>'+
-        '<p class="qalt"><button type="button" id="quizAll">Ver las tres opciones</button></p>'+
+      var chk='<svg viewBox="0 0 20 20" fill="none" stroke="#B8734B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>';
+      qBody.innerHTML='<div class="qres"><p class="qprice">'+fmtUsd(p)+' USD / mes · cancela cuando quieras</p>'+
+        '<ul class="qfacts">'+quizFacts[r.tier].map(function(f){return '<li>'+chk+'<span>'+f+'</span></li>';}).join('')+'</ul>'+
+        (r.capped?'<p class="qwhy">'+quizCap[r.tier]+'</p>':'')+
+        '<button class="btn btn-primary btn-lg" type="button" id="quizBuy">'+(r.tier==='vip'?'Empezar ahora en Skool':'Unirme ahora en Skool')+'</button>'+
+        '<button class="btn btn-ghost" type="button" id="quizMore">Ver más detalles</button>'+
         '<p class="qnote">Es solo una recomendación: todos los planes se pagan en Skool, son mes a mes y puedes cambiar de plan cuando quieras.</p></div>';
-      document.getElementById('quizGo').addEventListener('click',function(){ recommend(r.tier); quiz.close(); });
-      try{ document.getElementById('quizGo').focus({preventScroll:true}); }catch(e){}
-      document.getElementById('quizAll').addEventListener('click',function(){ quiz.close(); goPrecios(); });
+      // Kaufen: Quiz zu, Seite auf die passende Variante, dann der Kauf-Wegweiser (bzw. direkt Skool)
+      document.getElementById('quizBuy').addEventListener('click',function(){
+        quiz.close(); applyVariant(variantFor(r.tier)); recommend(r.tier,false);
+        var b=document.getElementById(t.btn);
+        if(!openGuide(r.tier, t.url, 'mes', '')){ track('/clic-skool-'+r.tier); if(t.url)location.href=t.url; }
+      });
+      // Mehr Details: Quiz zu, Seite in der passenden Variante von oben zeigen, Kachel vorsortiert
+      document.getElementById('quizMore').addEventListener('click',function(){
+        quiz.close(); applyVariant(variantFor(r.tier)); recommend(r.tier,false);
+        try{ window.scrollTo({top:0,behavior:'instant'}); }catch(e){ window.scrollTo(0,0); }
+      });
+      try{ document.getElementById('quizBuy').focus({preventScroll:true}); }catch(e){}
       return;
     }
     var q=quizData[step];
@@ -1165,7 +1225,7 @@ window.CAMI_CONFIG = {
     if(qState.hist.length){ try{ qTitle.focus({preventScroll:true}); }catch(e){} }
   }
   function goPrecios(){ var el=document.getElementById('precios'); if(el)el.scrollIntoView({behavior:'smooth',block:'start'}); }
-  function recommend(tier){
+  function recommend(tier, scroll){
     var t=TIERS[tier], tile=document.getElementById(t.id), tiers=document.getElementById('tiers'); if(!tile)return;
     document.querySelectorAll('.tier.rec').forEach(function(e){ e.classList.remove('rec'); var b=e.querySelector('.badge.rec-badge'); if(b)b.remove(); });
     tile.classList.add('rec'); tiers.classList.add('has-rec');
@@ -1173,7 +1233,7 @@ window.CAMI_CONFIG = {
     else { bd=document.createElement('span'); bd.className='badge rec-badge'; bd.textContent='Recomendado para ti'; tile.insertBefore(bd,tile.firstChild); }
     ['heroCta'].forEach(function(id){ var a=document.getElementById(id); if(a)a.href='#'+t.id; });
     var navCta=document.querySelector('.nav a.btn'); if(navCta)navCta.href='#'+t.id;
-    setTimeout(function(){ tile.scrollIntoView({behavior:'smooth',block:'start'}); },80);
+    if(scroll!==false)setTimeout(function(){ tile.scrollIntoView({behavior:'smooth',block:'start'}); },80);
   }
   function openQuiz(auto){
     if(!quizAvailable)return false;
@@ -1184,13 +1244,16 @@ window.CAMI_CONFIG = {
     if(auto){ try{ sessionStorage.setItem('cami_quiz','1'); }catch(e){} }
     return true;
   }
+  // Direktlink auf eine Variante, z. B. aus ManyChat: ?plan=core | premium | vip (zeigt die Seite ohne Quiz in der passenden Fassung)
+  var pm=/[?&]plan=(core|standard|premium|vip)(&|$)/.exec(location.search);
+  if(pm){ var pt=pm[1]==='core'?'standard':pm[1]; applyVariant(variantFor(pt)); recommend(pt,false); }
   if(quizAvailable){
     var qb=document.getElementById('quizBtn'); if(qb){ qb.hidden=false; qb.addEventListener('click',function(){ openQuiz(false); }); }
     document.getElementById('quizSkip').addEventListener('click',function(){ track('/quiz-saltar',true); quiz.close(); });
     quiz.addEventListener('click',function(e){ if(e.target===quiz)quiz.close(); });
     var seenQuiz=false; try{ seenQuiz=sessionStorage.getItem('cami_quiz')==='1'; }catch(e){}
     var force=qm&&qm[1]==='1';
-    if(force||(!seenQuiz&&!(qm&&qm[1]==='0'))){ setTimeout(function(){ openQuiz(true); }, QZ.retrasoMs||600); }
+    if(force||(!seenQuiz&&!pm&&!(qm&&qm[1]==='0'))){ setTimeout(function(){ openQuiz(true); }, QZ.retrasoMs||600); }
   }
 
   // Cupos (1:1-Plätze) und Warteliste – nur, wenn cuposTotal > 0
@@ -1223,6 +1286,7 @@ window.CAMI_CONFIG = {
   var citaTile=document.getElementById('tierCita'), citaBtn=document.getElementById('citaBtn');
   if(C.citaUrl&&citaTile&&citaBtn){ citaBtn.href=C.citaUrl; citaTile.hidden=false; var pi=document.querySelector('.price-intro .lead'); if(pi)pi.textContent='Tres formas de trabajar conmigo, todas mes a mes y sin permanencia, y una cita para empezar si prefieres hablar primero. Los planes se pagan en mi comunidad de Skool.'; }
   var vbox=document.getElementById('videoBox'), poster=document.getElementById('videoPoster'), vnote=document.getElementById('videoNote');
+  // Hero-Video seit 05.11. ausgebaut (Markup entfernt); der Code bleibt für ein neues Video erhalten und läuft nur, wenn #videoBox existiert.
   function loadVideo(){
     if(vbox.dataset.loaded)return; vbox.dataset.loaded='1';
     track('/ver-video',true);
@@ -1266,7 +1330,8 @@ window.CAMI_CONFIG = {
     } else { vbox.dataset.loaded='1'; poster.hidden=true; }
     return true;
   }
-  if(C.videoFile||C.videoEmbedUrl){
+  if(!vbox||!poster){ /* kein Videoblock im HTML */ }
+  else if(C.videoFile||C.videoEmbedUrl){
     poster.addEventListener('click',loadVideo);
     autoplayVideo();
   } else if(C.videoMostrarSinUrl){

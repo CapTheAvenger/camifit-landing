@@ -19,7 +19,8 @@ CLICK_PATHS = {"vip": "/clic-skool-vip", "vip_anual": "/clic-skool-vip-anual", "
                "premium": "/clic-skool-premium", "standard": "/clic-skool-standard", "cita": "/clic-skool-cita"}
 EVENT_PATHS = {"t30": "/tiempo-30s", "t2min": "/tiempo-2min", "video": "/ver-video", "precios": "/ver-precios",
                "detalles": "/ver-detalles", "guia": "/ver-guia", "final": "/ver-final", "wa": "/clic-whatsapp", "bf": "/clic-bf",
-               "quiz_inicio": "/quiz-inicio", "quiz_vip": "/quiz-vip", "quiz_premium": "/quiz-premium", "quiz_standard": "/quiz-standard", "quiz_saltar": "/quiz-saltar"}
+               "quiz_inicio": "/quiz-inicio", "quiz_vip": "/quiz-vip", "quiz_premium": "/quiz-premium", "quiz_standard": "/quiz-standard", "quiz_saltar": "/quiz-saltar",
+               "vista_core": "/vista-core", "vista_vip": "/vista-vip"}
 
 
 def pv(day, path):
