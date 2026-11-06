@@ -44,6 +44,14 @@ Kurzkarten-Satz, der Block „Qué incluye …“ (zwei Sektionen), der Schlussa
 „Recomendado para ti“ und steht vorn (`.tiers.has-rec`); Hero-/Header-Button zeigen auf sie. Direktlink ohne Quiz, z. B.
 für ManyChat: `momlifecamila.com/?plan=core` (oder `premium`, `vip`); `?plan=…&quiz=1` zeigt das Quiz trotzdem.
 Ereignisse `/vista-core`, `/vista-vip` zählen, wie oft eine Variante per Quiz oder Link gezeigt wurde.
+**Stimme & Zielgruppe (Prüfagent 06.11., gegen `claude/instagram-voz-momlifecamila-2026-10.md` und die Verkaufscall-Synthese):**
+33 Befunde, alle umgesetzt – u. a. „diagnóstico“ → „evaluación“ (sie stellt keine Diagnosen), keine Zeitversprechen
+(„en el primer mes“), „en directo“ → „en vivo“, „parto natural“ → „parto vaginal“, „sin permanencia“ (Spanien-Telekom-Wort)
+→ „sin compromiso / cancelas cuando quieras“, Preise ohne Tausenderpunkt („$1290“, weil „$1.290“ in MX/PE/USA wie 1,29 $
+gelesen wird), Fachbegriffe bei Erstnennung bebildert, ihre Rahmungen ergänzt („no te falta disciplina“, Funktion statt
+flacher Bauch, „como un Instagram privadito“, „solita/casita“ sparsam), Ehemann-Einwand als FAQ in Mamá-Stimme, Quiz mit
+Gruß-Intro, ohne Fachbegriffe in Frage 1, Frage 2b mit den Call-Schmerzpunkten (Cesárea-Narbe, Blähbauch/Verstopfung,
+Angst, etwas falsch zu machen), Frage 3 ohne Druck-Antwort, Emojis nur aus ihrem Satz (✨ 🎯 🤍) bzw. Buchstaben.
 **Black Friday im Quiz:** Oben im Quiz-Dialog liegt ein Streifen (`#quizBf`, von der BF-Logik geschrieben): ab 11.11. „El 27 nov a las
 18:00 pasa algo especial con los tres planes · Faltan …“, in der Aktion „Solo 24 h · CORE $19 · … · Termina en …“; die Ergebnisseite zeigt
 dann den Aktionspreis mit durchgestrichenem Normalpreis und „te quedas con ese precio mientras no canceles“.
