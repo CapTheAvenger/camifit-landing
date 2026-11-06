@@ -221,12 +221,13 @@ Alle Bilder liegen bereits in `assets/`. Fehlt eines, zeigt die Seite an seiner 
 
 - Testimonials: die fünf Community-Posts (Dulce, Suleimy, Daniela, Alejandra, Karina) liegen als Screenshots in `assets/testimonio-1.jpg` … `-5.jpg`. Nur der Nachname ist unkenntlich gemacht, Profilbild und Vorname bleiben. Wenn die Frauen einer Veröffentlichung mit vollem Namen zustimmen, die Dateien einfach durch die Originale ersetzen (gleiche Dateinamen). Einverständnis für die Veröffentlichung an sich bitte einholen.
 - Berufsbezeichnung: geklärt 27.10. Camila hat bei OTL (Online Trainer Lizenz) Ernährungscoach, Personal Coach und Trainer-A/B-Lizenz gemacht, kein Hochschulstudium Ernährung. „Nutricionista" ist in Kolumbien ein geschützter Hochschulberuf, deshalb steht jetzt überall „entrenadora postparto y coach de nutrición certificada" (Seite, Footer, Meta, Aviso legal mit Nennung der OTL-Zertifikate). Instagram-Bio sollte Camila bei Gelegenheit angleichen.
-- Preisrahmen: Die Seite zeigt keinen Streichpreis. $597 USD ist der Preis „con arranque en llamada con Cami" (Start über persönliche Beratung/Buchung bei Cami), $347 USD der Preis beim Start direkt über die Seite. Das ist nur dann sauber, wenn Camila bei Direktanfragen (DM/Call) tatsächlich 597 nennt bzw. ein entsprechendes Skool-Produkt existiert (offener Punkt im Skool-Runbook-Chat). Das Video nennt ebenfalls 347 USD.
-- Raten: Die Seite verspricht „nach der zweiten Cuota wird nichts mehr abgebucht". Skool kennt keine Ratenpläne mit festem Ende; das 174-$-Abo muss nach der 2. Zahlung manuell gekündigt werden (Routine in Abschnitt 6 des Runbooks). Das Versprechen gilt nur, wenn diese Routine zuverlässig läuft.
+- Preisrahmen: seit 05.11. erledigt (29/44/129 $ monatlich, Jahr = 10 Monate; kein 347/597 mehr). Das alte Video nennt noch 347 USD und ist deshalb offline.
+- Raten: entfallen seit 05.11. (alles monatlich kündbar, keine Ratenpläne mehr).
 - Die Community heißt auf der Seite durchgehend „Comunidad CORE" (in den Calls: „ya no se llama Booty Club"). Die PDF der Präsentation ist an der Stelle veraltet.
-- „Rutina personalizada": geklärt 27.10. (Hausi): 1:1-Kundinnen bekommen einen individuellen Trainingsplan, die Comunidad-Routinen sind für alle gleich. Seite und AGB sagen deshalb „rutina personalizada" / „plan de entrenamiento personalizado". Der Skool-Nutzentext für VIP („rutinas de la comunidad") ist damit zu vorsichtig formuliert, stört aber nicht.
+- „Rutina personalizada": geklärt 27.10. (Hausi): 1:1-Kundinnen bekommen einen individuellen Trainingsplan, die Comunidad-Routinen sind für alle gleich. Seite und AGB sagen deshalb „rutina personalizada" / „plan de entrenamiento personalizado". Der Skool-Nutzentext für VIP sagt seit 05.11. „Plan de comidas y plan de entrenamiento personalizados“ – passt.
 - „Hipopresivos" wurde am 26.10. aus der Comunidad-CORE-Karte gestrichen, weil der Kurs in Skool für Premium nicht enthalten ist (25 USD extra). Im VIP-Plan ist er enthalten (so in den AGB).
-- Live-Klasse: „cada miércoles" ohne Uhrzeit, weil die Zeitzone der 17-Uhr-Angabe aus den Calls nicht sicher ist.
+- Live-Klasse: „cada miércoles a las 17:00 (hora de Alemania)“ – von Hausi am 06.11. bestätigt.
+- Schreibweise der Jahrespreise: Seite und Skool (Nutzentexte, Infoseite) seit 06.11. einheitlich ohne Tausenderpunkt („$1290“ / „US$ 1290“).
 
 ## Vor dem Livegang (Pflicht)
 
