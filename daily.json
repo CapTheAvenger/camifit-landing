@@ -2412,31 +2412,281 @@
      "visits": 1
     }
    },
-   "fetched_at": "2026-11-07T03:33:52Z",
+   "fetched_at": "2026-11-08T03:33:35Z",
    "partial": false
   },
   "2026-11-07": {
-   "visits": 6,
-   "pageviews": 26,
+   "visits": 30,
+   "pageviews": 120,
    "paths": {
     "/": {
-     "pv": 7,
-     "visits": 6
+     "pv": 37,
+     "visits": 30
     },
     "/ver-guia": {
-     "pv": 1,
+     "pv": 2,
      "visits": 0
     },
     "/quiz-premium": {
-     "pv": 1,
+     "pv": 2,
      "visits": 0
+    },
+    "/tiempo-2min": {
+     "pv": 4,
+     "visits": 0
+    },
+    "/vista-core": {
+     "pv": 5,
+     "visits": 0
+    },
+    "/tiempo-30s": {
+     "pv": 15,
+     "visits": 0
+    },
+    "/ver-precios": {
+     "pv": 5,
+     "visits": 0
+    },
+    "/quiz-inicio": {
+     "pv": 32,
+     "visits": 0
+    },
+    "/quiz-saltar": {
+     "pv": 5,
+     "visits": 0
+    },
+    "/quiz-standard": {
+     "pv": 8,
+     "visits": 0
+    },
+    "/ver-final": {
+     "pv": 2,
+     "visits": 0
+    },
+    "/ver-detalles": {
+     "pv": 3,
+     "visits": 0
+    }
+   },
+   "countries": {
+    "US": {
+     "pv": 22,
+     "visits": 8
+    },
+    "MX": {
+     "pv": 15,
+     "visits": 6
+    },
+    "CO": {
+     "pv": 39,
+     "visits": 5
+    },
+    "CL": {
+     "pv": 13,
+     "visits": 3
+    },
+    "EC": {
+     "pv": 9,
+     "visits": 2
+    },
+    "AR": {
+     "pv": 7,
+     "visits": 2
+    },
+    "DE": {
+     "pv": 2,
+     "visits": 1
+    },
+    "UY": {
+     "pv": 2,
+     "visits": 1
+    },
+    "CN": {
+     "pv": 4,
+     "visits": 1
+    },
+    "NI": {
+     "pv": 1,
+     "visits": 1
+    },
+    "IN": {
+     "pv": 2,
+     "visits": 0
+    },
+    "VE": {
+     "pv": 4,
+     "visits": 0
+    }
+   },
+   "referers": {
+    "(direkt)": {
+     "pv": 14,
+     "visits": 14
+    },
+    "l.instagram.com": {
+     "pv": 10,
+     "visits": 10
+    },
+    "www.tiktok.com": {
+     "pv": 6,
+     "visits": 6
+    },
+    "momlifecamila.com": {
+     "pv": 90,
+     "visits": 0
+    }
+   },
+   "devices": {
+    "mobile": {
+     "pv": 104,
+     "visits": 24
+    },
+    "desktop": {
+     "pv": 16,
+     "visits": 6
+    }
+   },
+   "browsers": {
+    "Unknown": {
+     "pv": 42,
+     "visits": 8
+    },
+    "MobileSafari": {
+     "pv": 15,
+     "visits": 6
+    },
+    "Instagram": {
+     "pv": 39,
+     "visits": 6
+    },
+    "Chrome": {
+     "pv": 12,
+     "visits": 4
+    },
+    "ChromeMobileWebview": {
+     "pv": 5,
+     "visits": 2
+    },
+    "ChromeMobile": {
+     "pv": 3,
+     "visits": 2
+    },
+    "Edge": {
+     "pv": 2,
+     "visits": 1
+    },
+    "Safari": {
+     "pv": 2,
+     "visits": 1
+    }
+   },
+   "hours": {
+    "2026-11-07T06:00:00Z": {
+     "pv": 6,
+     "visits": 2
+    },
+    "2026-11-07T19:00:00Z": {
+     "pv": 5,
+     "visits": 1
+    },
+    "2026-11-07T13:00:00Z": {
+     "pv": 2,
+     "visits": 0
+    },
+    "2026-11-07T12:00:00Z": {
+     "pv": 12,
+     "visits": 1
+    },
+    "2026-11-07T14:00:00Z": {
+     "pv": 6,
+     "visits": 4
+    },
+    "2026-11-07T05:00:00Z": {
+     "pv": 3,
+     "visits": 1
+    },
+    "2026-11-07T16:00:00Z": {
+     "pv": 5,
+     "visits": 2
+    },
+    "2026-11-07T21:00:00Z": {
+     "pv": 4,
+     "visits": 1
+    },
+    "2026-11-07T00:00:00Z": {
+     "pv": 6,
+     "visits": 1
+    },
+    "2026-11-07T22:00:00Z": {
+     "pv": 2,
+     "visits": 1
+    },
+    "2026-11-07T10:00:00Z": {
+     "pv": 4,
+     "visits": 2
+    },
+    "2026-11-07T02:00:00Z": {
+     "pv": 8,
+     "visits": 2
+    },
+    "2026-11-07T15:00:00Z": {
+     "pv": 4,
+     "visits": 1
+    },
+    "2026-11-07T04:00:00Z": {
+     "pv": 10,
+     "visits": 2
+    },
+    "2026-11-07T17:00:00Z": {
+     "pv": 10,
+     "visits": 2
+    },
+    "2026-11-07T08:00:00Z": {
+     "pv": 2,
+     "visits": 0
+    },
+    "2026-11-07T11:00:00Z": {
+     "pv": 4,
+     "visits": 2
+    },
+    "2026-11-07T20:00:00Z": {
+     "pv": 10,
+     "visits": 1
+    },
+    "2026-11-07T01:00:00Z": {
+     "pv": 4,
+     "visits": 2
+    },
+    "2026-11-07T09:00:00Z": {
+     "pv": 5,
+     "visits": 1
+    },
+    "2026-11-06T23:00:00Z": {
+     "pv": 8,
+     "visits": 1
+    }
+   },
+   "fetched_at": "2026-11-08T03:33:35Z",
+   "partial": false
+  },
+  "2026-11-08": {
+   "visits": 4,
+   "pageviews": 18,
+   "paths": {
+    "/": {
+     "pv": 4,
+     "visits": 4
     },
     "/tiempo-2min": {
      "pv": 1,
      "visits": 0
     },
     "/tiempo-30s": {
-     "pv": 4,
+     "pv": 2,
+     "visits": 0
+    },
+    "/vista-core": {
+     "pv": 1,
      "visits": 0
     },
     "/ver-precios": {
@@ -2444,45 +2694,41 @@
      "visits": 0
     },
     "/quiz-inicio": {
-     "pv": 6,
+     "pv": 5,
      "visits": 0
     },
     "/quiz-saltar": {
-     "pv": 2,
+     "pv": 1,
      "visits": 0
     },
     "/quiz-standard": {
-     "pv": 2,
+     "pv": 1,
      "visits": 0
     },
     "/ver-final": {
+     "pv": 1,
+     "visits": 0
+    },
+    "/ver-detalles": {
      "pv": 1,
      "visits": 0
     }
    },
    "countries": {
     "MX": {
-     "pv": 4,
+     "pv": 11,
      "visits": 2
     },
-    "CL": {
+    "BR": {
      "pv": 2,
      "visits": 1
     },
-    "CO": {
-     "pv": 8,
-     "visits": 1
-    },
-    "US": {
-     "pv": 5,
-     "visits": 1
-    },
     "AR": {
-     "pv": 3,
+     "pv": 4,
      "visits": 1
     },
-    "VE": {
-     "pv": 4,
+    "ES": {
+     "pv": 1,
      "visits": 0
     }
    },
@@ -2492,53 +2738,49 @@
      "visits": 3
     },
     "(direkt)": {
-     "pv": 3,
-     "visits": 3
+     "pv": 1,
+     "visits": 1
     },
     "momlifecamila.com": {
-     "pv": 20,
+     "pv": 14,
      "visits": 0
     }
    },
    "devices": {
     "mobile": {
-     "pv": 26,
-     "visits": 6
+     "pv": 18,
+     "visits": 4
     }
    },
    "browsers": {
     "MobileSafari": {
-     "pv": 9,
-     "visits": 3
-    },
-    "Instagram": {
      "pv": 11,
      "visits": 2
     },
-    "Unknown": {
+    "Instagram": {
      "pv": 6,
-     "visits": 1
+     "visits": 2
+    },
+    "Unknown": {
+     "pv": 1,
+     "visits": 0
     }
    },
    "hours": {
-    "2026-11-07T00:00:00Z": {
-     "pv": 6,
-     "visits": 1
-    },
-    "2026-11-07T02:00:00Z": {
-     "pv": 8,
-     "visits": 2
-    },
-    "2026-11-07T01:00:00Z": {
+    "2026-11-08T02:00:00Z": {
      "pv": 4,
-     "visits": 2
+     "visits": 0
     },
-    "2026-11-06T23:00:00Z": {
-     "pv": 8,
+    "2026-11-08T03:00:00Z": {
+     "pv": 3,
      "visits": 1
+    },
+    "2026-11-08T01:00:00Z": {
+     "pv": 11,
+     "visits": 3
     }
    },
-   "fetched_at": "2026-11-07T03:33:52Z",
+   "fetched_at": "2026-11-08T03:33:35Z",
    "partial": true
   }
  },
@@ -2552,7 +2794,8 @@
   "2026-11-04": 93,
   "2026-11-05": 95,
   "2026-11-06": 96,
-  "2026-11-07": 98
+  "2026-11-07": 98,
+  "2026-11-08": 96
  },
- "generated_at": "2026-11-07T03:33:52Z"
+ "generated_at": "2026-11-08T03:33:35Z"
 }
