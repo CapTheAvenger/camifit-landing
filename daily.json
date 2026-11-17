@@ -4480,22 +4480,434 @@
    "partial": false
   },
   "2026-11-15": {
-   "visits": 1,
-   "pageviews": 11,
+   "visits": 15,
+   "pageviews": 62,
    "paths": {
     "/": {
+     "pv": 17,
+     "visits": 15
+    },
+    "/quiz-premium": {
+     "pv": 2,
+     "visits": 0
+    },
+    "/tiempo-2min": {
+     "pv": 3,
+     "visits": 0
+    },
+    "/tiempo-30s": {
+     "pv": 10,
+     "visits": 0
+    },
+    "/vista-core": {
+     "pv": 2,
+     "visits": 0
+    },
+    "/clic-bf": {
+     "pv": 2,
+     "visits": 0
+    },
+    "/ver-precios": {
+     "pv": 6,
+     "visits": 0
+    },
+    "/quiz-inicio": {
+     "pv": 15,
+     "visits": 0
+    },
+    "/quiz-saltar": {
+     "pv": 3,
+     "visits": 0
+    },
+    "/quiz-standard": {
+     "pv": 1,
+     "visits": 0
+    },
+    "/ver-detalles": {
+     "pv": 1,
+     "visits": 0
+    }
+   },
+   "countries": {
+    "MX": {
+     "pv": 8,
+     "visits": 3
+    },
+    "US": {
+     "pv": 10,
+     "visits": 3
+    },
+    "BR": {
+     "pv": 6,
+     "visits": 2
+    },
+    "PE": {
+     "pv": 7,
+     "visits": 2
+    },
+    "CO": {
+     "pv": 9,
+     "visits": 2
+    },
+    "DE": {
+     "pv": 6,
+     "visits": 1
+    },
+    "IT": {
      "pv": 2,
      "visits": 1
+    },
+    "CL": {
+     "pv": 4,
+     "visits": 1
+    },
+    "GT": {
+     "pv": 7,
+     "visits": 0
+    },
+    "AR": {
+     "pv": 3,
+     "visits": 0
+    }
+   },
+   "referers": {
+    "l.instagram.com": {
+     "pv": 10,
+     "visits": 10
+    },
+    "www.tiktok.com": {
+     "pv": 4,
+     "visits": 4
+    },
+    "(direkt)": {
+     "pv": 1,
+     "visits": 1
+    },
+    "momlifecamila.com": {
+     "pv": 47,
+     "visits": 0
+    }
+   },
+   "devices": {
+    "mobile": {
+     "pv": 62,
+     "visits": 15
+    }
+   },
+   "browsers": {
+    "Unknown": {
+     "pv": 36,
+     "visits": 10
+    },
+    "Instagram": {
+     "pv": 20,
+     "visits": 3
+    },
+    "MobileSafari": {
+     "pv": 3,
+     "visits": 1
+    },
+    "ChromeMobileWebview": {
+     "pv": 3,
+     "visits": 1
+    }
+   },
+   "hours": {
+    "2026-11-15T22:00:00Z": {
+     "pv": 9,
+     "visits": 3
+    },
+    "2026-11-15T08:00:00Z": {
+     "pv": 5,
+     "visits": 1
+    },
+    "2026-11-15T17:00:00Z": {
+     "pv": 9,
+     "visits": 2
+    },
+    "2026-11-15T03:00:00Z": {
+     "pv": 4,
+     "visits": 1
+    },
+    "2026-11-15T02:00:00Z": {
+     "pv": 7,
+     "visits": 0
+    },
+    "2026-11-15T21:00:00Z": {
+     "pv": 6,
+     "visits": 1
+    },
+    "2026-11-15T05:00:00Z": {
+     "pv": 3,
+     "visits": 1
+    },
+    "2026-11-15T06:00:00Z": {
+     "pv": 4,
+     "visits": 2
+    },
+    "2026-11-15T12:00:00Z": {
+     "pv": 4,
+     "visits": 1
+    },
+    "2026-11-15T13:00:00Z": {
+     "pv": 4,
+     "visits": 1
+    },
+    "2026-11-15T19:00:00Z": {
+     "pv": 2,
+     "visits": 1
+    },
+    "2026-11-15T20:00:00Z": {
+     "pv": 5,
+     "visits": 1
+    }
+   },
+   "fetched_at": "2026-11-17T03:33:53Z",
+   "partial": false
+  },
+  "2026-11-16": {
+   "visits": 25,
+   "pageviews": 128,
+   "paths": {
+    "/": {
+     "pv": 31,
+     "visits": 25
+    },
+    "/clic-skool-standard": {
+     "pv": 2,
+     "visits": 0
+    },
+    "/ver-guia": {
+     "pv": 3,
+     "visits": 0
+    },
+    "/clic-whatsapp": {
+     "pv": 1,
+     "visits": 0
+    },
+    "/tiempo-2min": {
+     "pv": 6,
+     "visits": 0
+    },
+    "/vista-core": {
+     "pv": 4,
+     "visits": 0
+    },
+    "/tiempo-30s": {
+     "pv": 19,
+     "visits": 0
+    },
+    "/ver-precios": {
+     "pv": 8,
+     "visits": 0
+    },
+    "/quiz-inicio": {
+     "pv": 29,
+     "visits": 0
+    },
+    "/quiz-saltar": {
+     "pv": 13,
+     "visits": 0
+    },
+    "/quiz-standard": {
+     "pv": 7,
+     "visits": 0
+    },
+    "/ver-final": {
+     "pv": 2,
+     "visits": 0
+    },
+    "/ver-detalles": {
+     "pv": 3,
+     "visits": 0
+    }
+   },
+   "countries": {
+    "CO": {
+     "pv": 46,
+     "visits": 11
+    },
+    "US": {
+     "pv": 8,
+     "visits": 3
+    },
+    "EC": {
+     "pv": 11,
+     "visits": 2
+    },
+    "PE": {
+     "pv": 11,
+     "visits": 2
+    },
+    "MX": {
+     "pv": 5,
+     "visits": 2
+    },
+    "IE": {
+     "pv": 3,
+     "visits": 1
+    },
+    "BR": {
+     "pv": 6,
+     "visits": 1
+    },
+    "ES": {
+     "pv": 2,
+     "visits": 1
+    },
+    "CL": {
+     "pv": 24,
+     "visits": 1
+    },
+    "AR": {
+     "pv": 12,
+     "visits": 1
+    }
+   },
+   "referers": {
+    "l.instagram.com": {
+     "pv": 11,
+     "visits": 11
+    },
+    "www.tiktok.com": {
+     "pv": 9,
+     "visits": 9
+    },
+    "(direkt)": {
+     "pv": 4,
+     "visits": 4
+    },
+    "www.facebook.com": {
+     "pv": 1,
+     "visits": 1
+    },
+    "momlifecamila.com": {
+     "pv": 103,
+     "visits": 0
+    }
+   },
+   "devices": {
+    "mobile": {
+     "pv": 116,
+     "visits": 22
+    },
+    "desktop": {
+     "pv": 12,
+     "visits": 3
+    }
+   },
+   "browsers": {
+    "Unknown": {
+     "pv": 73,
+     "visits": 12
+    },
+    "ChromeMobileWebview": {
+     "pv": 25,
+     "visits": 7
+    },
+    "Edge": {
+     "pv": 5,
+     "visits": 2
+    },
+    "ChromeMobile": {
+     "pv": 6,
+     "visits": 2
+    },
+    "Instagram": {
+     "pv": 12,
+     "visits": 1
+    },
+    "Chrome": {
+     "pv": 7,
+     "visits": 1
+    }
+   },
+   "hours": {
+    "2026-11-16T01:00:00Z": {
+     "pv": 12,
+     "visits": 0
+    },
+    "2026-11-16T19:00:00Z": {
+     "pv": 14,
+     "visits": 2
+    },
+    "2026-11-16T13:00:00Z": {
+     "pv": 7,
+     "visits": 2
+    },
+    "2026-11-16T22:00:00Z": {
+     "pv": 8,
+     "visits": 1
+    },
+    "2026-11-16T21:00:00Z": {
+     "pv": 3,
+     "visits": 1
+    },
+    "2026-11-16T18:00:00Z": {
+     "pv": 6,
+     "visits": 3
+    },
+    "2026-11-16T15:00:00Z": {
+     "pv": 22,
+     "visits": 5
+    },
+    "2026-11-16T10:00:00Z": {
+     "pv": 6,
+     "visits": 1
+    },
+    "2026-11-16T16:00:00Z": {
+     "pv": 12,
+     "visits": 2
+    },
+    "2026-11-16T17:00:00Z": {
+     "pv": 2,
+     "visits": 1
+    },
+    "2026-11-16T00:00:00Z": {
+     "pv": 5,
+     "visits": 0
+    },
+    "2026-11-15T23:00:00Z": {
+     "pv": 4,
+     "visits": 2
+    },
+    "2026-11-16T08:00:00Z": {
+     "pv": 7,
+     "visits": 1
+    },
+    "2026-11-16T07:00:00Z": {
+     "pv": 3,
+     "visits": 1
+    },
+    "2026-11-16T03:00:00Z": {
+     "pv": 9,
+     "visits": 2
+    },
+    "2026-11-16T04:00:00Z": {
+     "pv": 8,
+     "visits": 1
+    }
+   },
+   "fetched_at": "2026-11-17T03:33:53Z",
+   "partial": false
+  },
+  "2026-11-17": {
+   "visits": 6,
+   "pageviews": 31,
+   "paths": {
+    "/": {
+     "pv": 8,
+     "visits": 6
     },
     "/tiempo-2min": {
      "pv": 1,
      "visits": 0
     },
     "/tiempo-30s": {
-     "pv": 2,
+     "pv": 6,
      "visits": 0
     },
-    "/clic-bf": {
+    "/vista-core": {
      "pv": 1,
      "visits": 0
     },
@@ -4504,61 +4916,109 @@
      "visits": 0
     },
     "/quiz-inicio": {
-     "pv": 2,
+     "pv": 8,
      "visits": 0
     },
     "/quiz-saltar": {
-     "pv": 1,
+     "pv": 3,
      "visits": 0
     },
     "/quiz-standard": {
      "pv": 1,
      "visits": 0
+    },
+    "/ver-final": {
+     "pv": 1,
+     "visits": 0
+    },
+    "/ver-detalles": {
+     "pv": 1,
+     "visits": 0
     }
    },
    "countries": {
-    "CL": {
-     "pv": 4,
+    "MX": {
+     "pv": 10,
+     "visits": 2
+    },
+    "CA": {
+     "pv": 3,
      "visits": 1
     },
-    "GT": {
-     "pv": 7,
+    "ES": {
+     "pv": 8,
+     "visits": 1
+    },
+    "US": {
+     "pv": 2,
+     "visits": 1
+    },
+    "AR": {
+     "pv": 3,
+     "visits": 1
+    },
+    "CO": {
+     "pv": 5,
      "visits": 0
     }
    },
    "referers": {
     "l.instagram.com": {
+     "pv": 5,
+     "visits": 5
+    },
+    "(direkt)": {
      "pv": 1,
      "visits": 1
     },
     "momlifecamila.com": {
-     "pv": 10,
+     "pv": 25,
      "visits": 0
     }
    },
    "devices": {
     "mobile": {
-     "pv": 11,
+     "pv": 29,
+     "visits": 5
+    },
+    "desktop": {
+     "pv": 2,
      "visits": 1
     }
    },
    "browsers": {
+    "Unknown": {
+     "pv": 23,
+     "visits": 3
+    },
     "Instagram": {
-     "pv": 11,
+     "pv": 6,
+     "visits": 2
+    },
+    "Edge": {
+     "pv": 2,
      "visits": 1
     }
    },
    "hours": {
-    "2026-11-15T03:00:00Z": {
-     "pv": 4,
+    "2026-11-16T23:00:00Z": {
+     "pv": 8,
      "visits": 1
     },
-    "2026-11-15T02:00:00Z": {
+    "2026-11-17T01:00:00Z": {
+     "pv": 9,
+     "visits": 3
+    },
+    "2026-11-17T00:00:00Z": {
      "pv": 7,
-     "visits": 0
+     "visits": 1
+    },
+    "2026-11-17T03:00:00Z": {
+     "pv": 7,
+     "visits": 1
     }
    },
-   "fetched_at": "2026-11-15T03:33:53Z",
+   "fetched_at": "2026-11-17T03:33:53Z",
    "partial": true
   }
  },
@@ -4580,7 +5040,8 @@
   "2026-11-12": 96,
   "2026-11-13": 95,
   "2026-11-14": 95,
-  "2026-11-15": 95
+  "2026-11-15": 95,
+  "2026-11-17": 96
  },
- "generated_at": "2026-11-15T03:33:53Z"
+ "generated_at": "2026-11-17T03:33:53Z"
 }
