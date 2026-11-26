@@ -336,6 +336,8 @@ Schalter: `CAMI_CONFIG.bf.activo`. Die Seite rechnet die Phasen nach der Uhr der
 {"standard": 19, "premium": 34, "vip": 99}}` – alle drei müssen mit `CAMI_CONFIG.bf.precios` übereinstimmen). `bf.json` liegt
 neben index.html und wird ab 15 min vor Beginn bis eine Stunde nach dem Ende alle 30 s gelesen (Cache-Bust pro 30 s), sonst alle 10 min.
 
+> **Vorgezogen (Hausi 26.11.):** Start Do 26.11. 18:00, Ende unverändert Sa 28.11. 18:00 → `bf.inicio = 2026-11-26T18:00:00+01:00`, `bf.horas = 48`. Alle Texte („Solo 48 h“, „solo por 48 horas“, Badge) kommen jetzt aus `horas`. Die Termin-Aufgabe „Black Friday 1/2“ läuft deshalb Do 26.11. 17:52 statt Fr 27.11. Die Tabelle unten zeigt noch die ursprüngliche Planung (27.11., 24 h).
+
 | Phase | Zeitraum (deutsche Zeit) | Bedingung | Seite |
 |---|---|---|---|
 | Countdown | 11.11. 00:00 – 27.11. 18:00 | – | Herz fliegt beim Laden hoch, Leiste nur „♥ Faltan 16 d 16 h 59 min“ (Zeit groß, bewusst mysteriös – kein „Black Friday“, kein Preis im Text), Kasten über den Kacheln „El 27 nov a las 18:00 (hora de Alemania) pasa algo especial con los tres planes, solo durante 24 horas“. |

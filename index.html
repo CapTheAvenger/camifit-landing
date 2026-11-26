@@ -456,15 +456,15 @@ window.CAMI_CONFIG = {
   quiz: { activo: true, retrasoMs: 600 },   // live seit 05.11., 16:00 (Freigabe Hausi)
   // Black-Friday-Kampagne (Hausi 30.10., umgeplant 05.11. auf das neue Modell; Mechanik siehe README „Black Friday"). activo:false = nichts davon sichtbar.
   // Ab „desde" (Singles' Day) erscheint ein Herz-Störer mit Countdown bis „inicio" (Black Friday, 18:00 deutsche Zeit), ohne Preis.
-  // Dann 24 Stunden lang drei Aktionspreise (Monat; Jahr = 10 × Monat), ohne Stückzahl-Grenze. Skool-Bestandsregel: wer in der Zeit
+  // Dann „horas“ Stunden lang (seit 26.11.: 48 h) drei Aktionspreise (Monat; Jahr = 10 × Monat), ohne Stückzahl-Grenze. Skool-Bestandsregel: wer in der Zeit
   // abschließt, behält den Aktionspreis, solange das Abo läuft („te quedas con este precio mientras no canceles").
   // Die Preise in Skool stellen zwei terminierte Aufgaben über Hausis Laptop um – die Seite zeigt nur an, und zwar erst, wenn
   // bf.json neben der Seite bestätigt, dass Skool wirklich auf den Aktionspreisen steht (fail-safe).
   bf: {
     activo: true,
     desde:  "2026-11-11T00:00:00+01:00",
-    inicio: "2026-11-27T18:00:00+01:00",
-    horas: 24,
+    inicio: "2026-11-26T18:00:00+01:00",   // vorgezogen (Hausi 26.11.): Start Do 26.11. 18:00, Ende wie geplant Sa 28.11. 18:00
+    horas: 48,
     precios: { standard: 19, premium: 34, vip: 99 }   // Aktions-Monatspreise; Jahr = 10 × (190 / 340 / 990)
   }
 };
@@ -951,7 +951,7 @@ window.CAMI_CONFIG = {
     var badge=document.querySelector('#tier11 .badge');
     var BP=B.precios||{}, base={standard:P.standard, premium:P.premium, vip:P.vip};
     function T(s){return new Date(s).getTime();}
-    var tDesde=T(B.desde), tIni=T(B.inicio), tFin=tIni+(B.horas||24)*3600e3;
+    var tDesde=T(B.desde), tIni=T(B.inicio), HH=(B.horas||24), tFin=tIni+HH*3600e3;
     // Live-Stand aus bf.json (neben der Seite): activo + precios = was in Skool WIRKLICH eingestellt ist (schreibt die Umstell-Aufgabe).
     // Ohne diese Bestätigung zeigt die Seite nie einen Aktionspreis – so kann sie nicht 19 versprechen, während Skool 29 verlangt.
     var live={activo:false, precios:null, loaded:false};
@@ -981,7 +981,7 @@ window.CAMI_CONFIG = {
     var lastPhase=null;
     function setPrices(){
       KEYS.forEach(function(k){ renderTier(k, BP[k], base[k]); });
-      apply(); if(badge&&!badge.classList.contains('rec-badge'))badge.textContent='Oferta especial · 24 h';
+      apply(); if(badge&&!badge.classList.contains('rec-badge'))badge.textContent='Oferta especial · '+HH+' h';
       document.querySelectorAll('[data-bf-hide]').forEach(function(e){e.hidden=true;}); document.querySelectorAll('[data-bf-show]').forEach(function(e){e.hidden=false;});
     }
     function resetPrices(){
@@ -1010,18 +1010,18 @@ window.CAMI_CONFIG = {
       if(ph==='countdown'){
         if(lastPhase!=='countdown'){ resetPrices(); line.hidden=false; }
         bartxt('Faltan', dur(tIni-t), true);
-        line.innerHTML='🤍 El '+cuando(tIni)+' te tengo algo especial en los tres planes, solo por <b>24 horas</b>. Faltan <b class="bf-time">'+dur(tIni-t)+'</b>.';
-        quizbar('🤍 El '+fmt(tIni,'Europe/Berlin')+' (hora de Alemania) te tengo algo especial en los tres planes, solo por 24 horas.', 'Faltan', dur(tIni-t)); window.__bfQuizPrice=function(){return null;};
+        line.innerHTML='🤍 El '+cuando(tIni)+' te tengo algo especial en los tres planes, solo por <b>'+HH+' horas</b>. Faltan <b class="bf-time">'+dur(tIni-t)+'</b>.';
+        quizbar('🤍 El '+fmt(tIni,'Europe/Berlin')+' (hora de Alemania) te tengo algo especial en los tres planes, solo por '+HH+' horas.', 'Faltan', dur(tIni-t)); window.__bfQuizPrice=function(){return null;};
       } else if(ph==='wait'){
         if(lastPhase!=='wait'){ resetPrices(); line.hidden=false; }
-        bartxt('<b>¡Es hoy!</b> La oferta de 24 horas se abre en unos minutos…', ''); quizbar('<b>¡Es hoy!</b> La oferta de 24 horas se abre en unos minutos…','','');
-        line.innerHTML='🤍 La oferta de 24 horas se está abriendo. Vuelve a cargar la página en un momento.';
+        bartxt('<b>¡Es hoy!</b> La oferta de '+HH+' horas se abre en unos minutos…', ''); quizbar('<b>¡Es hoy!</b> La oferta de '+HH+' horas se abre en unos minutos…','','');
+        line.innerHTML='🤍 La oferta de '+HH+' horas se está abriendo. Vuelve a cargar la página en un momento.';
       } else {
         if(lastPhase!=='on'){ setPrices(); line.hidden=false; }
-        bartxt('<b>Solo 24 h</b> · CORE <b>'+fmtUsd(BP.standard)+'</b> · CORE + Hipopresivos <b>'+fmtUsd(BP.premium)+'</b> · 1:1 <b>'+fmtUsd(BP.vip)+'</b> al mes · termina en', dur(tFin-t));
-        quizbar('<b>Solo 24 h</b> · CORE <b>'+fmtUsd(BP.standard)+'</b> · CORE + Hipopresivos <b>'+fmtUsd(BP.premium)+'</b> · 1:1 <b>'+fmtUsd(BP.vip)+'</b> al mes', 'Termina en', dur(tFin-t));
+        bartxt('<b>Solo '+HH+' h</b> · CORE <b>'+fmtUsd(BP.standard)+'</b> · CORE + Hipopresivos <b>'+fmtUsd(BP.premium)+'</b> · 1:1 <b>'+fmtUsd(BP.vip)+'</b> al mes · termina en', dur(tFin-t));
+        quizbar('<b>Solo '+HH+' h</b> · CORE <b>'+fmtUsd(BP.standard)+'</b> · CORE + Hipopresivos <b>'+fmtUsd(BP.premium)+'</b> · 1:1 <b>'+fmtUsd(BP.vip)+'</b> al mes', 'Termina en', dur(tFin-t));
         window.__bfQuizPrice=function(k){ return {antes:base[k], hasta:cuando(tFin)}; };
-        line.innerHTML='🤍 Hoy, y solo hasta el '+cuando(tFin)+', te abro los tres planes con un precio especial: '+lista()+'. Y te lo digo con cariño: si empiezas hoy, <b>te quedas con ese precio mientras no canceles</b>. Termina en <b class="bf-time">'+dur(tFin-t)+'</b>.';
+        line.innerHTML='🤍 Solo hasta el '+cuando(tFin)+' te abro los tres planes con un precio especial: '+lista()+'. Y te lo digo con cariño: si empiezas hoy, <b>te quedas con ese precio mientras no canceles</b>. Termina en <b class="bf-time">'+dur(tFin-t)+'</b>.';
       }
       lastPhase=ph; syncBody();
     }
